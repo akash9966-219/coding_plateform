@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .schema-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border); }
+        .schema-table th, .schema-table td { text-align: left; padding: 10px; border: 1px solid var(--border); }
+        .schema-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .note { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="sql-50.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>550. Game Play Analysis IV</h1>
+        
+        <div class="section-header">Table: Activity</div>
+        <table class="schema-table">
+            <thead><tr><th>Column Name</th><th>Type</th></tr></thead>
+            <tbody>
+                <tr><td>player_id</td><td>int</td></tr>
+                <tr><td>device_id</td><td>int</td></tr>
+                <tr><td>event_date</td><td>date</td></tr>
+                <tr><td>games_played</td><td>int</td></tr>
+            </tbody>
+        </table>
+        <div class="note">
+            <code>(player_id, event_date)</code> is the primary key.<br>
+            A <b>retention</b> occurs if a player logs in on <code>first_login_date + 1</code>.
+        </div>
+
+        <div class="section-header">Problem Statement</div>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Report the <b>fraction</b> of players that logged in again on the day after the day they first logged in, rounded to <b>2 decimal places</b>.
+        </div>
+
+        <div class="section-header">Example 1 Input</div>
+        <table class="schema-table">
+            <thead><tr><th>player_id</th><th>event_date</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>2016-03-01</td></tr>
+                <tr><td>1</td><td>2016-03-02</td></tr>
+                <tr><td>2</td><td>2017-06-25</td></tr>
+                <tr><td>3</td><td>2016-03-02</td></tr>
+                <tr><td>3</td><td>2018-07-03</td></tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">Output:</div>
+        <table class="schema-table" style="width: auto;">
+            <thead><tr><th>fraction</th></tr></thead>
+            <tbody><tr><td>0.33</td></tr></tbody>
+        </table>
+
+        <div class="section-header">Explanation:</div>
+        <div style="background: #111; padding: 15px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px;">
+            Total Unique Players = 3 (IDs 1, 2, 3).<br>
+            Player 1 first login: 03-01. Logged in 03-02 (Success).<br>
+            Player 2 first login: 06-25. No login 06-26 (Fail).<br>
+            Player 3 first login: 03-02. No login 03-03 (Fail).<br>
+            Result: 1 / 3 = 0.33
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="mysql">MySQL</option>
+                <option value="pandas">Pandas</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.sql</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW SOLUTION' to run query..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            mysql: `/* SQL Query: Find Min Date per player, join with original table on Date+1 */\nSELECT \n    ROUND(COUNT(a2.player_id) / COUNT(a1.player_id), 2) AS fraction\nFROM (\n    SELECT player_id, MIN(event_date) AS first_login\n    FROM Activity\n    GROUP BY player_id\n) a1\nLEFT JOIN Activity a2 \n    ON a1.player_id = a2.player_id \n    AND DATEDIFF(a2.event_date, a1.first_login) = 1;`,
+            pandas: `import pandas as pd\n\ndef gameplay_analysis(activity: pd.DataFrame) -> pd.DataFrame:\n    # 1. Find first login date for each player\n    activity['first_login'] = activity.groupby('player_id')['event_date'].transform('min')\n    \n    # 2. Check if event_date is first_login + 1 day\n    activity['is_retention'] = (activity['event_date'] == activity['first_login'] + pd.Timedelta(days=1))\n    \n    # 3. Get unique players who satisfy the condition\n    retained_count = activity[activity['is_retention']]['player_id'].nunique()\n    total_players = activity['player_id'].nunique()\n    \n    # 4. Result as fraction\n    return pd.DataFrame({'fraction': [round(retained_count / total_players, 2)]})`
+        };
+
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = lang === 'mysql' ? 'solution.sql' : 'solution.py';
+        }
+
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

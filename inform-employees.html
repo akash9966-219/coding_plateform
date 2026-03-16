@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1376. Inform All Employees</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            A company has <code>n</code> employees with IDs <code>0</code> to <code>n - 1</code>. The head has <code>headID</code>. 
+            Information spreads from managers to subordinates. 
+            <br><br>Employee <code>i</code> takes <code>informTime[i]</code> minutes to inform all their direct subordinates. Return the total time needed to inform <b>all</b> employees.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            n = 6, headID = 2, manager = [2,2,-1,2,2,2], informTime = [0,0,1,0,0,0]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            1<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            CEO (ID 2) takes 1 min to inform everyone else simultaneously.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def numOfMinutes(self, n: int, headID: int, manager: List[int], informTime: List[int]) -> int:
+        adj = collections.defaultdict(list)
+        for i, m in enumerate(manager):
+            if m != -1:
+                adj[m].append(i)
+        
+        def dfs(curr):
+            max_child_time = 0
+            for sub in adj[curr]:
+                max_child_time = max(max_child_time, dfs(sub))
+            return informTime[curr] + max_child_time
+            
+        return dfs(headID)`,
+            java: `class Solution {
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        List<Integer>[] adj = new ArrayList[n];
+        for (int i = 0; i < n; i++) adj[i] = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            if (manager[i] != -1) adj[manager[i]].add(i);
+        }
+        return dfs(headID, adj, informTime);
+    }
+
+    private int dfs(int curr, List<Integer>[] adj, int[] informTime) {
+        int max = 0;
+        for (int sub : adj[curr]) {
+            max = Math.max(max, dfs(sub, adj, informTime));
+        }
+        return informTime[curr] + max;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int dfs(int curr, vector<vector<int>>& adj, vector<int>& informTime) {
+        int max_time = 0;
+        for (int sub : adj[curr]) {
+            max_time = max(max_time, dfs(sub, adj, informTime));
+        }
+        return informTime[curr] + max_time;
+    }
+
+    int numOfMinutes(int n, int headID, vector<int>& manager, vector<int>& informTime) {
+        vector<vector<int>> adj(n);
+        for (int i = 0; i < n; i++) {
+            if (manager[i] != -1) adj[manager[i]].push_back(i);
+        }
+        return dfs(headID, adj, informTime);
+    }
+};`,
+            c: `int dfs(int curr, int** adj, int* adjSizes, int* informTime) {
+    int max_time = 0;
+    for (int i = 0; i < adjSizes[curr]; i++) {
+        int sub_time = dfs(adj[curr][i], adj, adjSizes, informTime);
+        if (sub_time > max_time) max_time = sub_time;
+    }
+    return informTime[curr] + max_time;
+}
+
+int numOfMinutes(int n, int headID, int* manager, int managerSize, int* informTime, int informTimeSize) {
+    int* adjSizes = (int*)calloc(n, sizeof(int));
+    for (int i = 0; i < n; i++) {
+        if (manager[i] != -1) adjSizes[manager[i]]++;
+    }
+    
+    int** adj = (int**)malloc(n * sizeof(int*));
+    int* tempIndices = (int*)calloc(n, sizeof(int));
+    for (int i = 0; i < n; i++) {
+        adj[i] = (int*)malloc(adjSizes[i] * sizeof(int));
+    }
+    
+    for (int i = 0; i < n; i++) {
+        if (manager[i] != -1) {
+            int m = manager[i];
+            adj[m][tempIndices[m]++] = i;
+        }
+    }
+    
+    int result = dfs(headID, adj, adjSizes, informTime);
+    
+    for (int i = 0; i < n; i++) free(adj[i]);
+    free(adj); free(adjSizes); free(tempIndices);
+    return result;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #00ff9d; font-size: 0.8rem; font-weight: 700; border: 1px solid #00ff9d; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .schema-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border); }
+        .schema-table th, .schema-table td { text-align: left; padding: 10px; border: 1px solid var(--border); }
+        .schema-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .note { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="sql-50.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+        <h1>1484. Group Sold Products By The Date</h1>
+        
+        <div class="section-header">Table: Activities</div>
+        <table class="schema-table">
+            <thead><tr><th>sell_date</th><th>product</th></tr></thead>
+            <tbody>
+                <tr><td>2020-05-30</td><td>Headphone</td></tr>
+                <tr><td>2020-06-01</td><td>Pencil</td></tr>
+                <tr><td>2020-06-02</td><td>Mask</td></tr>
+                <tr><td>2020-05-30</td><td>Basketball</td></tr>
+                <tr><td>2020-06-01</td><td>Bible</td></tr>
+                <tr><td>2020-06-02</td><td>Mask</td></tr>
+                <tr><td>2020-05-30</td><td>T-Shirt</td></tr>
+            </tbody>
+        </table>
+        <div class="note">
+            There is <b>no primary key</b>. The table contains duplicate rows (e.g., Mask on 2020-06-02).
+        </div>
+
+        <div class="section-header">Problem Statement</div>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            For each date, find the number of <b>different</b> products sold and their names.
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Product names must be <b>sorted lexicographically</b>.</li>
+                <li>Separate names by a <b>comma</b>.</li>
+            </ul>
+            Return the result table ordered by <code>sell_date</code>.
+        </div>
+
+        <div class="section-header">Output:</div>
+        <table class="schema-table" style="width: auto;">
+            <thead><tr><th>sell_date</th><th>num_sold</th><th>products</th></tr></thead>
+            <tbody>
+                <tr><td>2020-05-30</td><td>3</td><td>Basketball,Headphone,T-Shirt</td></tr>
+                <tr><td>2020-06-01</td><td>2</td><td>Bible,Pencil</td></tr>
+                <tr><td>2020-06-02</td><td>1</td><td>Mask</td></tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">Explanation:</div>
+        <div style="background: #111; padding: 15px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px;">
+            - 2020-05-30: Sold (Headphone, Basketball, T-Shirt). Sorted: Basketball,Headphone,T-Shirt.<br>
+            - 2020-06-01: Sold (Pencil, Bible). Sorted: Bible,Pencil.<br>
+            - 2020-06-02: Sold (Mask, Mask). Distinct count is 1. Sorted: Mask.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="mysql">MySQL</option>
+                <option value="pandas">Pandas</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.sql</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW SOLUTION' to run query..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            mysql: `/* SQL Query: Grouping with GROUP_CONCAT and internal sorting */\nSELECT \n    sell_date, \n    COUNT(DISTINCT product) AS num_sold, \n    GROUP_CONCAT(\n        DISTINCT product \n        ORDER BY product \n        SEPARATOR ','\n    ) AS products\nFROM Activities\nGROUP BY sell_date\nORDER BY sell_date;`,
+            pandas: `import pandas as pd\n\ndef aggregate_products(activities: pd.DataFrame) -> pd.DataFrame:\n    # 1. Group by date and aggregate using unique count and joined sorted unique strings\n    return activities.groupby('sell_date')['product'].agg([\n        ('num_sold', 'nunique'),\n        ('products', lambda x: ','.join(sorted(set(x))))\n    ]).reset_index()`
+        };
+
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = lang === 'mysql' ? 'solution.sql' : 'solution.py';
+        }
+
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

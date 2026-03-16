@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>34. First/Last Pos</h1>
+        
+        <div class="desc">
+            Find the starting and ending position of <code>target</code> in a sorted array. Required Complexity: <code>O(log n)</code>.
+        </div>
+
+        <div class="section-header">Dual Search Strategy:</div>
+        <div class="visual-container">
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); text-align: left; font-size: 0.85rem; line-height: 1.6;">
+                1. Search First: If <code>nums[mid] == target</code>, move <code>high</code> left.<br>
+                2. Search Last: If <code>nums[mid] == target</code>, move <code>low</code> right.<br>
+                <span style="color:var(--primary)">O(log n) + O(log n) = O(log n)</span>
+            </div>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(log n)</li>
+            <li>Space: O(1)</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public int[] searchRange(int[] nums, int target) {\n        int[] result = {-1, -1};\n        result[0] = findPosition(nums, target, true);\n        if (result[0] != -1) {\n            result[1] = findPosition(nums, target, false);\n        }\n        return result;\n    }\n\n    private int findPosition(int[] nums, int target, boolean findFirst) {\n        int low = 0, high = nums.length - 1, res = -1;\n        while (low <= high) {\n            int mid = low + (high - low) / 2;\n            if (nums[mid] == target) {\n                res = mid;\n                if (findFirst) high = mid - 1;\n                else low = mid + 1;\n            } else if (nums[mid] < target) low = mid + 1;\n            else high = mid - 1;\n        }\n        return res;\n    }\n}`,
+            python: `class Solution:\n    def searchRange(self, nums: List[int], target: int) -> List[int]:\n        def binary_search(find_first):\n            low, high, res = 0, len(nums) - 1, -1\n            while low <= high:\n                mid = (low + high) // 2\n                if nums[mid] == target:\n                    res = mid\n                    if find_first: high = mid - 1\n                    else: low = mid + 1\n                elif nums[mid] < target: low = mid + 1\n                else: high = mid - 1\n            return res\n        \n        return [binary_search(True), binary_search(False)]`,
+            cpp: `class Solution {\npublic:\n    vector<int> searchRange(vector<int>& nums, int target) {\n        return {findBound(nums, target, true), findBound(nums, target, false)};\n    }\n\n    int findBound(vector<int>& nums, int target, bool first) {\n        int l = 0, r = nums.size() - 1, res = -1;\n        while (l <= r) {\n            int mid = l + (r - l) / 2;\n            if (nums[mid] == target) {\n                res = mid;\n                if (first) r = mid - 1;\n                else l = mid + 1;\n            } else if (nums[mid] < target) l = mid + 1;\n            else r = mid - 1;\n        }\n        return res;\n    }\n};`,
+            c: `int findBound(int* nums, int numsSize, int target, bool first) {\n    int l = 0, r = numsSize - 1, res = -1;\n    while (l <= r) {\n        int m = l + (r - l) / 2;\n        if (nums[m] == target) {\n            res = m;\n            if (first) r = m - 1; else l = m + 1;\n        } else if (nums[m] < target) l = m + 1; else r = m - 1;\n    }\n    return res;\n}\n\nint* searchRange(int* nums, int numsSize, int target, int* returnSize) {\n    int* res = malloc(2 * sizeof(int));\n    *returnSize = 2;\n    res[0] = findBound(nums, numsSize, target, true);\n    res[1] = findBound(nums, numsSize, target, false);\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

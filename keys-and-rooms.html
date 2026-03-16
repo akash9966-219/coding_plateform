@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #00ff9d; font-size: 0.8rem; font-weight: 700; border: 1px solid #00ff9d; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>841. Keys and Rooms</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            There are <code>n</code> rooms labeled from <code>0</code> to <code>n - 1</code> and all the rooms are locked except for room <code>0</code>. Your goal is to visit all the rooms. When you visit a room, you may find a set of distinct keys in it. 
+            <br><br>Return <code>true</code> if you can visit all the rooms, or <code>false</code> otherwise.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            rooms = [[1],[2],[3],[]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            true<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            We visit room 0, collect key to room 1. Then visit room 1, collect key to room 2. Then visit room 2, collect key to room 3. All rooms visited.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+        visited = {0}
+        stack = [0]
+        
+        while stack:
+            room = stack.pop()
+            for key in rooms[room]:
+                if key not in visited:
+                    visited.add(key)
+                    stack.append(key)
+                    
+        return len(visited) == len(rooms)`,
+            java: `class Solution {
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        boolean[] visited = new boolean[rooms.size()];
+        visited[0] = true;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        int count = 1;
+        
+        while (!stack.isEmpty()) {
+            int room = stack.pop();
+            for (int key : rooms.get(room)) {
+                if (!visited[key]) {
+                    visited[key] = true;
+                    stack.push(key);
+                    count++;
+                }
+            }
+        }
+        return count == rooms.size();
+    }
+}`,
+            cpp: `class Solution {
+public:
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        int n = rooms.size();
+        vector<bool> visited(n, false);
+        visited[0] = true;
+        stack<int> st;
+        st.push(0);
+        int count = 1;
+
+        while (!st.empty()) {
+            int curr = st.top();
+            st.pop();
+            for (int key : rooms[curr]) {
+                if (!visited[key]) {
+                    visited[key] = true;
+                    st.push(key);
+                    count++;
+                }
+            }
+        }
+        return count == n;
+    }
+};`,
+            c: `void dfs(int room, int** rooms, int* roomsColSize, int* visited, int* count) {
+    visited[room] = 1;
+    (*count)++;
+    for (int i = 0; i < roomsColSize[room]; i++) {
+        int key = rooms[room][i];
+        if (!visited[key]) {
+            dfs(key, rooms, roomsColSize, visited, count);
+        }
+    }
+}
+
+bool canVisitAllRooms(int** rooms, int roomsSize, int* roomsColSize) {
+    int* visited = (int*)calloc(roomsSize, sizeof(int));
+    int count = 0;
+    
+    dfs(0, rooms, roomsColSize, visited, &count);
+    
+    free(visited);
+    return count == roomsSize;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

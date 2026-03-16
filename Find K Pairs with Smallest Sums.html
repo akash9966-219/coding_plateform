@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>373. K Smallest Sum Pairs</h1>
+        
+        <div class="desc">
+            Find <code>k</code> pairs with the smallest sums from two non-decreasing sorted arrays.
+        </div>
+
+        <div class="section-header">Binary Search/Heap Cross-Logic:</div>
+        <div class="visual-container">
+            <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 15px;">Exploration Frontier</p>
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); font-size: 0.75rem; text-align: left;">
+                (0,0) &rarr; (0,1) or (1,0)<br>
+                (1,0) &rarr; (1,1) or (2,0)<br>
+                Keep tracking the boundary in a Min-Heap.
+            </div>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(k log k)</li>
+            <li>Space: O(k)</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {\n        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (a[0] + a[1]) - (b[0] + b[1]));\n        List<List<Integer>> res = new ArrayList<>();\n        for (int i = 0; i < Math.min(nums1.length, k); i++) {\n            pq.offer(new int[]{nums1[i], nums2[0], 0});\n        }\n        while (k-- > 0 && !pq.isEmpty()) {\n            int[] curr = pq.poll();\n            res.add(Arrays.asList(curr[0], curr[1]));\n            if (curr[2] + 1 < nums2.length) {\n                pq.offer(new int[]{curr[0], nums2[curr[2] + 1], curr[2] + 1});\n            }\n        }\n        return res;\n    }\n}`,
+            python: `class Solution:\n    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:\n        res, min_heap = [], []\n        for i in range(min(len(nums1), k)):\n            heapq.heappush(min_heap, (nums1[i] + nums2[0], i, 0))\n        while k > 0 and min_heap:\n            _, i, j = heapq.heappop(min_heap)\n            res.append([nums1[i], nums2[j]])\n            if j + 1 < len(nums2):\n                heapq.heappush(min_heap, (nums1[i] + nums2[j+1], i, j + 1))\n            k -= 1\n        return res`,
+            cpp: `class Solution {\npublic:\n    vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {\n        auto cmp = [&](pair<int, int>& a, pair<int, int>& b) {\n            return nums1[a.first] + nums2[a.second] > nums1[b.first] + nums2[b.second];\n        };\n        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> pq(cmp);\n        for (int i = 0; i < min((int)nums1.size(), k); i++) pq.push({i, 0});\n        vector<vector<int>> res;\n        while (k-- > 0 && !pq.empty()) {\n            auto [i, j] = pq.top(); pq.pop();\n            res.push_back({nums1[i], nums2[j]});\n            if (j + 1 < nums2.size()) pq.push({i, j + 1});\n        }\n        return res;\n    }\n};`,
+            c: `typedef struct { long long sum; int i; int j; } Node;\n\nvoid swap(Node* a, Node* b) { Node t = *a; *a = *b; *b = t; }\n\nvoid push(Node* heap, int* size, Node n) {\n    heap[(*size)++] = n;\n    int curr = *size - 1;\n    while(curr > 0 && heap[curr].sum < heap[(curr-1)/2].sum) {\n        swap(&heap[curr], &heap[(curr-1)/2]);\n        curr = (curr-1)/2;\n    }\n}\n\nNode pop(Node* heap, int* size) {\n    Node res = heap[0];\n    heap[0] = heap[--(*size)];\n    int i = 0;\n    while(i*2+1 < *size) {\n        int child = i*2+1;\n        if(child+1 < *size && heap[child+1].sum < heap[child].sum) child++;\n        if(heap[i].sum <= heap[child].sum) break;\n        swap(&heap[i], &heap[child]);\n        i = child;\n    }\n    return res;\n}\n\nint** kSmallestPairs(int* nums1, int n1, int* nums2, int n2, int k, int* returnSize, int** returnColSizes) {\n    int actualK = (k < (long long)n1 * n2) ? k : n1 * n2;\n    int** res = malloc(actualK * sizeof(int*));\n    *returnColSizes = malloc(actualK * sizeof(int));\n    *returnSize = actualK;\n    Node* heap = malloc(n1 * sizeof(Node));\n    int size = 0;\n    for(int i=0; i < (n1 < k ? n1 : k); i++) {\n        Node n = {(long long)nums1[i] + nums2[0], i, 0};\n        push(heap, &size, n);\n    }\n    for(int idx=0; idx < actualK; idx++) {\n        Node top = pop(heap, &size);\n        res[idx] = malloc(2 * sizeof(int));\n        res[idx][0] = nums1[top.i]; res[idx][1] = nums2[top.j];\n        (*returnColSizes)[idx] = 2;\n        if(top.j + 1 < n2) {\n            Node next = {(long long)nums1[top.i] + nums2[top.j+1], top.i, top.j+1};\n            push(heap, &size, next);\n        }\n    }\n    free(heap);\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

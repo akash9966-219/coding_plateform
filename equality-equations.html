@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>990. Equality Equations</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given an array of strings <code>equations</code> that represent relationships between variables, return <code>true</code> if it is possible to assign values to variable names so as to satisfy all given equations, or <code>false</code> otherwise.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            equations = ["a==b","b!=a"]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            false
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def equationsPossible(self, equations: List[str]) -> bool:
+        parent = list(range(26))
+        
+        def find(i):
+            if parent[i] == i: return i
+            parent[i] = find(parent[i])
+            return parent[i]
+            
+        def union(i, j):
+            root_i, root_j = find(i), find(j)
+            if root_i != root_j: parent[root_i] = root_j
+            
+        for eq in equations:
+            if eq[1] == '=':
+                union(ord(eq[0]) - ord('a'), ord(eq[3]) - ord('a'))
+                
+        for eq in equations:
+            if eq[1] == '!':
+                if find(ord(eq[0]) - ord('a')) == find(ord(eq[3]) - ord('a')):
+                    return False
+        return True`,
+            java: `class Solution {
+    int[] parent = new int[26];
+    
+    private int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
+    }
+    
+    public boolean equationsPossible(String[] equations) {
+        for (int i = 0; i < 26; i++) parent[i] = i;
+        
+        for (String e : equations) {
+            if (e.charAt(1) == '=') {
+                parent[find(e.charAt(0) - 'a')] = find(e.charAt(3) - 'a');
+            }
+        }
+        
+        for (String e : equations) {
+            if (e.charAt(1) == '!' && find(e.charAt(0) - 'a') == find(e.charAt(3) - 'a')) {
+                return false;
+            }
+        }
+        return true;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int parent[26];
+    int find(int i) {
+        return parent[i] == i ? i : (parent[i] = find(parent[i]));
+    }
+    
+    bool equationsPossible(vector<string>& equations) {
+        for (int i = 0; i < 26; i++) parent[i] = i;
+        
+        for (string& e : equations) {
+            if (e[1] == '=') parent[find(e[0] - 'a')] = find(e[3] - 'a');
+        }
+        
+        for (string& e : equations) {
+            if (e[1] == '!' && find(e[0] - 'a') == find(e[3] - 'a')) return false;
+        }
+        return true;
+    }
+};`,
+            c: `int parent[26];
+
+int find(int i) {
+    if (parent[i] == i) return i;
+    return parent[i] = find(parent[i]);
+}
+
+bool equationsPossible(char ** equations, int equationsSize) {
+    for (int i = 0; i < 26; i++) parent[i] = i;
+    
+    for (int i = 0; i < equationsSize; i++) {
+        if (equations[i][1] == '=') {
+            parent[find(equations[i][0] - 'a')] = find(equations[i][3] - 'a');
+        }
+    }
+    
+    for (int i = 0; i < equationsSize; i++) {
+        if (equations[i][1] == '!' && find(equations[i][0] - 'a') == find(equations[i][3] - 'a')) {
+            return false;
+        }
+    }
+    return true;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- LEFT SIDE: QUESTION DETAILS --- */
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .constraint-list {
+            padding-left: 20px;
+            color: var(--text-dim);
+            line-height: 2.2;
+            margin-bottom: 30px;
+        }
+
+        /* --- RIGHT SIDE: CODE VIEW --- */
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.1);
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>380. Insert Delete GetRandom O(1)</h1>
+        
+        <div class="desc">
+            Implement the <code>RandomizedSet</code> class:
+            <br><br>
+            * <code>insert(int val)</code>: Inserts <code>val</code> if not present. Returns true if inserted.
+            <br>
+            * <code>remove(int val)</code>: Removes <code>val</code> if present. Returns true if removed.
+            <br>
+            * <code>getRandom()</code>: Returns a random element. Each element must have the same probability.
+            <br><br>
+            You must implement these such that each function works in <b>average O(1)</b> time complexity.
+        </div>
+
+        <div class="section-header">Example:</div>
+        <div class="example-box">
+            Input: ["RandomizedSet", "insert", "remove", "insert", "getRandom"]<br>
+            [[], [1], [2], [2], []]<br>
+            Output: [null, true, false, true, 2]
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul class="constraint-list">
+            <li>-2<sup>31</sup> <= val <= 2<sup>31</sup> - 1</li>
+            <li>At most 2 * 10<sup>5</sup> calls will be made.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `import java.util.*;\n\nclass RandomizedSet {\n    private List<Integer> nums;\n    private Map<Integer, Integer> locs;\n    private Random rand = new Random();\n\n    public RandomizedSet() {\n        nums = new ArrayList<>();\n        locs = new HashMap<>();\n    }\n\n    public boolean insert(int val) {\n        if (locs.containsKey(val)) return false;\n        locs.put(val, nums.size());\n        nums.add(val);\n        return true;\n    }\n\n    public boolean remove(int val) {\n        if (!locs.containsKey(val)) return false;\n        int loc = locs.get(val);\n        if (loc < nums.size() - 1) {\n            int lastone = nums.get(nums.size() - 1);\n            nums.set(loc, lastone);\n            locs.put(lastone, loc);\n        }\n        locs.remove(val);\n        nums.remove(nums.size() - 1);\n        return true;\n    }\n\n    public int getRandom() {\n        return nums.get(rand.nextInt(nums.size()));\n    }\n}`,
+            python: `import random\n\nclass RandomizedSet:\n    def __init__(self):\n        self.nums = []\n        self.locs = {}\n\n    def insert(self, val: int) -> bool:\n        if val in self.locs: return False\n        self.locs[val] = len(self.nums)\n        self.nums.append(val)\n        return True\n\n    def remove(self, val: int) -> bool:\n        if val not in self.locs: return False\n        idx, last_element = self.locs[val], self.nums[-1]\n        self.nums[idx], self.locs[last_element] = last_element, idx\n        self.nums.pop()\n        del self.locs[val]\n        return True\n\n    def getRandom(self) -> int:\n        return random.choice(self.nums)`,
+            cpp: `class RandomizedSet {\n    vector<int> nums;\n    unordered_map<int, int> m;\npublic:\n    RandomizedSet() {}\n    \n    bool insert(int val) {\n        if (m.find(val) != m.end()) return false;\n        m[val] = nums.size();\n        nums.push_back(val);\n        return true;\n    }\n    \n    bool remove(int val) {\n        if (m.find(val) == m.end()) return false;\n        int last = nums.back();\n        m[last] = m[val];\n        nums[m[val]] = last;\n        nums.pop_back();\n        m.erase(val);\n        return true;\n    }\n    \n    int getRandom() {\n        return nums[rand() % nums.size()];\n    }\n};`,
+            c: `// Full O(1) C implementation requires a custom Hash Table.\n// Shown here is the logic using a dynamic array and mock hash.\ntypedef struct {\n    int* nums;\n    int size;\n    int capacity;\n} RandomizedSet;\n\n// ... (C implementation typically uses uthash or manual hash table)`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

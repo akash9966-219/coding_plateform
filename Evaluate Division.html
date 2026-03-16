@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>399. Evaluate Division</h1>
+        
+        <div class="desc">
+            Given equations <code>A / B = val</code>, solve queries <code>C / D = ?</code>. 
+            Represent the variables as nodes in a graph and the values as edge weights.
+        </div>
+
+        <div class="section-header">Core Logic:</div>
+        <div class="desc" style="font-size: 0.85rem; color: var(--text-dim);">
+            Map each string to an integer ID. Build an adjacency matrix/list where <code>adj[u][v] = val</code> and <code>adj[v][u] = 1.0/val</code>. Use DFS for each query.
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Equations length <= 20</li>
+            <li>Variable strings length <= 5</li>
+            <li>No division by zero.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {\n        Map<String, Map<String, Double>> graph = new HashMap<>();\n        for (int i = 0; i < equations.size(); i++) {\n            String u = equations.get(i).get(0), v = equations.get(i).get(1);\n            graph.computeIfAbsent(u, k -> new HashMap<>()).put(v, values[i]);\n            graph.computeIfAbsent(v, k -> new HashMap<>()).put(u, 1.0 / values[i]);\n        }\n\n        double[] results = new double[queries.size()];\n        for (int i = 0; i < queries.size(); i++) {\n            results[i] = dfs(queries.get(i).get(0), queries.get(i).get(1), new HashSet<>(), graph);\n        }\n        return results;\n    }\n\n    private double dfs(String src, String dst, Set<String> visited, Map<String, Map<String, Double>> graph) {\n        if (!graph.containsKey(src)) return -1.0;\n        if (src.equals(dst)) return 1.0;\n        visited.add(src);\n        for (Map.Entry<String, Double> neighbor : graph.get(src).entrySet()) {\n            if (!visited.contains(neighbor.getKey())) {\n                double product = dfs(neighbor.getKey(), dst, visited, graph);\n                if (product != -1.0) return neighbor.getValue() * product;\n            }\n        }\n        return -1.0;\n    }\n}`,
+            python: `class Solution:\n    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:\n        graph = collections.defaultdict(dict)\n        for (u, v), val in zip(equations, values):\n            graph[u][v] = val\n            graph[v][u] = 1.0 / val\n\n        def dfs(src, dst, visited):\n            if src not in graph or dst not in graph: return -1.0\n            if src == dst: return 1.0\n            visited.add(src)\n            for neighbor, val in graph[src].items():\n                if neighbor not in visited:\n                    res = dfs(neighbor, dst, visited)\n                    if res != -1.0: return val * res\n            return -1.0\n\n        return [dfs(q[0], q[1], set()) for q in queries]`,
+            cpp: `class Solution {\npublic:\n    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {\n        unordered_map<string, unordered_map<string, double>> graph;\n        for (int i = 0; i < equations.size(); ++i) {\n            graph[equations[i][0]][equations[i][1]] = values[i];\n            graph[equations[i][1]][equations[i][0]] = 1.0 / values[i];\n        }\n        vector<double> results;\n        for (auto& q : queries) {\n            unordered_set<string> visited;\n            results.push_back(dfs(q[0], q[1], visited, graph));\n        }\n        return results;\n    }\n\n    double dfs(string src, string dst, unordered_set<string>& visited, unordered_map<string, unordered_map<string, double>>& graph) {\n        if (graph.find(src) == graph.end()) return -1.0;\n        if (src == dst) return 1.0;\n        visited.insert(src);\n        for (auto& neighbor : graph[src]) {\n            if (visited.find(neighbor.first) == visited.end()) {\n                double res = dfs(neighbor.first, dst, visited, graph);\n                if (res != -1.0) return neighbor.second * res;\n            }\n        }\n        return -1.0;\n    }\n};`,
+            c: `double adj[40][40];\nchar* vars[40];\nint varCount;\n\nint getID(char* s) {\n    for (int i = 0; i < varCount; i++) if (strcmp(vars[i], s) == 0) return i;\n    vars[varCount] = s;\n    return varCount++;\n}\n\ndouble dfs(int src, int dst, bool* visited) {\n    if (src == dst) return 1.0;\n    visited[src] = true;\n    for (int i = 0; i < varCount; i++) {\n        if (adj[src][i] > 0 && !visited[i]) {\n            double res = dfs(i, dst, visited);\n            if (res > 0) return adj[src][i] * res;\n        }\n    }\n    return -1.0;\n}\n\ndouble* calcEquation(char*** eq, int eqS, int* eqCS, double* val, int valS, char*** q, int qS, int* qCS, int* rS) {\n    varCount = 0; \n    for(int i=0; i<40; i++) for(int j=0; j<40; j++) adj[i][j] = -1.0;\n    for(int i=0; i<eqS; i++) {\n        int u = getID(eq[i][0]), v = getID(eq[i][1]);\n        adj[u][v] = val[i]; adj[v][u] = 1.0 / val[i];\n    }\n    double* res = (double*)malloc(sizeof(double) * qS);\n    *rS = qS;\n    for(int i=0; i<qS; i++) {\n        int u = -1, v = -1;\n        for(int k=0; k<varCount; k++) {\n            if(strcmp(vars[k], q[i][0]) == 0) u = k;\n            if(strcmp(vars[k], q[i][1]) == 0) v = k;\n        }\n        if (u == -1 || v == -1) res[i] = -1.0;\n        else { bool visited[40] = {0}; res[i] = dfs(u, v, visited); }\n    }\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

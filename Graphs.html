@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph Mastery Roadmap | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+            --easy: #00ff9d; --medium: #facc15; --hard: #ff4757;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; line-height: 1.6; }
+        
+        /* Navigation */
+        header { 
+            position: sticky; top: 0; background: rgba(5, 5, 5, 0.9); 
+            backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+            padding: 15px 50px; display: flex; justify-content: space-between; align-items: center; z-index: 1000;
+        }
+        .logo { font-weight: 700; letter-spacing: -1px; font-size: 1.2rem; }
+        .logo span { color: var(--primary); }
+        .back-to-topics { 
+            text-decoration: none; color: var(--primary); font-family: 'Fira Code', monospace;
+            font-size: 0.85rem; border: 1px solid var(--primary); padding: 6px 14px; border-radius: 6px;
+            transition: 0.2s;
+        }
+        .back-to-topics:hover { background: rgba(0, 255, 157, 0.1); box-shadow: 0 0 15px rgba(0, 255, 157, 0.2); }
+
+        /* Content Layout */
+        .container { max-width: 1300px; margin: 40px auto; padding: 0 30px; }
+        .hero { margin-bottom: 50px; text-align: center; }
+        .hero h1 { font-size: 3rem; margin-bottom: 10px; }
+        .hero p { color: var(--text-dim); font-size: 1.1rem; }
+
+        .category-section { margin-bottom: 70px; }
+        .category-header { 
+            display: flex; align-items: center; margin-bottom: 30px;
+            padding-bottom: 10px; border-bottom: 1px solid var(--border);
+        }
+        .category-title { 
+            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 3px; 
+            color: var(--primary); font-weight: 700;
+        }
+
+        /* Problem Grid */
+        .problem-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 15px; 
+        }
+        .problem-card { 
+            background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+            padding: 20px; transition: 0.25s; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; height: 140px; justify-content: space-between;
+        }
+        .problem-card:hover { 
+            border-color: var(--primary); transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .problem-name { font-size: 1rem; font-weight: 600; margin-bottom: 10px; color: #eee; }
+        .card-meta { display: flex; justify-content: space-between; align-items: center; }
+        .difficulty { font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 4px; text-transform: uppercase; }
+        .difficulty.easy { color: var(--easy); background: rgba(0, 255, 157, 0.05); border: 1px solid var(--easy); }
+        .difficulty.medium { color: var(--medium); background: rgba(250, 204, 21, 0.05); border: 1px solid var(--medium); }
+        .difficulty.hard { color: var(--hard); background: rgba(255, 71, 87, 0.05); border: 1px solid var(--hard); }
+        .file-ext { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-dim); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">CodeTerminal<span>.graph_roadmap</span></div>
+        <a href="topics.html" class="back-to-topics">cd ..</a>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Graph Algorithms</h1>
+            <p>Mastering connections, paths, and traversals.</p>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header"><h2 class="category-title">Standard Traversal (DFS/BFS)</h2></div>
+            <div class="problem-grid">
+                <a href="number-of-provinces.html" class="problem-card">
+                    <div class="problem-name">Number of Provinces</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="eventual-safe-states.html" class="problem-card">
+                    <div class="problem-name">Find Eventual Safe States</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="keys-and-rooms.html" class="problem-card">
+                    <div class="problem-name">Keys and Rooms</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="alternating-colors.html" class="problem-card">
+                    <div class="problem-name">Shortest Path with Alternating Colors</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="inform-employees.html" class="problem-card">
+                    <div class="problem-name">Time Needed to Inform All Employees</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="reorder-routes.html" class="problem-card">
+                    <div class="problem-name">Reorder Routes to City Zero</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="all-paths.html" class="problem-card">
+                    <div class="problem-name">All Paths From Source to Target</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="critical-connections.html" class="problem-card">
+                    <div class="problem-name">Critical Connections (Bridges)</div>
+                    <div class="card-meta"><span class="difficulty hard">Hard</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header"><h2 class="category-title">Breadth First Search (BFS)</h2></div>
+            <div class="problem-grid">
+                <a href="nearest-exit.html" class="problem-card">
+                    <div class="problem-name">Nearest Exit from Entrance</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="shortest-bridge.html" class="problem-card">
+                    <div class="problem-name">Shortest Bridge</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="genetic-mutation.html" class="problem-card">
+                    <div class="problem-name">Minimum Genetic Mutation</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="word-ladder.html" class="problem-card">
+                    <div class="problem-name">Word Ladder</div>
+                    <div class="card-meta"><span class="difficulty hard">Hard</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="jump-game-iii.html" class="problem-card">
+                    <div class="problem-name">Jump Game III</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="01-matrix.html" class="problem-card">
+                    <div class="problem-name">01 Matrix (Multi-source BFS)</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="binary-matrix-path.html" class="problem-card">
+                    <div class="problem-name">Shortest Path in Binary Matrix</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="distance-k.html" class="problem-card">
+                    <div class="problem-name">All Nodes Distance K</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header"><h2 class="category-title">Matrix Graphs (Grid DFS)</h2></div>
+            <div class="problem-grid">
+                <a href="number-of-islands.html" class="problem-card">
+                    <div class="problem-name">Number of Islands</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="number-of-enclaves.html" class="problem-card">
+                    <div class="problem-name">Number of Enclaves</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="closed-islands.html" class="problem-card">
+                    <div class="problem-name">Number of Closed Islands</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="max-area-island.html" class="problem-card">
+                    <div class="problem-name">Max Area of Island</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="pacific-atlantic.html" class="problem-card">
+                    <div class="problem-name">Pacific Atlantic Water Flow</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header"><h2 class="category-title">Union Find / DSU</h2></div>
+            <div class="problem-grid">
+                <a href="accounts-merge.html" class="problem-card">
+                    <div class="problem-name">Accounts Merge</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="equality-equations.html" class="problem-card">
+                    <div class="problem-name">Satisfiability of Equality Equations</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="lex-equivalent-string.html" class="problem-card">
+                    <div class="problem-name">Smallest Equivalent String</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="similar-string-groups.html" class="problem-card">
+                    <div class="problem-name">Similar String Groups</div>
+                    <div class="card-meta"><span class="difficulty hard">Hard</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-header"><h2 class="category-title">Topological Sort (Kahn's / DFS)</h2></div>
+            <div class="problem-grid">
+                <a href="course-schedule6.html" class="problem-card">
+                    <div class="problem-name">Course Schedule</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.py</span></div>
+                </a>
+                <a href="course-schedule-ii6.html" class="problem-card">
+                    <div class="problem-name">Course Schedule II</div>
+                    <div class="card-meta"><span class="difficulty medium">Medium</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="alien-dictionary6.html" class="problem-card">
+                    <div class="problem-name">Alien Dictionary</div>
+                    <div class="card-meta"><span class="difficulty hard">Hard</span><span class="file-ext">solution.java</span></div>
+                </a>
+                <a href="sort-items5.html" class="problem-card">
+                    <div class="problem-name">Sort Items by Groups</div>
+                    <div class="card-meta"><span class="difficulty hard">Hard</span><span class="file-ext">solution.cpp</span></div>
+                </a>
+                <a href="largest-color-value5.html" class="problem-card">
+                    <div class="problem-name">Largest Color Value in DAG</div>
+                    <div class="card-meta"><span class="difficulty hard">Hard</span><span class="file-ext">solution.py</span></div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

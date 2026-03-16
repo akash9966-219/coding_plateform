@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>124. Max Path Sum</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            A <b>path</b> in a binary tree is a sequence of nodes where each pair of adjacent nodes has an edge connecting them. A node can only appear in the sequence at most once. 
+            <br><br>Return the maximum path sum of any non-empty path.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            root = [-10,9,20,null,null,15,7]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            42<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            The optimal path is 15 -> 20 -> 7 with a sum of 42.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        self.max_sum = float('-inf')
+
+        def gain(node):
+            if not node: return 0
+            
+            # Max gain from subtrees, ignore negative sums
+            left = max(0, gain(node.left))
+            right = max(0, gain(node.right))
+            
+            # Price of new path starting at current node
+            current_path_sum = node.val + left + right
+            self.max_sum = max(self.max_sum, current_path_sum)
+            
+            # Return max gain to parent (can only pick one branch)
+            return node.val + max(left, right)
+
+        gain(root)
+        return self.max_sum`,
+            java: `class Solution {
+    int maxPath = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        getGain(root);
+        return maxPath;
+    }
+
+    private int getGain(TreeNode node) {
+        if (node == null) return 0;
+        
+        int left = Math.max(0, getGain(node.left));
+        int right = Math.max(0, getGain(node.right));
+        
+        maxPath = Math.max(maxPath, node.val + left + right);
+        
+        return node.val + Math.max(left, right);
+    }
+}`,
+            cpp: `class Solution {
+    int maxPath = INT_MIN;
+public:
+    int maxPathSum(TreeNode* root) {
+        dfs(root);
+        return maxPath;
+    }
+
+    int dfs(TreeNode* node) {
+        if (!node) return 0;
+        
+        int left = max(0, dfs(node->left));
+        int right = max(0, dfs(node->right));
+        
+        maxPath = max(maxPath, node->val + left + right);
+        
+        return node->val + max(left, right);
+    }
+};`,
+            c: `int max(int a, int b) { return (a > b) ? a : b; }
+
+int dfs(struct TreeNode* node, int* max_sum) {
+    if (!node) return 0;
+    
+    int left = max(0, dfs(node->left, max_sum));
+    int right = max(0, dfs(node->right, max_sum));
+    
+    *max_sum = max(*max_sum, node->val + left + right);
+    
+    return node->val + max(left, right);
+}
+
+int maxPathSum(struct TreeNode* root) {
+    int result = -2147483648;
+    dfs(root, &result);
+    return result;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

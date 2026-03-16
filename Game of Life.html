@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .visual-container {
+            background: #111;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .visual-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>289. Game of Life</h1>
+        
+        <div class="desc">
+            The board is made up of an <code>m x n</code> grid of cells. Each cell interacts with its eight neighbors using four rules:
+            <br><br>
+            1. <b>Under-population:</b> Live cell with < 2 live neighbors dies.<br>
+            2. <b>Survival:</b> Live cell with 2 or 3 live neighbors lives.<br>
+            3. <b>Over-population:</b> Live cell with > 3 live neighbors dies.<br>
+            4. <b>Reproduction:</b> Dead cell with exactly 3 live neighbors becomes a live cell.
+        </div>
+
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2020/12/26/grid1.jpg" alt="Game of Life Example 1">
+        </div>
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+<b>Input:</b> board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]
+<br>
+<b>Output:</b> [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]
+        </div>
+
+        <div class="section-header">Follow Up:</div>
+        <div class="desc" style="font-size: 0.85rem; color: var(--text-dim);">
+            Can you solve it <b>in-place</b>? Updating cells simultaneously means you cannot use updated values to calculate other cells in the same generation.
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>m == board.length, n == board[i].length</li>
+            <li>1 <= m, n <= 25</li>
+            <li>board[i][j] is 0 or 1.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public void gameOfLife(int[][] board) {\n        int R = board.length, C = board[0].length;\n        int[] neighbors = {0, 1, -1};\n\n        for (int i = 0; i < R; i++) {\n            for (int j = 0; j < C; j++) {\n                int liveNeighbors = 0;\n                for (int r = 0; r < 3; r++) {\n                    for (int c = 0; c < 3; c++) {\n                        if (!(neighbors[r] == 0 && neighbors[c] == 0)) {\n                            int nr = i + neighbors[r], nc = j + neighbors[c];\n                            if (nr < R && nr >= 0 && nc < C && nc >= 0 && (Math.abs(board[nr][nc]) == 1 || board[nr][nc] == 2)) {\n                                liveNeighbors++;\n                            }\n                        }\n                    }\n                }\n                if (board[i][j] == 1 && (liveNeighbors < 2 || liveNeighbors > 3)) board[i][j] = 2;\n                if (board[i][j] == 0 && liveNeighbors == 3) board[i][j] = 3;\n            }\n        }\n\n        for (int i = 0; i < R; i++) {\n            for (int j = 0; j < C; j++) {\n                if (board[i][j] == 2) board[i][j] = 0;\n                if (board[i][j] == 3) board[i][j] = 1;\n            }\n        }\n    }\n}`,
+            python: `class Solution:\n    def gameOfLife(self, board: List[List[int]]) -> None:\n        R, C = len(board), len(board[0])\n        neighbors = [(1,0), (1,-1), (0,-1), (-1,-1), (-1,0), (-1,1), (0,1), (1,1)]\n\n        for r in range(R):\n            for c in range(C):\n                live_neighbors = 0\n                for dr, dc in neighbors:\n                    nr, nc = r + dr, c + dc\n                    if 0 <= nr < R and 0 <= nc < C and abs(board[nr][nc]) in [1, 2]:\n                        live_neighbors += 1\n\n                if board[r][c] == 1 and (live_neighbors < 2 or live_neighbors > 3):\n                    board[r][c] = 2 # Live to Dead\n                if board[r][c] == 0 and live_neighbors == 3:\n                    board[r][c] = 3 # Dead to Live\n\n        for r in range(R):\n            for c in range(C):\n                if board[r][c] == 2: board[r][c] = 0\n                if board[r][c] == 3: board[r][c] = 1`,
+            cpp: `class Solution {\npublic:\n    void gameOfLife(vector<vector<int>>& board) {\n        int m = board.size(), n = board[0].size();\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                int lives = 0;\n                for (int r = max(0, i - 1); r < min(m, i + 2); r++) {\n                    for (int c = max(0, j - 1); c < min(n, j + 2); c++) {\n                        lives += board[r][c] & 1;\n                    }\n                }\n                if (lives == 3 || lives - board[i][j] == 3) board[i][j] |= 2;\n            }\n        }\n        for (int i = 0; i < m; i++)\n            for (int j = 0; j < n; j++) board[i][j] >>= 1;\n    }\n};`,
+            c: `void gameOfLife(int** board, int boardSize, int* boardColSize) {\n    int R = boardSize, C = boardColSize[0];\n    for (int i = 0; i < R; i++) {\n        for (int j = 0; j < C; j++) {\n            int lives = 0;\n            for (int r = i - 1; r <= i + 1; r++) {\n                for (int c = j - 1; c <= j + 1; c++) {\n                    if (r >= 0 && r < R && c >= 0 && c < C && (board[r][c] == 1 || board[r][c] == 2)) {\n                        if (!(r == i && c == j)) lives++;\n                    }\n                }\n            }\n            if (board[i][j] == 1 && (lives < 2 || lives > 3)) board[i][j] = 2;\n            if (board[i][j] == 0 && lives == 3) board[i][j] = 3;\n        }\n    }\n    for (int i = 0; i < R; i++) {\n        for (int j = 0; j < C; j++) {\n            if (board[i][j] == 2) board[i][j] = 0;\n            if (board[i][j] == 3) board[i][j] = 1;\n        }\n    }\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>337. House Robber III</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            The thief has found a new place for his thievery. There is only one entrance to this area, called the "root." Besides the root, each house has one and only one parent house. 
+            <br><br>If two directly-linked houses were broken into on the same night, the police will automatically be contacted. Return the <b>maximum amount of money</b> the thief can rob without alerting the police.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            root = [3,2,3,null,3,null,1]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            7<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def rob(self, root: Optional[TreeNode]) -> int:
+        def dfs(node):
+            if not node:
+                return [0, 0] # [rob_it, not_rob_it]
+            
+            left = dfs(node.left)
+            right = dfs(node.right)
+            
+            # If we rob this node, we cannot rob children
+            rob_it = node.val + left[1] + right[1]
+            
+            # If we don't rob this node, we take max of children's states
+            not_rob_it = max(left) + max(right)
+            
+            return [rob_it, not_rob_it]
+            
+        return max(dfs(root))`,
+            java: `class Solution {
+    public int rob(TreeNode root) {
+        int[] res = dfs(root);
+        return Math.max(res[0], res[1]);
+    }
+
+    private int[] dfs(TreeNode node) {
+        if (node == null) return new int[]{0, 0};
+        
+        int[] left = dfs(node.left);
+        int[] right = dfs(node.right);
+        
+        int rob = node.val + left[1] + right[1];
+        int notRob = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        
+        return new int[]{rob, notRob};
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int rob(TreeNode* root) {
+        auto res = dfs(root);
+        return max(res.first, res.second);
+    }
+
+    pair<int, int> dfs(TreeNode* node) {
+        if (!node) return {0, 0};
+        
+        auto left = dfs(node.left);
+        auto right = dfs(node.right);
+        
+        int rob = node->val + left.second + right.second;
+        int notRob = max(left.first, left.second) + max(right.first, right.second);
+        
+        return {rob, notRob};
+    }
+};`,
+            c: `struct Result {
+    int rob;
+    int notRob;
+};
+
+struct Result dfs(struct TreeNode* node) {
+    if (!node) {
+        struct Result res = {0, 0};
+        return res;
+    }
+    
+    struct Result left = dfs(node->left);
+    struct Result right = dfs(node->right);
+    
+    struct Result res;
+    res.rob = node->val + left.notRob + right.notRob;
+    
+    int leftMax = (left.rob > left.notRob) ? left.rob : left.notRob;
+    int rightMax = (right.rob > right.notRob) ? right.rob : right.notRob;
+    res.notRob = leftMax + rightMax;
+    
+    return res;
+}
+
+int rob(struct TreeNode* root) {
+    struct Result finalRes = dfs(root);
+    return (finalRes.rob > finalRes.notRob) ? finalRes.rob : finalRes.notRob;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

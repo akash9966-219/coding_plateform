@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>802. Find Eventual Safe States</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            There is a directed graph of <code>n</code> nodes. A node is a <b>terminal node</b> if there are no outgoing edges.
+            <br><br>A node is a <b>safe node</b> if every possible path starting from that node leads to a terminal node. Return an array containing all the safe nodes of the graph, sorted in ascending order.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            graph = [[1,2],[2,3],[5],[0],[5],[],[]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [2,4,5,6]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        n = len(graph)
+        color = [0] * n # 0: unvisited, 1: visiting, 2: safe
+        
+        def is_safe(i):
+            if color[i] > 0:
+                return color[i] == 2
+            
+            color[i] = 1 # Mark as visiting
+            for neighbor in graph[i]:
+                if not is_safe(neighbor):
+                    return False
+            
+            color[i] = 2 # Mark as safe
+            return True
+            
+        return [i for i in range(n) if is_safe(i)]`,
+            java: `class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        int[] color = new int[n]; // 0: white, 1: gray, 2: black
+        List<Integer> res = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            if (dfs(i, graph, color)) res.add(i);
+        }
+        return res;
+    }
+
+    private boolean dfs(int node, int[][] graph, int[] color) {
+        if (color[node] > 0) return color[node] == 2;
+        
+        color[node] = 1;
+        for (int neighbor : graph[node]) {
+            if (!dfs(neighbor, graph, color)) return false;
+        }
+        color[node] = 2;
+        return true;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    bool dfs(int node, vector<vector<int>>& graph, vector<int>& color) {
+        if (color[node] > 0) return color[node] == 2;
+        
+        color[node] = 1;
+        for (int neighbor : graph[node]) {
+            if (!dfs(neighbor, graph, color)) return false;
+        }
+        color[node] = 2;
+        return true;
+    }
+
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> color(n, 0);
+        vector<int> res;
+        
+        for (int i = 0; i < n; i++) {
+            if (dfs(i, graph, color)) res.push_back(i);
+        }
+        return res;
+    }
+};`,
+            c: `bool dfs(int node, int** graph, int* graphColSize, int* color) {
+    if (color[node] > 0) return color[node] == 2;
+    
+    color[node] = 1;
+    for (int i = 0; i < graphColSize[node]; i++) {
+        if (!dfs(graph[node][i], graph, graphColSize, color)) return false;
+    }
+    color[node] = 2;
+    return true;
+}
+
+int* eventualSafeNodes(int** graph, int graphSize, int* graphColSize, int* returnSize) {
+    int* color = (int*)calloc(graphSize, sizeof(int));
+    int* res = (int*)malloc(graphSize * sizeof(int));
+    int count = 0;
+    
+    for (int i = 0; i < graphSize; i++) {
+        if (dfs(i, graph, graphColSize, color)) res[count++] = i;
+    }
+    
+    *returnSize = count;
+    free(color);
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

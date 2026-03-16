@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>95. Unique BSTs II</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given an integer <code>n</code>, return all the structurally unique <b>BST's</b> (binary search trees) which has exactly <code>n</code> nodes of unique values from 1 to <code>n</code>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            n = 3<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
+        if n == 0: return []
+        
+        @lru_cache(None)
+        def build(start, end):
+            if start > end:
+                return [None]
+            
+            res = []
+            for i in range(start, end + 1):
+                # Recursively get all left and right subtrees
+                left_sub = build(start, i - 1)
+                right_sub = build(i + 1, end)
+                
+                # Combine every left and right subtree with current root i
+                for l in left_sub:
+                    for r in right_sub:
+                        root = TreeNode(i)
+                        root.left = l
+                        root.right = r
+                        res.append(root)
+            return res
+
+        return build(1, n)`,
+            java: `class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        if (n == 0) return new ArrayList<>();
+        return build(1, n);
+    }
+
+    private List<TreeNode> build(int start, int end) {
+        List<TreeNode> res = new ArrayList<>();
+        if (start > end) {
+            res.add(null);
+            return res;
+        }
+
+        for (int i = start; i <= end; i++) {
+            List<TreeNode> leftTrees = build(start, i - 1);
+            List<TreeNode> rightTrees = build(i + 1, end);
+
+            for (TreeNode left : leftTrees) {
+                for (TreeNode right : rightTrees) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = left;
+                    root.right = right;
+                    res.add(root);
+                }
+            }
+        }
+        return res;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        if (n == 0) return {};
+        return build(1, n);
+    }
+
+    vector<TreeNode*> build(int start, int end) {
+        if (start > end) return {nullptr};
+        
+        vector<TreeNode*> res;
+        for (int i = start; i <= end; ++i) {
+            auto left = build(start, i - 1);
+            auto right = build(i + 1, end);
+            
+            for (auto l : left) {
+                for (auto r : right) {
+                    TreeNode* root = new TreeNode(i, l, r);
+                    res.push_back(root);
+                }
+            }
+        }
+        return res;
+    }
+};`,
+            c: `struct TreeNode** build(int start, int end, int* returnSize) {
+    if (start > end) {
+        struct TreeNode** res = malloc(sizeof(struct TreeNode*));
+        res[0] = NULL;
+        *returnSize = 1;
+        return res;
+    }
+
+    struct TreeNode** allTrees = NULL;
+    int count = 0;
+
+    for (int i = start; i <= end; i++) {
+        int leftSize, rightSize;
+        struct TreeNode** leftSub = build(start, i - 1, &leftSize);
+        struct TreeNode** rightSub = build(i + 1, end, &rightSize);
+
+        for (int l = 0; l < leftSize; l++) {
+            for (int r = 0; r < rightSize; r++) {
+                struct TreeNode* root = malloc(sizeof(struct TreeNode));
+                root->val = i;
+                root->left = leftSub[l];
+                root->right = rightSub[r];
+                
+                allTrees = realloc(allTrees, sizeof(struct TreeNode*) * (count + 1));
+                allTrees[count++] = root;
+            }
+        }
+    }
+    *returnSize = count;
+    return allTrees;
+}
+
+struct TreeNode** generateTrees(int n, int* returnSize) {
+    if (n == 0) { *returnSize = 0; return NULL; }
+    return build(1, n, returnSize);
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

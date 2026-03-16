@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ff4b4b;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ff4b4b;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 75, 75, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Hard</span>
+        </div>
+
+        <h1>295. Median Data Stream</h1>
+        
+        <div class="desc">
+            Return the median of all elements added so far. If total elements are even, return the mean of the two middle values.
+        </div>
+
+        <div class="section-header">Heap Balancing Rules:</div>
+        <div class="visual-container">
+            <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 15px;">Two Heaps must stay balanced within size 1.</p>
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); font-size: 0.75rem; text-align: left;">
+                1. addNum(x): Push to Max-Heap (Left)<br>
+                2. Max-Heap.top &rarr; Min-Heap (Right)<br>
+                3. If Right > Left: Min-Heap.top &rarr; Max-Heap
+            </div>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li><b>addNum:</b> O(log n)</li>
+            <li><b>findMedian:</b> O(1)</li>
+            <li><b>Space:</b> O(n)</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class MedianFinder {\n    private PriorityQueue<Integer> small = new PriorityQueue<>(Collections.reverseOrder());\n    private PriorityQueue<Integer> large = new PriorityQueue<>();\n\n    public void addNum(int num) {\n        small.add(num);\n        large.add(small.poll());\n        if (small.size() < large.size()) {\n            small.add(large.poll());\n        }\n    }\n\n    public double findMedian() {\n        return small.size() > large.size() ? small.peek() : (small.peek() + large.peek()) / 2.0;\n    }\n}`,
+            python: `class MedianFinder:\n    def __init__(self):\n        self.small = [] # Max-heap\n        self.large = [] # Min-heap\n\n    def addNum(self, num: int) -> None:\n        heapq.heappush(self.small, -num)\n        heapq.heappush(self.large, -heapq.heappop(self.small))\n        if len(self.small) < len(self.large):\n            heapq.heappush(self.small, -heapq.heappop(self.large))\n\n    def findMedian(self) -> float:\n        if len(self.small) > len(self.large):\n            return -self.small[0]\n        return (-self.small[0] + self.large[0]) / 2.0`,
+            cpp: `class MedianFinder {\n    priority_queue<int> small; // Max-heap\n    priority_queue<int, vector<int>, greater<int>> large; // Min-heap\npublic:\n    void addNum(int num) {\n        small.push(num);\n        large.push(small.top());\n        small.pop();\n        if (small.size() < large.size()) {\n            small.push(large.top());\n            large.pop();\n        }\n    }\n    double findMedian() {\n        return small.size() > large.size() ? small.top() : (small.top() + large.top()) / 2.0;\n    }\n};`,
+            c: `typedef struct { int* data; int size; int capacity; int isMin; } Heap;\n\nvoid push(Heap* h, int val) {\n    h->data[h->size++] = val;\n    int i = h->size - 1;\n    while(i > 0 && (h->isMin ? h->data[i] < h->data[(i-1)/2] : h->data[i] > h->data[(i-1)/2])) {\n        int t = h->data[i]; h->data[i] = h->data[(i-1)/2]; h->data[(i-1)/2] = t;\n        i = (i-1)/2;\n    }\n}\n\nint pop(Heap* h) {\n    int res = h->data[0];\n    h->data[0] = h->data[--h->size];\n    int i = 0;\n    while(i*2+1 < h->size) {\n        int c = i*2+1;\n        if(c+1 < h->size && (h->isMin ? h->data[c+1] < h->data[c] : h->data[c+1] > h->data[c])) c++;\n        if(h->isMin ? h->data[i] <= h->data[c] : h->data[i] >= h->data[c]) break;\n        int t = h->data[i]; h->data[i] = h->data[c]; h->data[c] = t;\n        i = c;\n    }\n    return res;\n}\n\ntypedef struct { Heap* s; Heap* l; } MedianFinder;\n\nMedianFinder* medianFinderCreate() {\n    MedianFinder* obj = malloc(sizeof(MedianFinder));\n    obj->s = malloc(sizeof(Heap)); obj->s->data = malloc(50001*4); obj->s->size = 0; obj->s->isMin = 0;\n    obj->l = malloc(sizeof(Heap)); obj->l->data = malloc(50001*4); obj->l->size = 0; obj->l->isMin = 1;\n    return obj;\n}\n\nvoid medianFinderAddNum(MedianFinder* obj, int num) {\n    push(obj->s, num);\n    push(obj->l, pop(obj->s));\n    if(obj->s->size < obj->l->size) push(obj->s, pop(obj->l));\n}\n\ndouble medianFinderFindMedian(MedianFinder* obj) {\n    return obj->s->size > obj->l->size ? obj->s->data[0] : (obj->s->data[0] + obj->l->data[0])/2.0;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

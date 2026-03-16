@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>208. Implement Trie</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Implement the <b>Trie</b> class:
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><code>insert(word)</code>: Inserts the string into the trie.</li>
+                <li><code>search(word)</code>: Returns true if the string is in the trie.</li>
+                <li><code>startsWith(prefix)</code>: Returns true if there is a previously inserted string that has the prefix.</li>
+            </ul>
+        </div>
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Method</th><th>Argument</th><th>Return</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>insert</td><td>"apple"</td><td>null</td></tr>
+                <tr><td>search</td><td>"apple"</td><td>true</td></tr>
+                <tr><td>search</td><td>"app"</td><td>false</td></tr>
+                <tr><td>startsWith</td><td>"app"</td><td>true</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">Structure Logic:</div>
+        <div class="logic-visual">
+            Node {<br>
+            &nbsp;&nbsp;Node[26] children;<br>
+            &nbsp;&nbsp;boolean isEndOfWord;<br>
+            }<br><br>
+            1. Root is empty.<br>
+            2. 'a' points to Node for 'a'.<br>
+            3. Node 'e' in "apple" has isEndOfWord = true.
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2; margin-bottom: 30px;">
+            <li>Time: O(L) - L is the length of word/prefix per operation.</li>
+            <li>Space: O(ALPHABET_SIZE * N * L) - Total characters stored.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `class TrieNode {\n    TrieNode[] children = new TrieNode[26];\n    boolean isEndOfWord;\n}\n\nclass Trie {\n    private TrieNode root;\n    public Trie() { root = new TrieNode(); }\n\n    public void insert(String word) {\n        TrieNode curr = root;\n        for (char c : word.toCharArray()) {\n            if (curr.children[c - 'a'] == null) curr.children[c - 'a'] = new TrieNode();\n            curr = curr.children[c - 'a'];\n        }\n        curr.isEndOfWord = true;\n    }\n\n    public boolean search(String word) {\n        TrieNode node = find(word);\n        return node != null && node.isEndOfWord;\n    }\n\n    public boolean startsWith(String prefix) {\n        return find(prefix) != null;\n    }\n\n    private TrieNode find(String str) {\n        TrieNode curr = root;\n        for (char c : str.toCharArray()) {\n            if (curr.children[c - 'a'] == null) return null;\n            curr = curr.children[c - 'a'];\n        }\n        return curr;\n    }\n}`,
+            python: `class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word: str) -> None:\n        curr = self.root\n        for char in word:\n            if char not in curr.children:\n                curr.children[char] = TrieNode()\n            curr = curr.children[char]\n        curr.is_end = True\n\n    def search(self, word: str) -> bool:\n        node = self._find(word)\n        return node is not None and node.is_end\n\n    def startsWith(self, prefix: str) -> bool:\n        return self._find(prefix) is not None\n\n    def _find(self, prefix: str) -> TrieNode:\n        curr = self.root\n        for char in prefix:\n            if char not in curr.children:\n                return None\n            curr = curr.children[char]\n        return curr`,
+            cpp: `class TrieNode {\npublic:\n    TrieNode* children[26] = {nullptr};\n    bool isEndOfWord = false;\n};\n\nclass Trie {\n    TrieNode* root;\npublic:\n    Trie() { root = new TrieNode(); }\n\n    void insert(string word) {\n        TrieNode* curr = root;\n        for (char c : word) {\n            if (!curr->children[c - 'a']) curr->children[c - 'a'] = new TrieNode();\n            curr = curr->children[c - 'a'];\n        }\n        curr->isEndOfWord = true;\n    }\n\n    bool search(string word) {\n        TrieNode* node = find(word);\n        return node && node->isEndOfWord;\n    }\n\n    bool startsWith(string prefix) {\n        return find(prefix) != nullptr;\n    }\n\n    TrieNode* find(string str) {\n        TrieNode* curr = root;\n        for (char c : str) {\n            if (!curr->children[c - 'a']) return nullptr;\n            curr = curr->children[c - 'a'];\n        }\n        return curr;\n    }\n};`,
+            c: `typedef struct Trie {\n    struct Trie* children[26];\n    bool isEndOfWord;\n} Trie;\n\nTrie* trieCreate() {\n    Trie* obj = calloc(1, sizeof(Trie));\n    return obj;\n}\n\nvoid trieInsert(Trie* obj, char* word) {\n    for (int i = 0; word[i]; i++) {\n        int idx = word[i] - 'a';\n        if (!obj->children[idx]) obj->children[idx] = trieCreate();\n        obj = obj->children[idx];\n    }\n    obj->isEndOfWord = true;\n}\n\n// Search and StartsWith follow similar pointer logic...`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

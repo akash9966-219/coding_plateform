@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>22. Generate Parentheses</h1>
+        
+        <div class="desc">
+            Given <code>n</code> pairs of parentheses, generate all combinations of well-formed parentheses.
+        </div>
+
+        <div class="section-header">Recursive Constraints:</div>
+        <div class="visual-container">
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); text-align: left; font-size: 0.9rem; line-height: 1.8;">
+                1. If (count < n) &rarr; Add '(' <br>
+                2. If ()count < (count) &rarr; Add ')' <br>
+                <span style="color:var(--primary)">Base Case: length == 2 * n</span>
+            </div>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: Catalan Number C<sub>n</sub> = O(4<sup>n</sup> / n&radic;n)</li>
+            <li>Space: O(n) for recursion stack.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public List<String> generateParenthesis(int n) {\n        List<String> result = new ArrayList<>();\n        backtrack(result, new StringBuilder(), 0, 0, n);\n        return result;\n    }\n\n    private void backtrack(List<String> res, StringBuilder sb, int open, int close, int max) {\n        if (sb.length() == max * 2) {\n            res.add(sb.toString());\n            return;\n        }\n\n        if (open < max) {\n            sb.append("(");\n            backtrack(res, sb, open + 1, close, max);\n            sb.deleteCharAt(sb.length() - 1);\n        }\n        if (close < open) {\n            sb.append(")");\n            backtrack(res, sb, open, close + 1, max);\n            sb.deleteCharAt(sb.length() - 1);\n        }\n    }\n}`,
+            python: `class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        res = []\n        def backtrack(s, open_n, close_n):\n            if open_n == close_n == n:\n                res.append(s)\n                return\n            \n            if open_n < n:\n                backtrack(s + "(", open_n + 1, close_n)\n            \n            if close_n < open_n:\n                backtrack(s + ")", open_n, close_n + 1)\n        \n        backtrack("", 0, 0)\n        return res`,
+            cpp: `class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        vector<string> res;\n        backtrack(res, "", 0, 0, n);\n        return res;\n    }\n\n    void backtrack(vector<string>& res, string curr, int open, int close, int n) {\n        if (curr.length() == n * 2) {\n            res.push_back(curr);\n            return;\n        }\n\n        if (open < n) backtrack(res, curr + "(", open + 1, close, n);\n        if (close < open) backtrack(res, curr + ")", open, close + 1, n);\n    }\n};`,
+            c: `/**\n * Note: The returned array must be malloced, assume caller calls free().\n */\nvoid backtrack(int n, int open, int close, char* current, int idx, char** res, int* count) {\n    if (idx == 2 * n) {\n        current[idx] = '\\0';\n        res[*count] = strdup(current);\n        (*count)++;\n        return;\n    }\n    if (open < n) {\n        current[idx] = '(';\n        backtrack(n, open + 1, close, current, idx + 1, res, count);\n    }\n    if (close < open) {\n        current[idx] = ')';\n        backtrack(n, open, close + 1, current, idx + 1, res, count);\n    }\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>
