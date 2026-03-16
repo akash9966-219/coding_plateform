@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>2140. Solving Questions...</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given a 2D integer array <code>questions</code> where <code>questions[i] = [points_i, brainpower_i]</code>.
+            <br><br>If you solve question <code>i</code>, you get <code>points_i</code> points but you <b>cannot</b> solve any of the next <code>brainpower_i</code> questions. If you skip it, you get 0 points and move to the next.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            questions = [[3,2],[4,3],[4,4],[2,5]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            5<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            Solve Q0 (3 pts), skip Q1 and Q2, solve Q3 (2 pts). Total: 5.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def mostPoints(self, questions: List[List[int]]) -> int:
+        n = len(questions)
+        dp = [0] * (n + 1)
+        
+        for i in range(n - 1, -1, -1):
+            points, skip = questions[i]
+            # Option 1: Solve
+            future_idx = i + skip + 1
+            solve = points + (dp[future_idx] if future_idx < n else 0)
+            
+            # Option 2: Skip
+            skip_q = dp[i + 1]
+            
+            dp[i] = max(solve, skip_q)
+            
+        return dp[0]`,
+            java: `class Solution {
+    public long mostPoints(int[][] questions) {
+        int n = questions.length;
+        long[] dp = new long[n + 1];
+        
+        for (int i = n - 1; i >= 0; i--) {
+            int points = questions[i][0];
+            int skip = questions[i][1];
+            
+            int next = i + skip + 1;
+            long solve = points + (next < n ? dp[next] : 0);
+            long dontSolve = dp[i + 1];
+            
+            dp[i] = Math.max(solve, dontSolve);
+        }
+        return dp[0];
+    }
+}`,
+            cpp: `class Solution {
+public:
+    long long mostPoints(vector<vector<int>>& questions) {
+        int n = questions.size();
+        vector<long long> dp(n + 1, 0);
+        
+        for (int i = n - 1; i >= 0; --i) {
+            int pts = questions[i][0];
+            int skip = questions[i][1];
+            
+            int next = i + skip + 1;
+            long long solve = pts + (next < n ? dp[next] : 0);
+            long long skip_q = dp[i + 1];
+            
+            dp[i] = max(solve, skip_q);
+        }
+        return dp[0];
+    }
+};`,
+            c: `long long mostPoints(int** questions, int questionsSize, int* questionsColSize) {
+    long long* dp = (long long*)calloc(questionsSize + 1, sizeof(long long));
+    
+    for (int i = questionsSize - 1; i >= 0; i--) {
+        int pts = questions[i][0];
+        int skip = questions[i][1];
+        
+        int next = i + skip + 1;
+        long long solve = (long long)pts + (next < questionsSize ? dp[next] : 0);
+        long long skip_q = dp[i + 1];
+        
+        dp[i] = (solve > skip_q) ? solve : skip_q;
+    }
+    
+    long long res = dp[0];
+    free(dp);
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

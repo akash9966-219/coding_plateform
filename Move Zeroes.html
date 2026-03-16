@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #00ff9d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #00ff9d;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+
+        <h1>283. Move Zeroes</h1>
+        
+        <div class="desc">
+            Given an integer array <code>nums</code>, move all 0's to the end while maintaining the relative order of non-zero elements. Must be done in-place.
+        </div>
+
+        <div class="section-header">Examples:</div>
+        <div class="example-box">
+            <b>Example 1:</b><br>
+            Input: nums = [0,1,0,3,12]<br>
+            Output: [1,3,12,0,0]
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Two Pointers:</b> Use <code>lastNonZero</code> to track the boundary of non-zero values.<br>
+            2. <b>Swap:</b> Iterate with <code>i</code>; if <code>nums[i] != 0</code>, swap <code>nums[i]</code> with <code>nums[lastNonZero]</code>.<br>
+            3. <b>Maintain Order:</b> Swapping ensures relative order is preserved while zeros naturally move to the end.
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(n) - Linear pass through the array.</li>
+            <li>Space: O(1) - Constant space used for pointers.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public void moveZeroes(int[] nums) {\n        int lastNonZeroAt = 0;\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] != 0) {\n                int temp = nums[i];\n                nums[i] = nums[lastNonZeroAt];\n                nums[lastNonZeroAt] = temp;\n                lastNonZeroAt++;\n            }\n        }\n    }\n}`,
+            python: `class Solution:\n    def moveZeroes(self, nums: List[int]) -> None:\n        last_non_zero = 0\n        for i in range(len(nums)):\n            if nums[i] != 0:\n                nums[last_non_zero], nums[i] = nums[i], nums[last_non_zero]\n                last_non_zero += 1`,
+            cpp: `class Solution {\npublic:\n    void moveZeroes(vector<int>& nums) {\n        for (int lastNonZero = 0, i = 0; i < nums.size(); i++) {\n            if (nums[i] != 0) {\n                swap(nums[lastNonZero++], nums[i]);\n            }\n        }\n    }\n};`,
+            c: `void moveZeroes(int* nums, int numsSize) {\n    int lastNonZero = 0;\n    for (int i = 0; i < numsSize; i++) {\n        if (nums[i] != 0) {\n            int temp = nums[i];\n            nums[i] = nums[lastNonZero];\n            nums[lastNonZero++] = temp;\n        }\n    }\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

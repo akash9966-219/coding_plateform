@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1926. Nearest Exit in Maze</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given an <code>m x n</code> matrix <code>maze</code> with empty cells ('.') and walls ('+'). You are also given the <code>entrance</code> of the maze.
+            <br><br>Return the <b>fewest number of steps</b> to the nearest exit, or <code>-1</code> if no such path exists.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            maze = [["+","+",".","+"],[".",".",".","+"],["+","+","+","."]], entrance = [1,2]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            1
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def nearestExit(self, maze: List[List[str]], entrance: List[int]) -> int:
+        rows, cols = len(maze), len(maze[0])
+        start_r, start_c = entrance
+        queue = collections.deque([(start_r, start_c, 0)])
+        maze[start_r][start_c] = '+' # Mark visited
+        
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        
+        while queue:
+            r, c, dist = queue.popleft()
+            
+            for dr, dc in directions:
+                nr, nc = r + dr, c + dc
+                
+                if 0 <= nr < rows and 0 <= nc < cols and maze[nr][nc] == '.':
+                    # Check if edge
+                    if nr == 0 or nr == rows - 1 or nc == 0 or nc == cols - 1:
+                        return dist + 1
+                    
+                    maze[nr][nc] = '+' # Mark visited
+                    queue.append((nr, nc, dist + 1))
+        
+        return -1`,
+            java: `class Solution {
+    public int nearestExit(char[][] maze, int[] entrance) {
+        int rows = maze.length, cols = maze[0].length;
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{entrance[0], entrance[1], 0});
+        maze[entrance[0]][entrance[1]] = '+';
+        
+        int[][] dirs = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+        
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int r = curr[0], c = curr[1], d = curr[2];
+            
+            for (int[] dir : dirs) {
+                int nr = r + dir[0], nc = c + dir[1];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && maze[nr][nc] == '.') {
+                    if (nr == 0 || nr == rows - 1 || nc == 0 || nc == cols - 1) return d + 1;
+                    maze[nr][nc] = '+';
+                    q.offer(new int[]{nr, nc, d + 1});
+                }
+            }
+        }
+        return -1;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int nearestExit(vector<vector<char>>& maze, vector<int>& entrance) {
+        int m = maze.size(), n = maze[0].size();
+        queue<pair<pair<int, int>, int>> q;
+        q.push({{entrance[0], entrance[1]}, 0});
+        maze[entrance[0]][entrance[1]] = '+';
+
+        vector<pair<int, int>> dirs = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+
+        while(!q.empty()) {
+            auto curr = q.front(); q.pop();
+            int r = curr.first.first, c = curr.first.second, d = curr.second;
+
+            for(auto& dir : dirs) {
+                int nr = r + dir.first, nc = c + dir.second;
+                if(nr >= 0 && nr < m && nc >= 0 && nc < n && maze[nr][nc] == '.') {
+                    if(nr == 0 || nr == m-1 || nc == 0 || nc == n-1) return d + 1;
+                    maze[nr][nc] = '+';
+                    q.push({{nr, nc}, d + 1});
+                }
+            }
+        }
+        return -1;
+    }
+};`,
+            c: `typedef struct { int r, c, d; } Step;
+
+int nearestExit(char** maze, int mazeSize, int* mazeColSize, int* entrance, int entranceSize) {
+    int m = mazeSize, n = mazeColSize[0];
+    Step* q = (Step*)malloc(m * n * sizeof(Step));
+    int head = 0, tail = 0;
+    
+    q[tail++] = (Step){entrance[0], entrance[1], 0};
+    maze[entrance[0]][entrance[1]] = '+';
+    
+    int dr[] = {0, 0, 1, -1}, dc[] = {1, -1, 0, 0};
+    
+    while(head < tail) {
+        Step curr = q[head++];
+        for(int i = 0; i < 4; i++) {
+            int nr = curr.r + dr[i], nc = curr.c + dc[i];
+            if(nr >= 0 && nr < m && nc >= 0 && nc < n && maze[nr][nc] == '.') {
+                if(nr == 0 || nr == m - 1 || nc == 0 || nc == n - 1) {
+                    free(q); return curr.d + 1;
+                }
+                maze[nr][nc] = '+';
+                q[tail++] = (Step){nr, nc, curr.d + 1};
+            }
+        }
+    }
+    free(q); return -1;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

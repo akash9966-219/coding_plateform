@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programming Skills | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; 
+            --text-dim: #999; --easy: #00ff9d; --medium: #facc15;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; display: flex; flex-direction: row; min-height: 100vh; }
+
+        /* Sidebar Navigation */
+        nav { 
+            width: 280px; height: 100vh; background: var(--panel); border-right: 1px solid var(--border); 
+            padding: 40px 20px; position: fixed; overflow-y: auto; z-index: 100;
+        }
+        .logo { font-weight: 700; font-size: 1.5rem; color: var(--primary); margin-bottom: 40px; letter-spacing: -1px; }
+        .nav-items { display: flex; flex-direction: column; gap: 5px; }
+        .nav-item { 
+            display: block; padding: 12px 15px; color: var(--text-dim); text-decoration: none; 
+            border-radius: 8px; transition: 0.2s; font-size: 0.9rem; 
+        }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-item.active { background: rgba(0, 255, 157, 0.1); color: var(--primary); }
+
+        /* Main Content Area */
+        main { flex: 1; margin-left: 280px; padding: 60px 5%; width: 100%; }
+        header { 
+            display: flex; justify-content: space-between; align-items: flex-end; 
+            margin-bottom: 60px; flex-wrap: wrap; gap: 20px;
+        }
+        h1 { font-size: clamp(2rem, 5vw, 3rem); letter-spacing: -2px; }
+        .search-box { 
+            background: var(--panel); border: 1px solid var(--border); padding: 12px 20px; 
+            border-radius: 12px; width: 100%; max-width: 300px; color: #fff; font-family: inherit; 
+        }
+
+        .category-section { margin-bottom: 80px; }
+        .category-title { 
+            color: var(--primary); text-transform: uppercase; font-size: 0.8rem; 
+            letter-spacing: 4px; font-weight: 700; margin-bottom: 30px; display: flex; align-items: center; 
+        }
+        .category-title::after { content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 20px; }
+
+        .problems-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 20px; 
+        }
+        .problem-card { 
+            background: var(--panel); border: 1px solid var(--border); padding: 25px; 
+            border-radius: 16px; transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; 
+        }
+        .problem-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .problem-card::before { 
+            content: "Solved"; position: absolute; top: 10px; right: -30px; 
+            background: var(--primary); color: #000; font-size: 0.6rem; 
+            font-weight: 800; padding: 4px 30px; transform: rotate(45deg); 
+        }
+
+        .problem-name { font-size: 1.1rem; font-weight: 500; margin-bottom: 15px; line-height: 1.4; padding-right: 20px; }
+        .badge-row { display: flex; gap: 10px; align-items: center; }
+        .diff-badge { 
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; 
+            padding: 4px 10px; border-radius: 50px; border: 1px solid currentColor; 
+        }
+        .diff-easy { color: var(--easy); }
+        .diff-medium { color: var(--medium); }
+        .solution-link { color: var(--text-dim); font-size: 0.8rem; text-decoration: none; border-bottom: 1px solid transparent; }
+        .problem-card:hover .solution-link { color: #fff; border-color: #fff; }
+
+        @media (max-width: 992px) {
+            body { flex-direction: column; }
+            nav { width: 100%; height: auto; position: relative; border-right: none; border-bottom: 1px solid var(--border); padding: 20px; }
+            .logo { margin-bottom: 20px; text-align: center; }
+            .nav-items { flex-direction: row; overflow-x: auto; padding-bottom: 10px; }
+            .nav-item { white-space: nowrap; }
+            main { margin-left: 0; padding: 40px 20px; }
+            header { align-items: center; flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="topics.html" class="logo">back to home</a>
+        <div class="logo">Programming_Skills</div>
+        <div class="nav-items">
+            <a href="#basic" class="nav-item">Basic</a>
+            <a href="#builtin" class="nav-item">Built-In</a>
+            <a href="#simulation" class="nav-item">Simulation</a>
+            <a href="#matrix" class="nav-item">Matrix</a>
+            <a href="#math" class="nav-item">Math</a>
+            <a href="#linkedlist" class="nav-item">Linked List</a>
+        </div>
+    </nav>
+
+    <main>
+        <header>
+            <div>
+                <p style="color: var(--primary); margin-bottom: 10px;">Curated Study Plan</p>
+                <h1>Skill Assessment</h1>
+            </div>
+            <input type="text" class="search-box" id="search" placeholder="Search problems...">
+        </header>
+
+        <section id="basic" class="category-section">
+            <div class="category-title">Basic Implementation</div>
+            <div class="problems-grid">
+                <div class="problem-card"><div class="problem-name">Merge Strings Alternately</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="merge-strings.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Find the Difference</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="find-difference.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Index of First Occurrence</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="first-occurrence.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Valid Anagram</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="valid-anagram.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Repeated Substring Pattern</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="repeated-substring.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Move Zeroes</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="move-zeroes1.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Plus One</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="plus-one.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Sign of Product</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="sign-product.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Arithmetic Progression</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="arithmetic-progression.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Monotonic Array</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="monotonic-array.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Roman to Integer</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="roman-integer.html" class="solution-link">Solution</a></div></div>
+            </div>
+        </section>
+
+        <section id="builtin" class="category-section">
+            <div class="category-title">Built-In Functions</div>
+            <div class="problems-grid">
+                <div class="problem-card"><div class="problem-name">Length of Last Word</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="length-last-word.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">To Lower Case</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="to-lower-case.html" class="solution-link">Solution</a></div></div>
+            </div>
+        </section>
+
+        <section id="simulation" class="category-section">
+            <div class="category-title">Simulation</div>
+            <div class="problems-grid">
+                <div class="problem-card"><div class="problem-name">Baseball Game</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="baseball-game.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Robot Return to Origin</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="robot-origin.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Winner on Tic Tac Toe</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="tic-tac-toe.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Robot Bounded In Circle</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="robot-circle.html" class="solution-link">Solution</a></div></div>
+            </div>
+        </section>
+
+        <section id="matrix" class="category-section">
+            <div class="category-title">Matrix</div>
+            <div class="problems-grid">
+                <div class="problem-card"><div class="problem-name">Richest Customer Wealth</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="richest-customer.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Matrix Diagonal Sum</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="diagonal-sum.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Spiral Matrix</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="spiral-matrix1.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Set Matrix Zeroes</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="matrix-zeroes.html" class="solution-link">Solution</a></div></div>
+            </div>
+        </section>
+
+        <section id="math" class="category-section">
+            <div class="category-title">Math</div>
+            <div class="problems-grid">
+                <div class="problem-card"><div class="problem-name">Count Odd Numbers</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="count-odds.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Average Salary</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="average-salary.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Lemonade Change</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="lemonade-change.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Largest Perimeter</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="largest-perimeter.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Straight Line Check</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="straight-line.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Add Binary</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="add-binary.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Multiply Strings</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="multiply-strings.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Pow(x, n)</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="pow.html" class="solution-link">Solution</a></div></div>
+            </div>
+        </section>
+
+        <section id="linkedlist" class="category-section">
+            <div class="category-title">Linked List</div>
+            <div class="problems-grid">
+                <div class="problem-card"><div class="problem-name">Merge Sorted Lists</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="merge-lists.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Reverse Linked List</div><div class="badge-row"><span class="diff-badge diff-easy">Easy</span><a href="reverse-list.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Add Two Numbers</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="add-numbers.html" class="solution-link">Solution</a></div></div>
+                <div class="problem-card"><div class="problem-name">Add Two Numbers II</div><div class="badge-row"><span class="diff-badge diff-medium">Medium</span><a href="add-numbers-ii.html" class="solution-link">Solution</a></div></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.getElementById('search').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.problem-card');
+            cards.forEach(card => {
+                const name = card.querySelector('.problem-name').innerText.toLowerCase();
+                card.style.display = name.includes(term) ? 'block' : 'none';
+            });
+        });
+
+        // Makes the entire card clickable, not just the link
+        document.querySelectorAll('.problem-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const link = card.querySelector('.solution-link').getAttribute('href');
+                window.location.href = link;
+            });
+        });
+    </script>
+</body>
+</html>

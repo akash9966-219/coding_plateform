@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #00ff9d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #00ff9d;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+
+        <h1>933. Number of Recent Calls</h1>
+        
+        <div class="desc">
+            You have a <code>RecentCounter</code> class which counts the number of recent requests within a certain time frame. Implement <code>ping(int t)</code> which returns the number of requests that happened in the last 3000 milliseconds.
+        </div>
+
+        <div class="section-header">Examples:</div>
+        <div class="example-box">
+            <b>Example 1:</b><br>
+            Inputs: ["RecentCounter", "ping", "ping", "ping", "ping"]<br>
+            Values: [[], [1], [100], [3001], [3002]]<br>
+            Output: [null, 1, 2, 3, 3]
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Queue:</b> Use a queue to store timestamps in increasing order.<br>
+            2. <b>Add:</b> Every <code>ping(t)</code> adds <code>t</code> to the queue.<br>
+            3. <b>Trim:</b> Remove all timestamps from the front that are less than <code>t - 3000</code>.<br>
+            4. <b>Result:</b> The size of the queue is the answer.
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(1) average - Each timestamp is added and removed exactly once.</li>
+            <li>Space: O(W) - Where W is the window size (max 3000 requests).</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class RecentCounter {\n    Queue<Integer> q;\n\n    public RecentCounter() {\n        q = new LinkedList<>();\n    }\n    \n    public int ping(int t) {\n        q.add(t);\n        while (q.peek() < t - 3000) {\n            q.poll();\n        }\n        return q.size();\n    }\n}`,
+            python: `class RecentCounter:\n    def __init__(self):\n        self.q = collections.deque()\n\n    def ping(self, t: int) -> int:\n        self.q.append(t)\n        while self.q[0] < t - 3000:\n            self.q.popleft()\n        return len(self.q)`,
+            cpp: `class RecentCounter {\n    queue<int> q;\npublic:\n    RecentCounter() {}\n    \n    int ping(int t) {\n        q.push(t);\n        while (q.front() < t - 3000) {\n            q.pop();\n        }\n        return q.size();\n    }\n};`,
+            c: `typedef struct {\n    int* q;\n    int head;\n    int tail;\n} RecentCounter;\n\nRecentCounter* recentCounterCreate() {\n    RecentCounter* obj = malloc(sizeof(RecentCounter));\n    obj->q = malloc(10000 * sizeof(int));\n    obj->head = 0;\n    obj->tail = 0;\n    return obj;\n}\n\nint recentCounterPing(RecentCounter* obj, int t) {\n    obj->q[obj->tail++] = t;\n    while (obj->q[obj->head] < t - 3000) {\n        obj->head++;\n    }\n    return obj->tail - obj->head;\n}\n\nvoid recentCounterFree(RecentCounter* obj) {\n    free(obj->q);\n    free(obj);\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

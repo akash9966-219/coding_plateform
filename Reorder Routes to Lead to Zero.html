@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1466. Reorder Routes</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Given <code>n</code> cities and <code>connections</code> representing directed roads. We want all paths to lead to city 0. Return the minimum number of roads that need to be flipped.
+        </div>
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Input (n, connections)</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>6, [[0,1],[1,3],[2,3],[4,0],[4,5]]</td><td>3</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">BFS Logic:</div>
+        <div class="logic-visual">
+            1. Build bidirectional graph.<br>
+            2. Edge u -> v: weight 1 (needs flip).<br>
+            3. Edge v -> u: weight 0 (already leads to 0).<br>
+            4. Start BFS at city 0 and sum edge weights.
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(V + E) - Linear traversal.</li>
+            <li>Space: O(V + E) - Adjacency storage.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `public int minReorder(int n, int[][] connections) {\n    List<List<int[]>> adj = new ArrayList<>();\n    for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n    for (int[] c : connections) {\n        adj.get(c[0]).add(new int[]{c[1], 1});\n        adj.get(c[1]).add(new int[]{c[0], 0});\n    }\n    return dfs(adj, new boolean[n], 0);\n}\n\nprivate int dfs(List<List<int[]>> adj, boolean[] visited, int u) {\n    int flips = 0;\n    visited[u] = true;\n    for (int[] next : adj.get(u)) {\n        if (!visited[next[0]]) {\n            flips += next[1];\n            flips += dfs(adj, visited, next[0]);\n        }\n    }\n    return flips;\n}`,
+            python: `def minReorder(self, n: int, connections: List[List[int]]) -> int:\n    adj = collections.defaultdict(list)\n    for u, v in connections:\n        adj[u].append((v, 1))\n        adj[v].append((u, 0))\n    visited = [False] * n\n    def dfs(u):\n        count, visited[u] = 0, True\n        for v, cost in adj[u]:\n            if not visited[v]:\n                count += cost + dfs(v)\n        return count\n    return dfs(0)`,
+            cpp: `int minReorder(int n, vector<vector<int>>& connections) {\n    vector<vector<pair<int, int>>> adj(n);\n    for (auto& c : connections) {\n        adj[c[0]].push_back({c[1], 1});\n        adj[c[1]].push_back({c[0], 0});\n    }\n    int flips = 0;\n    vector<bool> visited(n, false);\n    queue<int> q; q.push(0); visited[0] = true;\n    while (!q.empty()) {\n        int u = q.front(); q.pop();\n        for (auto& [v, cost] : adj[u]) {\n            if (!visited[v]) {\n                flips += cost; visited[v] = true; q.push(v);\n            }\n        }\n    }\n    return flips;\n}`,
+            c: `typedef struct Edge { int to, cost; struct Edge* next; } Edge;\n\nint minReorder(int n, int** connections, int connectionsSize, int* connectionsColSize) {\n    Edge** adj = (Edge**)calloc(n, sizeof(Edge*));\n    for (int i = 0; i < connectionsSize; i++) {\n        int u = connections[i][0], v = connections[i][1];\n        Edge *e1 = malloc(sizeof(Edge)), *e2 = malloc(sizeof(Edge));\n        e1->to = v; e1->cost = 1; e1->next = adj[u]; adj[u] = e1;\n        e2->to = u; e2->cost = 0; e2->next = adj[v]; adj[v] = e2;\n    }\n    int* q = malloc(n * sizeof(int)), head = 0, tail = 0, flips = 0;\n    bool* visited = calloc(n, sizeof(bool));\n    q[tail++] = 0; visited[0] = true;\n    while (head < tail) {\n        int u = q[head++];\n        for (Edge* e = adj[u]; e; e = e->next) {\n            if (!visited[e->to]) {\n                visited[e->to] = true; flips += e->cost; q[tail++] = e->to;\n            }\n        }\n    }\n    // Memory cleanup omitted for brevity\n    return flips;\n}`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { const lang = document.getElementById('lang-select').value; document.getElementById('code-display').value = codeRepo[lang]; }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

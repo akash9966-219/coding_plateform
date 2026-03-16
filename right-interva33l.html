@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Binary-Search.html" class="back-btn">← Back to Binary Search</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>436. Find Right Interval</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given an array of <code>intervals</code>, where <code>intervals[i] = [start_i, end_i]</code> and each <code>start_i</code> is unique.
+            <br><br>The <b>right interval</b> for interval <code>i</code> is an interval <code>j</code> such that <code>start_j >= end_i</code> and <code>start_j</code> is <b>minimized</b>.
+            <br><br>Return an array of the indices of the right interval for each interval <code>i</code>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            intervals = [[3,4],[2,3],[1,2]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [-1, 0, 1]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:
+        starts = sorted([(it[0], i) for i, it in enumerate(intervals)])
+        res = []
+        
+        for it in intervals:
+            end = it[1]
+            idx = bisect.bisect_left(starts, (end,))
+            if idx < len(starts):
+                res.append(starts[idx][1])
+            else:
+                res.append(-1)
+        return res`,
+            java: `class Solution {
+    public int[] findRightInterval(int[][] intervals) {
+        int n = intervals.length;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int i = 0; i < n; i++) map.put(intervals[i][0], i);
+        
+        int[] result = new int[n];
+        for (int i = 0; i < n; i++) {
+            Integer key = map.ceilingKey(intervals[i][1]);
+            result[i] = (key == null) ? -1 : map.get(key);
+        }
+        return result;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    vector<int> findRightInterval(vector<vector<int>>& intervals) {
+        map<int, int> m;
+        int n = intervals.size();
+        for (int i = 0; i < n; ++i) m[intervals[i][0]] = i;
+        
+        vector<int> res(n);
+        for (int i = 0; i < n; ++i) {
+            auto it = m.lower_bound(intervals[i][1]);
+            res[i] = (it == m.end()) ? -1 : it->second;
+        }
+        return res;
+    }
+};`,
+            c: `typedef struct { int start; int index; } Pair;
+
+int compare(const void* a, const void* b) {
+    return ((Pair*)a)->start - ((Pair*)b)->start;
+}
+
+int* findRightInterval(int** intervals, int intervalsSize, int* intervalsColSize, int* returnSize) {
+    Pair* sorted = malloc(intervalsSize * sizeof(Pair));
+    for (int i = 0; i < intervalsSize; i++) {
+        sorted[i].start = intervals[i][0];
+        sorted[i].index = i;
+    }
+    qsort(sorted, intervalsSize, sizeof(Pair), compare);
+
+    int* res = malloc(intervalsSize * sizeof(int));
+    *returnSize = intervalsSize;
+
+    for (int i = 0; i < intervalsSize; i++) {
+        int target = intervals[i][1];
+        int left = 0, right = intervalsSize - 1, ans = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (sorted[mid].start >= target) {
+                ans = sorted[mid].index;
+                right = mid - 1;
+            } else left = mid + 1;
+        }
+        res[i] = ans;
+    }
+    free(sorted);
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

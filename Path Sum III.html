@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+        }
+
+        .data-table th, .data-table td {
+            text-align: left;
+            padding: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+
+        .logic-visual {
+            background: #111;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--text-dim);
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>437. Path Sum III</h1>
+        
+        <div class="desc">
+            Given the <code>root</code> of a binary tree and an integer <code>targetSum</code>, return the number of paths where the sum of the values along the path equals <code>targetSum</code>. The path does not need to start at the root or end at a leaf.
+        </div>
+
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Root Array</th>
+                    <th>Target Sum</th>
+                    <th>Total Paths</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>[10,5,-3,3,2,null,11,3,-2,null,1]</td>
+                    <td>8</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">Prefix Sum Logic:</div>
+        <div class="logic-visual">
+            1. currSum += node.val<br>
+            2. count += prefixMap[currSum - target]<br>
+            3. prefixMap[currSum]++<br>
+            4. dfs(left), dfs(right)<br>
+            5. prefixMap[currSum]-- (Backtrack)
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2; margin-bottom: 30px;">
+            <li>Time: O(n) - Linear traversal with O(1) map operations.</li>
+            <li>Space: O(n) - Hash map storage and call stack depth.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public int pathSum(TreeNode root, int targetSum) {\n        Map<Long, Integer> map = new HashMap<>();\n        map.put(0L, 1);\n        return dfs(root, 0L, targetSum, map);\n    }\n\n    private int dfs(TreeNode node, long currSum, int target, Map<Long, Integer> map) {\n        if (node == null) return 0;\n        currSum += node.val;\n        int res = map.getOrDefault(currSum - target, 0);\n        map.put(currSum, map.getOrDefault(currSum, 0) + 1);\n        \n        res += dfs(node.left, currSum, target, map);\n        res += dfs(node.right, currSum, target, map);\n        \n        map.put(currSum, map.get(currSum) - 1);\n        return res;\n    }\n}`,
+            python: `class Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:\n        def dfs(node, currSum):\n            if not node: return 0\n            currSum += node.val\n            res = prefix_map.get(currSum - targetSum, 0)\n            prefix_map[currSum] = prefix_map.get(currSum, 0) + 1\n            \n            res += dfs(node.left, currSum) + dfs(node.right, currSum)\n            \n            prefix_map[currSum] -= 1\n            return res\n\n        prefix_map = {0: 1}\n        return dfs(root, 0)`,
+            cpp: `class Solution {\npublic:\n    int pathSum(TreeNode* root, int targetSum) {\n        unordered_map<long, int> prefixMap;\n        prefixMap[0] = 1;\n        return dfs(root, 0, targetSum, prefixMap);\n    }\n\n    int dfs(TreeNode* node, long currSum, int target, unordered_map<long, int>& map) {\n        if (!node) return 0;\n        currSum += node->val;\n        int count = map[currSum - target];\n        map[currSum]++;\n        \n        count += dfs(node->left, currSum, target, map);\n        count += dfs(node->right, currSum, target, map);\n        \n        map[currSum]--;\n        return count;\n    }\n};`,
+            c: `/**\n * Without a built-in map, O(n^2) DFS is common in C.\n * We check every node as a potential start point.\n */\nint countPath(struct TreeNode* node, long target) {\n    if (!node) return 0;\n    int res = (node->val == target) ? 1 : 0;\n    return res + countPath(node->left, target - node->val) + \n                 countPath(node->right, target - node->val);\n}\n\nint pathSum(struct TreeNode* root, int targetSum) {\n    if (!root) return 0;\n    return countPath(root, targetSum) + \n           pathSum(root->left, targetSum) + \n           pathSum(root->right, targetSum);\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.\${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

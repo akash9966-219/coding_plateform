@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Binary-Search.html" class="back-btn">← Back to Binary Search</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>528. Random Pick with Weight</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given a 0-indexed array of positive integers <code>w</code> where <code>w[i]</code> describes the weight of the <code>i<sup>th</sup></code> index.
+            <br><br>You need to implement the function <code>pickIndex()</code>, which randomly picks an index in the range <code>[0, w.length - 1]</code> and returns it. The probability of picking an index <code>i</code> is <code>w[i] / sum(w)</code>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            ["Solution","pickIndex"]<br>
+            [[[1,3]],[]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [null,1]
+            <br><p style="font-size: 0.8rem; margin-top: 5px; color: var(--text-dim);">Probability: P(0)=1/4=25%, P(1)=3/4=75%.</p>
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def __init__(self, w: List[int]):
+        self.prefix_sums = []
+        current_sum = 0
+        for weight in w:
+            current_sum += weight
+            self.prefix_sums.append(current_sum)
+        self.total_sum = current_sum
+
+    def pickIndex(self) -> int:
+        target = random.randint(1, self.total_sum)
+        # Binary search for the first prefix sum >= target
+        idx = bisect_left(self.prefix_sums, target)
+        return idx`,
+            java: `class Solution {
+    private int[] prefixSums;
+    private int totalSum;
+    private Random rand;
+
+    public Solution(int[] w) {
+        prefixSums = new int[w.length];
+        int currentSum = 0;
+        for (int i = 0; i < w.length; i++) {
+            currentSum += w[i];
+            prefixSums[i] = currentSum;
+        }
+        totalSum = currentSum;
+        rand = new Random();
+    }
+    
+    public int pickIndex() {
+        int target = rand.nextInt(totalSum) + 1;
+        int left = 0, right = prefixSums.length - 1;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (prefixSums[mid] < target) left = mid + 1;
+            else right = mid;
+        }
+        return left;
+    }
+}`,
+            cpp: `class Solution {
+    vector<int> prefixSums;
+    int totalSum;
+public:
+    Solution(vector<int>& w) {
+        int currentSum = 0;
+        for (int weight : w) {
+            currentSum += weight;
+            prefixSums.push_back(currentSum);
+        }
+        totalSum = currentSum;
+    }
+    
+    int pickIndex() {
+        int target = (rand() % totalSum) + 1;
+        return lower_bound(prefixSums.begin(), prefixSums.end(), target) - prefixSums.begin();
+    }
+};`,
+            c: `typedef struct {
+    int* prefixSums;
+    int size;
+    int totalSum;
+} Solution;
+
+Solution* solutionCreate(int* w, int wSize) {
+    Solution* obj = malloc(sizeof(Solution));
+    obj->prefixSums = malloc(wSize * sizeof(int));
+    obj->size = wSize;
+    int currentSum = 0;
+    for (int i = 0; i < wSize; i++) {
+        currentSum += w[i];
+        obj->prefixSums[i] = currentSum;
+    }
+    obj->totalSum = currentSum;
+    return obj;
+}
+
+int solutionPickIndex(Solution* obj) {
+    int target = (rand() % obj->totalSum) + 1;
+    int l = 0, r = obj->size - 1;
+    while (l < r) {
+        int m = l + (r - l) / 2;
+        if (obj->prefixSums[m] < target) l = m + 1;
+        else r = m;
+    }
+    return l;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

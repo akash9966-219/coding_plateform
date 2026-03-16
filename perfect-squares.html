@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>279. Perfect Squares</h1>
+        
+        <div class="desc">
+            Given an integer <code>n</code>, return the least number of perfect square numbers that sum to <code>n</code>.
+        </div>
+
+        <div class="section-header">Examples:</div>
+        <div class="example-box">
+            <b>Input:</b> n = 12<br>
+            <b>Output:</b> 3 (4 + 4 + 4)
+        </div>
+        <div class="example-box">
+            <b>Input:</b> n = 13<br>
+            <b>Output:</b> 2 (4 + 9)
+        </div>
+
+        <div class="section-header">DP Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Initialize:</b> <code>dp</code> array of size n+1 with infinity.<br>
+            2. <b>Outer Loop:</b> i from 1 to n.<br>
+            3. <b>Inner Loop:</b> j starts from 1 until j*j &le; i.<br>
+            4. <b>Update:</b> <code>dp[i] = min(dp[i], dp[i - j*j] + 1)</code>.
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(n * &radic;n)</li>
+            <li>Space: O(n)</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public int numSquares(int n) {\n        int[] dp = new int[n + 1];\n        Arrays.fill(dp, Integer.MAX_VALUE);\n        dp[0] = 0;\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j * j <= i; j++) {\n                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);\n            }\n        }\n        return dp[n];\n    }\n}`,
+            python: `class Solution:\n    def numSquares(self, n: int) -> int:\n        dp = [float('inf')] * (n + 1)\n        dp[0] = 0\n        \n        for i in range(1, n + 1):\n            j = 1\n            while j * j <= i:\n                dp[i] = min(dp[i], dp[i - j*j] + 1)\n                j += 1\n        return dp[n]`,
+            cpp: `class Solution {\npublic:\n    int numSquares(int n) {\n        vector<int> dp(n + 1, INT_MAX);\n        dp[0] = 0;\n\n        for (int i = 1; i <= n; i++) {\n            for (int j = 1; j * j <= i; j++) {\n                dp[i] = min(dp[i], dp[i - j * j] + 1);\n            }\n        }\n        return dp[n];\n    }\n};`,
+            c: `int numSquares(int n) {\n    int* dp = (int*)malloc((n + 1) * sizeof(int));\n    dp[0] = 0;\n\n    for (int i = 1; i <= n; i++) {\n        dp[i] = i; // Max possible value (all 1s)\n        for (int j = 1; j * j <= i; j++) {\n            int temp = dp[i - j * j] + 1;\n            if (temp < dp[i]) dp[i] = temp;\n        }\n    }\n    int res = dp[n];\n    free(dp);\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

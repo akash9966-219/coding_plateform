@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: var(--primary); font-size: 0.8rem; font-weight: 700; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+        <h1>896. Monotonic Array</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            An array is <b>monotonic</b> if it is either monotone increasing or monotone decreasing.
+            <br><br>
+            - <code>nums</code> is monotone increasing if for all <code>i <= j</code>, <code>nums[i] <= nums[j]</code>.<br>
+            - <code>nums</code> is monotone decreasing if for all <code>i <= j</code>, <code>nums[i] >= nums[j]</code>.
+            <br><br>
+            Return <code>true</code> if the given array is monotonic, or <code>false</code> otherwise.
+        </p>
+
+        <div class="section-header">Example 1</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            nums = [1, 2, 2, 3]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            true
+        </div>
+
+        <div class="section-header">Example 2</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            nums = [1, 3, 2]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            false
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def isMonotonic(self, nums: List[int]) -> bool:\n        increasing = decreasing = True\n\n        for i in range(len(nums) - 1):\n            if nums[i] > nums[i+1]:\n                increasing = False\n            if nums[i] < nums[i+1]:\n                decreasing = False\n        \n        return increasing or decreasing`,
+            java: `class Solution {\n    public boolean isMonotonic(int[] nums) {\n        boolean increasing = true;\n        boolean decreasing = true;\n\n        for (int i = 0; i < nums.length - 1; i++) {\n            if (nums[i] > nums[i+1]) increasing = false;\n            if (nums[i] < nums[i+1]) decreasing = false;\n        }\n\n        return increasing || decreasing;\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    bool isMonotonic(vector<int>& nums) {\n        bool increasing = true, decreasing = true;\n        for (int i = 0; i < nums.size() - 1; i++) {\n            if (nums[i] > nums[i+1]) increasing = false;\n            if (nums[i] < nums[i+1]) decreasing = false;\n        }\n        return increasing || decreasing;\n    }\n};`,
+            c: `bool isMonotonic(int* nums, int numsSize){\n    bool increasing = true, decreasing = true;\n    for (int i = 0; i < numsSize - 1; i++) {\n        if (nums[i] > nums[i+1]) increasing = false;\n        if (nums[i] < nums[i+1]) decreasing = false;\n    }\n    return increasing || decreasing;\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

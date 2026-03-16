@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>435. Non-overlapping Intervals</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Given an array of intervals <code>intervals</code> where <code>intervals[i] = [starti, endi]</code>, return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.
+        </div>
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Input</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>[[1,2],[2,3],[3,4],[1,3]]</td><td>1</td></tr>
+                <tr><td>[[1,2],[1,2],[1,2]]</td><td>2</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">Greedy Logic:</div>
+        <div class="logic-visual">
+            1. Sort intervals by <b>END TIME</b>.<br>
+            2. Keep the interval that finishes earliest.<br>
+            3. If next_interval.start < current_end:<br>
+            &nbsp;&nbsp;&nbsp;Overlap detected! Increment removal count.<br>
+            4. Else:<br>
+            &nbsp;&nbsp;&nbsp;Update current_end = next_interval.end.
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2; margin-bottom: 30px;">
+            <li>Time: O(N log N) - Sorting takes precedence.</li>
+            <li>Space: O(log N) or O(1) - Sorting space complexity.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `public int eraseOverlapIntervals(int[][] intervals) {\n    if (intervals.length == 0) return 0;\n    Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n    int count = 0;\n    int end = intervals[0][1];\n    for (int i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < end) {\n            count++;\n        } else {\n            end = intervals[i][1];\n        }\n    }\n    return count;\n}`,
+            python: `def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n    if not intervals: return 0\n    intervals.sort(key=lambda x: x[1])\n    count = 0\n    end = intervals[0][1]\n    for i in range(1, len(intervals)):\n        if intervals[i][0] < end:\n            count += 1\n        else:\n            end = intervals[i][1]\n    return count`,
+            cpp: `int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n    if (intervals.empty()) return 0;\n    sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) {\n        return a[1] < b[1];\n    });\n    int count = 0;\n    int end = intervals[0][1];\n    for (int i = 1; i < intervals.size(); i++) {\n        if (intervals[i][0] < end) count++;\n        else end = intervals[i][1];\n    }\n    return count;\n}`,
+            c: `int cmp(const void* a, const void* b) {\n    return (*(int**)a)[1] - (*(int**)b)[1];\n}\nint eraseOverlapIntervals(int** intervals, int intervalsSize, int* intervalsColSize){\n    if (intervalsSize == 0) return 0;\n    qsort(intervals, intervalsSize, sizeof(int*), cmp);\n    int count = 0;\n    int end = intervals[0][1];\n    for (int i = 1; i < intervalsSize; i++) {\n        if (intervals[i][0] < end) count++;\n        else end = intervals[i][1];\n    }\n    return count;\n}`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

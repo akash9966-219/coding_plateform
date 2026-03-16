@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>43. Multiply Strings</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given two non-negative integers <code>num1</code> and <code>num2</code> represented as strings, return the product of <code>num1</code> and <code>num2</code>, also represented as a string.
+            <br><br>
+            <b>Note:</b> You must not use any built-in BigInteger library or convert the inputs to integer directly.
+        </p>
+
+        <div class="section-header">Valid Test Cases</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            num1 = "123", num2 = "456"<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            "56088"
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def multiply(self, num1: str, num2: str) -> str:\n        if num1 == "0" or num2 == "0": return "0"\n        \n        res = [0] * (len(num1) + len(num2))\n        for i in range(len(num1)-1, -1, -1):\n            for j in range(len(num2)-1, -1, -1):\n                mul = int(num1[i]) * int(num2[j])\n                p1, p2 = i + j, i + j + 1\n                total = mul + res[p2]\n                \n                res[p2] = total % 10\n                res[p1] += total // 10\n                \n        ans = "".join(map(str, res))\n        return ans.lstrip("0") or "0"`,
+            java: `class Solution {\n    public String multiply(String num1, String num2) {\n        int m = num1.length(), n = num2.length();\n        int[] pos = new int[m + n];\n        \n        for(int i = m - 1; i >= 0; i--) {\n            for(int j = n - 1; j >= 0; j--) {\n                int mul = (num1.charAt(i) - '0') * (num2.charAt(j) - '0');\n                int p1 = i + j, p2 = i + j + 1;\n                int sum = mul + pos[p2];\n\n                pos[p2] = sum % 10;\n                pos[p1] += sum / 10;\n            }\n        }\n        \n        StringBuilder sb = new StringBuilder();\n        for(int p : pos) if(!(sb.length() == 0 && p == 0)) sb.append(p);\n        return sb.length() == 0 ? "0" : sb.toString();\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    string multiply(string num1, string num2) {\n        if (num1 == "0" || num2 == "0") return "0";\n        int m = num1.size(), n = num2.size();\n        vector<int> res(m + n, 0);\n        \n        for (int i = m - 1; i >= 0; i--) {\n            for (int j = n - 1; j >= 0; j--) {\n                int mul = (num1[i] - '0') * (num2[j] - '0');\n                int sum = mul + res[i + j + 1];\n                res[i + j + 1] = sum % 10;\n                res[i + j] += sum / 10;\n            }\n        }\n        \n        string s = "";\n        for (int i : res) if (!(s.empty() && i == 0)) s += to_string(i);\n        return s;\n    }\n};`,
+            c: `char * multiply(char * num1, char * num2){\n    if (strcmp(num1, "0") == 0 || strcmp(num2, "0") == 0) return "0";\n    int l1 = strlen(num1), l2 = strlen(num2);\n    int* res = (int*)calloc(l1 + l2, sizeof(int));\n    \n    for (int i = l1 - 1; i >= 0; i--) {\n        for (int j = l2 - 1; j >= 0; j--) {\n            int mul = (num1[i] - '0') * (num2[j] - '0');\n            int sum = mul + res[i + j + 1];\n            res[i + j + 1] = sum % 10;\n            res[i + j] += sum / 10;\n        }\n    }\n    \n    char* s = (char*)malloc((l1 + l2 + 1) * sizeof(char));\n    int k = 0, i = 0;\n    while (i < l1 + l2 && res[i] == 0) i++;\n    while (i < l1 + l2) s[k++] = res[i++] + '0';\n    s[k] = '\\0';\n    free(res);\n    return s;\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

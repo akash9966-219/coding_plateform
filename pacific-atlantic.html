@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>417. Pacific Atlantic Water Flow</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            There is an <code>m x n</code> rectangular island that borders both the <b>Pacific Ocean</b> and <b>Atlantic Ocean</b>. 
+            The Pacific Ocean touches the island's left and top edges, and the Atlantic Ocean touches the island's right and bottom edges.
+            <br><br>Return a 2D list of grid coordinates where rain water can flow to <b>both</b> the Pacific and Atlantic oceans.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            heights = [[1,2,2,3,5],[3,2,3,4,4],[2,4,5,3,1],[6,7,1,4,5],[5,1,1,2,4]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [[0,4],[1,3],[1,4],[2,2],[3,0],[3,1],[4,0]]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
+        rows, cols = len(heights), len(heights[0])
+        pac, atl = set(), set()
+
+        def dfs(r, c, visit, prevHeight):
+            if ((r, c) in visit or r < 0 or c < 0 or 
+                r == rows or c == cols or heights[r][c] < prevHeight):
+                return
+            visit.add((r, c))
+            dfs(r + 1, c, visit, heights[r][c])
+            dfs(r - 1, c, visit, heights[r][c])
+            dfs(r, c + 1, visit, heights[r][c])
+            dfs(r, c - 1, visit, heights[r][c])
+
+        for c in range(cols):
+            dfs(0, c, pac, heights[0][c])
+            dfs(rows - 1, c, atl, heights[rows - 1][c])
+
+        for r in range(rows):
+            dfs(r, 0, pac, heights[r][0])
+            dfs(r, cols - 1, atl, heights[r][cols - 1])
+
+        res = []
+        for r in range(rows):
+            for c in range(cols):
+                if (r, c) in pac and (r, c) in atl:
+                    res.append([r, c])
+        return res`,
+            java: `class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        int m = heights.length, n = heights[0].length;
+        boolean[][] pac = new boolean[m][n];
+        boolean[][] atl = new boolean[m][n];
+        
+        for (int i = 0; i < m; i++) {
+            dfs(heights, i, 0, pac, heights[i][0]);
+            dfs(heights, i, n - 1, atl, heights[i][n - 1]);
+        }
+        for (int j = 0; j < n; j++) {
+            dfs(heights, 0, j, pac, heights[0][j]);
+            dfs(heights, m - 1, j, atl, heights[m - 1][j]);
+        }
+        
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (pac[i][j] && atl[i][j]) result.add(Arrays.asList(i, j));
+            }
+        }
+        return result;
+    }
+    
+    private void dfs(int[][] h, int r, int c, boolean[][] visit, int prev) {
+        if (r < 0 || c < 0 || r >= h.length || c >= h[0].length || visit[r][c] || h[r][c] < prev) return;
+        visit[r][c] = true;
+        dfs(h, r+1, c, visit, h[r][c]);
+        dfs(h, r-1, c, visit, h[r][c]);
+        dfs(h, r, c+1, visit, h[r][c]);
+        dfs(h, r, c-1, visit, h[r][c]);
+    }
+}`,
+            cpp: `class Solution {
+public:
+    void dfs(vector<vector<int>>& h, int r, int c, vector<vector<bool>>& visit, int prev) {
+        if (r < 0 || c < 0 || r >= h.size() || c >= h[0].size() || visit[r][c] || h[r][c] < prev) return;
+        visit[r][c] = true;
+        dfs(h, r+1, c, visit, h[r][c]);
+        dfs(h, r-1, c, visit, h[r][c]);
+        dfs(h, r, c+1, visit, h[r][c]);
+        dfs(h, r, c-1, visit, h[r][c]);
+    }
+
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+        int m = heights.size(), n = heights[0].size();
+        vector<vector<bool>> pac(m, vector<bool>(n, false));
+        vector<vector<bool>> atl(m, vector<bool>(n, false));
+
+        for (int i = 0; i < m; i++) {
+            dfs(heights, i, 0, pac, heights[i][0]);
+            dfs(heights, i, n - 1, atl, heights[i][n - 1]);
+        }
+        for (int j = 0; j < n; j++) {
+            dfs(heights, 0, j, pac, heights[0][j]);
+            dfs(heights, m - 1, j, atl, heights[m - 1][j]);
+        }
+
+        vector<vector<int>> res;
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (pac[i][j] && atl[i][j]) res.push_back({i, j});
+        return res;
+    }
+};`,
+            c: `void dfs(int** h, int r, int c, int** visit, int prev, int m, int n) {
+    if (r < 0 || c < 0 || r >= m || c >= n || visit[r][c] || h[r][c] < prev) return;
+    visit[r][c] = 1;
+    dfs(h, r+1, c, visit, h[r][c], m, n);
+    dfs(h, r-1, c, visit, h[r][c], m, n);
+    dfs(h, r, c+1, visit, h[r][c], m, n);
+    dfs(h, r, c-1, visit, h[r][c], m, n);
+}
+
+int** pacificAtlantic(int** heights, int heightsSize, int* heightsColSize, int* returnSize, int** returnColumnSizes) {
+    int m = heightsSize, n = heightsColSize[0];
+    int** pac = (int**)malloc(m * sizeof(int*));
+    int** atl = (int**)malloc(m * sizeof(int*));
+    for (int i = 0; i < m; i++) {
+        pac[i] = (int*)calloc(n, sizeof(int));
+        atl[i] = (int*)calloc(n, sizeof(int));
+    }
+
+    for (int i = 0; i < m; i++) {
+        dfs(heights, i, 0, pac, heights[i][0], m, n);
+        dfs(heights, i, n-1, atl, heights[i][n-1], m, n);
+    }
+    for (int j = 0; j < n; j++) {
+        dfs(heights, 0, j, pac, heights[0][j], m, n);
+        dfs(heights, m-1, j, atl, heights[m-1][j], m, n);
+    }
+
+    int** res = (int**)malloc(m * n * sizeof(int*));
+    *returnColumnSizes = (int*)malloc(m * n * sizeof(int));
+    *returnSize = 0;
+
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (pac[i][j] && atl[i][j]) {
+                res[*returnSize] = (int*)malloc(2 * sizeof(int));
+                res[*returnSize][0] = i; res[*returnSize][1] = j;
+                (*returnColumnSizes)[*returnSize] = 2;
+                (*returnSize)++;
+            }
+        }
+    }
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

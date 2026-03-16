@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>19. Remove Nth Node From End</h1>
+        
+        <div class="desc">
+            Given the <code>head</code> of a linked list, remove the <b>n<sup>th</sup></b> node from the end of the list and return its head.
+        </div>
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+<b>Input:</b> head = [1,2,3,4,5], n = 2
+<br>
+<b>Output:</b> [1,2,3,5]
+        </div>
+
+        <div class="section-header">Follow Up:</div>
+        <div class="desc" style="font-size: 0.85rem; color: var(--text-dim);">
+            Could you do this in <b>one pass</b>?
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>The number of nodes in the list is <code>sz</code>.</li>
+            <li>1 <= sz <= 30</li>
+            <li>1 <= n <= sz</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        ListNode dummy = new ListNode(0);\n        dummy.next = head;\n        ListNode fast = dummy;\n        ListNode slow = dummy;\n\n        // Move fast forward n+1 steps so there's a gap of n nodes\n        for (int i = 1; i <= n + 1; i++) {\n            fast = fast.next;\n        }\n\n        // Move both until fast reaches the end\n        while (fast != null) {\n            fast = fast.next;\n            slow = slow.next;\n        }\n\n        // Skip the nth node from end\n        slow.next = slow.next.next;\n        return dummy.next;\n    }\n}`,
+            python: `class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        dummy = ListNode(0, head)\n        fast = slow = dummy\n        \n        # Create n steps gap\n        for _ in range(n):\n            fast = fast.next\n            \n        # Move both until fast reaches last node\n        while fast.next:\n            fast = fast.next\n            slow = slow.next\n            \n        # Delete node\n        slow.next = slow.next.next\n        return dummy.next`,
+            cpp: `class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        ListNode* dummy = new ListNode(0);\n        dummy->next = head;\n        ListNode* fast = dummy;\n        ListNode* slow = dummy;\n        \n        for (int i = 0; i < n; i++) fast = fast->next;\n        \n        while (fast->next) {\n            fast = fast->next;\n            slow = slow->next;\n        }\n        \n        ListNode* toDelete = slow->next;\n        slow->next = slow->next->next;\n        delete toDelete;\n        \n        return dummy->next;\n    }\n};`,
+            c: `struct ListNode* removeNthFromEnd(struct ListNode* head, int n) {\n    struct ListNode* dummy = (struct ListNode*)malloc(sizeof(struct ListNode));\n    dummy->val = 0;\n    dummy->next = head;\n    struct ListNode* fast = dummy;\n    struct ListNode* slow = dummy;\n    \n    for (int i = 0; i < n; i++) fast = fast->next;\n    \n    while (fast->next != NULL) {\n        fast = fast->next;\n        slow = slow->next;\n    }\n    \n    struct ListNode* temp = slow->next;\n    slow->next = slow->next->next;\n    free(temp);\n    \n    return dummy->next;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

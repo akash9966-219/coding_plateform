@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1041. Robot Bounded In Circle</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            On an infinite plane, a robot initially stands at <code>(0, 0)</code> and faces north. The robot can receive one of three instructions:
+            <ul style="margin-left: 20px; color: #ccc; margin-top: 10px;">
+                <li><code>"G"</code>: go straight 1 unit.</li>
+                <li><code>"L"</code>: turn 90 degrees to the left.</li>
+                <li><code>"R"</code>: turn 90 degrees to the right.</li>
+            </ul>
+            <br>The robot performs the <code>instructions</code> given in order, and repeats them forever. Return <code>true</code> if and only if there exists a circle in the plane such that the robot never leaves the circle.
+        </p>
+
+        <div class="section-header">Winning Conditions</div>
+        <p style="color: var(--text-dim); font-size: 0.9rem;">
+            After 1 cycle, the robot is bounded if:<br>
+            1. It returns to <b>(0, 0)</b> OR<br>
+            2. It is <b>not facing North</b>.
+        </p>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def isRobotBounded(self, instructions: str) -> bool:\n        # North, East, South, West\n        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n        x = y = 0\n        idx = 0 # Starts facing North\n        \n        for i in instructions:\n            if i == "L":\n                idx = (idx + 3) % 4\n            elif i == "R":\n                idx = (idx + 1) % 4\n            else:\n                x += directions[idx][0]\n                y += directions[idx][1]\n                \n        # Bounded if back at origin OR not facing North\n        return (x == 0 and y == 0) or idx != 0`,
+            java: `class Solution {\n    public boolean isRobotBounded(String instructions) {\n        int x = 0, y = 0, i = 0;\n        int[][] d = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};\n        for (int j = 0; j < instructions.length(); ++j) {\n            if (instructions.charAt(j) == 'R')\n                i = (i + 1) % 4;\n            else if (instructions.charAt(j) == 'L')\n                i = (i + 3) % 4;\n            else {\n                x += d[i][0];\n                y += d[i][1];\n            }\n        }\n        return x == 0 && y == 0 || i > 0;\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    bool isRobotBounded(string instructions) {\n        int x = 0, y = 0, i = 0;\n        vector<vector<int>> d = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};\n        for (char & ins : instructions) {\n            if (ins == 'R') i = (i + 1) % 4;\n            else if (ins == 'L') i = (i + 3) % 4;\n            else {\n                x += d[i][0]; y += d[i][1];\n            }\n        }\n        return (x == 0 && y == 0) || (i > 0);\n    }\n};`,
+            c: `bool isRobotBounded(char * instructions){\n    int x = 0, y = 0, i = 0;\n    int dx[] = {0, 1, 0, -1};\n    int dy[] = {1, 0, -1, 0};\n    for (int j = 0; instructions[j] != '\\0'; j++) {\n        if (instructions[j] == 'R') i = (i + 1) % 4;\n        else if (instructions[j] == 'L') i = (i + 3) % 4;\n        else {\n            x += dx[i]; y += dy[i];\n        }\n    }\n    return (x == 0 && y == 0) || (i > 0);\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>
