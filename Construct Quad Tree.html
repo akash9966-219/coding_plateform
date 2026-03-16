@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* Large visible images as requested */
+        .visual-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>427. Construct Quad Tree</h1>
+        
+        <div class="desc">
+            Construct a Quad-Tree from an <code>n x n</code> matrix <code>grid</code> of 0's and 1's.
+        </div>
+
+        <div class="section-header">1. Recursive Grid Division:</div>
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2020/02/11/new_top.png" alt="Recursive Quad-Tree splitting logic" style="width: 500px;">
+            <p style="color: var(--text-dim); margin-top: 10px; font-size: 0.8rem;">Divide current grid into four sub-grids: TopLeft, TopRight, BottomLeft, BottomRight.</p>
+        </div>
+
+        <div class="section-header">2. Input Grid Example (2x2):</div>
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2020/02/11/grid1.png" alt="Example 2x2 grid" style="width: 250px;">
+        </div>
+
+        <div class="section-header">3. Generated Tree Structure:</div>
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2020/02/12/e1tree.png" alt="Serialized Quad-Tree Output" style="width: 500px;">
+        </div>
+
+        <div class="section-header">Serialization Details:</div>
+        <div class="desc" style="font-size: 0.85rem; color: #ccc;">
+            The output format <code>[isLeaf, val]</code> represents nodes in level-order. 1 means True, 0 means False.
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li><code>n == grid.length == grid[i].length</code></li>
+            <li><code>n</code> is a power of 2: 2<sup>x</sup> where 0 ≤ x ≤ 6.</li>
+            <li>Grid contains only 0s and 1s.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public Node construct(int[][] grid) {\n        return build(grid, 0, 0, grid.length);\n    }\n\n    private Node build(int[][] grid, int r, int c, int n) {\n        if (isLeaf(grid, r, c, n)) {\n            return new Node(grid[r][c] == 1, true);\n        }\n\n        Node root = new Node(true, false);\n        int mid = n / 2;\n        root.topLeft = build(grid, r, c, mid);\n        root.topRight = build(grid, r, c + mid, mid);\n        root.bottomLeft = build(grid, r + mid, c, mid);\n        root.bottomRight = build(grid, r + mid, c + mid, mid);\n        return root;\n    }\n\n    private boolean isLeaf(int[][] grid, int r, int c, int n) {\n        int val = grid[r][c];\n        for (int i = r; i < r + n; i++) {\n            for (int j = c; j < c + n; j++) {\n                if (grid[i][j] != val) return false;\n            }\n        }\n        return true;\n    }\n}`,
+            python: `class Solution:\n    def construct(self, grid: List[List[int]]) -> 'Node':\n        def build(r, c, n):\n            val = grid[r][c]\n            all_same = True\n            for i in range(r, r + n):\n                for j in range(c, c + n):\n                    if grid[i][j] != val:\n                        all_same = False\n                        break\n                if not all_same: break\n            \n            if all_same:\n                return Node(val == 1, True)\n            \n            mid = n // 2\n            return Node(True, False, \n                build(r, c, mid),\n                build(r, c + mid, mid),\n                build(r + mid, c, mid),\n                build(r + mid, c + mid, mid))\n        \n        return build(0, 0, len(grid))`,
+            cpp: `class Solution {\npublic:\n    Node* construct(vector<vector<int>>& grid) {\n        return build(grid, 0, 0, grid.size());\n    }\n\n    Node* build(vector<vector<int>>& grid, int r, int c, int n) {\n        if (isAllSame(grid, r, c, n)) {\n            return new Node(grid[r][c] == 1, true);\n        }\n        int mid = n / 2;\n        Node* res = new Node(true, false);\n        res->topLeft = build(grid, r, c, mid);\n        res->topRight = build(grid, r, c + mid, mid);\n        res->bottomLeft = build(grid, r + mid, c, mid);\n        res->bottomRight = build(grid, r + mid, c + mid, mid);\n        return res;\n    }\n\n    bool isAllSame(vector<vector<int>>& grid, int r, int c, int n) {\n        for (int i = r; i < r + n; i++)\n            for (int j = c; j < c + n; j++)\n                if (grid[i][j] != grid[r][c]) return false;\n        return true;\n    }\n};`,
+            c: `struct Node* build(int** grid, int r, int c, int n) {\n    int val = grid[r][c];\n    bool leaf = true;\n    for(int i = r; i < r + n; i++) {\n        for(int j = c; j < c + n; j++) {\n            if(grid[i][j] != val) { leaf = false; break; }\n        }\n        if(!leaf) break;\n    }\n\n    struct Node* node = (struct Node*)malloc(sizeof(struct Node));\n    if(leaf) {\n        node->isLeaf = true; node->val = (val == 1);\n        node->topLeft = node->topRight = node->bottomLeft = node->bottomRight = NULL;\n    } else {\n        node->isLeaf = false; node->val = true;\n        int m = n / 2;\n        node->topLeft = build(grid, r, c, m);\n        node->topRight = build(grid, r, c + m, m);\n        node->bottomLeft = build(grid, r + m, c, m);\n        node->bottomRight = build(grid, r + m, c + m, m);\n    }\n    return node;\n}\n\nstruct Node* construct(int** grid, int gridSize, int* gridColSize) {\n    return build(grid, 0, 0, gridSize);\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

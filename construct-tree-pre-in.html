@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .visual-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            filter: grayscale(1) brightness(0.9) contrast(1.1);
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>105. Tree from Pre/In</h1>
+        
+        <div class="desc">
+            Construct a binary tree given its <code>preorder</code> and <code>inorder</code> traversals.
+        </div>
+
+        <div class="section-header">Example Reference:</div>
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2021/02/19/tree.jpg" alt="Tree Construction Example">
+        </div>
+
+        <div class="section-header">Recursive Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Root:</b> preorder[preIdx++]<br>
+            2. <b>Pivot:</b> Find Root in <code>inorder</code> map.<br>
+            3. <b>Build Left:</b> range [inStart, pivot - 1]<br>
+            4. <b>Build Right:</b> range [pivot + 1, inEnd]
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(n) - With Hash Map lookup.</li>
+            <li>Space: O(n) - For Hash Map and recursion.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    int preIdx = 0;\n    Map<Integer, Integer> inMap = new HashMap<>();\n\n    public TreeNode buildTree(int[] preorder, int[] inorder) {\n        for (int i = 0; i < inorder.length; i++) inMap.put(inorder[i], i);\n        return helper(preorder, 0, inorder.length - 1);\n    }\n\n    private TreeNode helper(int[] preorder, int left, int right) {\n        if (left > right) return null;\n\n        int rootVal = preorder[preIdx++];\n        TreeNode root = new TreeNode(rootVal);\n        int pivot = inMap.get(rootVal);\n\n        root.left = helper(preorder, left, pivot - 1);\n        root.right = helper(preorder, pivot + 1, right);\n        return root;\n    }\n}`,
+            python: `class Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        in_map = {val: i for i, val in enumerate(inorder)}\n        self.pre_idx = 0\n\n        def helper(left, right):\n            if left > right: return None\n\n            root_val = preorder[self.pre_idx]\n            self.pre_idx += 1\n            root = TreeNode(root_val)\n\n            pivot = in_map[root_val]\n            root.left = helper(left, pivot - 1)\n            root.right = helper(pivot + 1, right)\n            return root\n\n        return helper(0, len(inorder) - 1)`,
+            cpp: `class Solution {\n    int preIdx = 0;\n    unordered_map<int, int> inMap;\npublic:\n    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {\n        for (int i = 0; i < inorder.size(); i++) inMap[inorder[i]] = i;\n        return helper(preorder, 0, inorder.size() - 1);\n    }\n\n    TreeNode* helper(vector<int>& preorder, int left, int right) {\n        if (left > right) return nullptr;\n\n        int rootVal = preorder[preIdx++];\n        TreeNode* root = new TreeNode(rootVal);\n        int pivot = inMap[rootVal];\n\n        root->left = helper(preorder, left, pivot - 1);\n        root->right = helper(preorder, pivot + 1, right);\n        return root;\n    }\n};`,
+            c: `int preIdx;\n\nstruct TreeNode* helper(int* preorder, int left, int right, int* inorder, int inSize) {\n    if (left > right) return NULL;\n\n    int rootVal = preorder[preIdx++];\n    struct TreeNode* root = (struct TreeNode*)malloc(sizeof(struct TreeNode));\n    root->val = rootVal;\n\n    int pivot = 0;\n    for (int i = left; i <= right; i++) {\n        if (inorder[i] == rootVal) {\n            pivot = i;\n            break;\n        }\n    }\n\n    root->left = helper(preorder, left, pivot - 1, inorder, inSize);\n    root->right = helper(preorder, pivot + 1, right, inorder, inSize);\n    return root;\n}\n\nstruct TreeNode* buildTree(int* preorder, int preorderSize, int* inorder, int inorderSize) {\n    preIdx = 0;\n    return helper(preorder, 0, inorderSize - 1, inorder, inorderSize);\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

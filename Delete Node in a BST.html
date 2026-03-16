@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>450. Delete Node in a BST</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.6; color: #ddd;">
+            Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.
+        </div>
+        <div class="section-header">Sample Test Cases:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Input (root)</th><th>Key</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>[5,3,6,2,4,null,7]</td><td>3</td><td>[5,4,6,2,null,null,7]</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">Deletion Logic:</div>
+        <div class="logic-visual">
+            if key < root.val: root.left = delete(root.left, key)<br>
+            else if key > root.val: root.right = delete(root.right, key)<br>
+            else:<br>
+            &nbsp;&nbsp;if no children: return null<br>
+            &nbsp;&nbsp;if one child: return child<br>
+            &nbsp;&nbsp;if two children: <br>
+            &nbsp;&nbsp;&nbsp;&nbsp;1. find min in right subtree<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;2. root.val = min.val<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;3. delete(root.right, min.val)
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(h) - Where h is height of tree.</li>
+            <li>Space: O(h) - Recursive stack space.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `public TreeNode deleteNode(TreeNode root, int key) {\n    if (root == null) return null;\n    if (key < root.val) root.left = deleteNode(root.left, key);\n    else if (key > root.val) root.right = deleteNode(root.right, key);\n    else {\n        if (root.left == null) return root.right;\n        if (root.right == null) return root.left;\n        TreeNode minNode = findMin(root.right);\n        root.val = minNode.val;\n        root.right = deleteNode(root.right, root.val);\n    }\n    return root;\n}\nprivate TreeNode findMin(TreeNode node) {\n    while (node.left != null) node = node.left;\n    return node;\n}`,
+            python: `def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:\n    if not root: return None\n    if key < root.val: root.left = self.deleteNode(root.left, key)\n    elif key > root.val: root.right = self.deleteNode(root.right, key)\n    else:\n        if not root.left: return root.right\n        if not root.right: return root.left\n        temp = root.right\n        while temp.left: temp = temp.left\n        root.val = temp.val\n        root.right = self.deleteNode(root.right, root.val)\n    return root`,
+            cpp: `TreeNode* deleteNode(TreeNode* root, int key) {\n    if (!root) return nullptr;\n    if (key < root->val) root->left = deleteNode(root->left, key);\n    else if (key > root->val) root->right = deleteNode(root->right, key);\n    else {\n        if (!root->left) return root->right;\n        if (!root->right) return root->left;\n        TreeNode* minNode = root->right;\n        while (minNode->left) minNode = minNode->left;\n        root->val = minNode->val;\n        root->right = deleteNode(root->right, root->val);\n    }\n    return root;\n}`,
+            c: `struct TreeNode* deleteNode(struct TreeNode* root, int key) {\n    if (!root) return NULL;\n    if (key < root->val) root->left = deleteNode(root->left, key);\n    else if (key > root->val) root->right = deleteNode(root->right, key);\n    else {\n        if (!root->left) { struct TreeNode* temp = root->right; free(root); return temp; }\n        if (!root->right) { struct TreeNode* temp = root->left; free(root); return temp; }\n        struct TreeNode* temp = root->right;\n        while (temp->left) temp = temp->left;\n        root->val = temp->val;\n        root->right = deleteNode(root->right, temp->val);\n    }\n    return root;\n}`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { const lang = document.getElementById('lang-select').value; document.getElementById('code-display').value = codeRepo[lang]; }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

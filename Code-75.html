@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Study Plan | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+            --easy: #00ff9d;
+            --medium: #ffb800;
+            --hard: #ff3e3e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            letter-spacing: -2px;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .category-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            background: rgba(0, 255, 157, 0.02);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #fff;
+            padding-right: 40px;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .diff-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .diff-tag.easy { color: var(--easy); border: 1px solid var(--easy); }
+        .diff-tag.medium { color: var(--medium); border: 1px solid var(--medium); }
+        .diff-tag.hard { color: var(--hard); border: 1px solid var(--hard); }
+
+        .btn-view {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .card:hover .btn-view {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="topics.html" class="back-btn">← Back to List</a>
+
+        <h1>Code-75</h1>
+        <p style="color: var(--text-dim);">The Essential LeetCode Study Plan</p>
+    </header>
+
+    <div class="container" id="dashboard"></div>
+
+    <script>
+        const studyPlan = [
+            {
+                category: "Array / String",
+                problems: [
+                    { name: "Merge Strings Alternately", diff: "easy" },
+                    { name: "Greatest Common Divisor of Strings", diff: "easy" },
+                    { name: "Kids With the Greatest Number of Candies", diff: "easy" },
+                    { name: "Can Place Flowers", diff: "easy" },
+                    { name: "Reverse Vowels of a String", diff: "easy" },
+                    { name: "Reverse Words in a String1", diff: "medium" },
+                    { name: "Product of Array Except Self1", diff: "medium" },
+                    { name: "Increasing Triplet Subsequence", diff: "medium" },
+                    { name: "String Compression", diff: "medium" }
+                ]
+            },
+            {
+                category: "Two Pointers",
+                problems: [
+                    { name: "Move Zeroes1", diff: "easy" },
+                    { name: "Is Subsequence1", diff: "easy" },
+                    { name: "Container With Most Water1", diff: "medium" },
+                    { name: "Max Number of K-Sum Pairs", diff: "medium" }
+                ]
+            },
+            {
+                category: "Sliding Window",
+                problems: [
+                    { name: "Maximum Average Subarray I", diff: "easy" },
+                    { name: "Maximum Number of Vowels in a Substring", diff: "medium" },
+                    { name: "Max Consecutive Ones III", diff: "medium" },
+                    { name: "Longest Subarray of 1's After Deleting One", diff: "medium" }
+                ]
+            },
+            {
+                category: "Prefix Sum",
+                problems: [
+                    { name: "Find the Highest Altitude", diff: "easy" },
+                    { name: "Find Pivot Index", diff: "easy" }
+                ]
+            },
+            {
+                category: "Hash Map / Set",
+                problems: [
+                    { name: "Find the Difference of Two Arrays", diff: "easy" },
+                    { name: "Unique Number of Occurrences", diff: "easy" },
+                    { name: "Determine if Two Strings Are Close", diff: "medium" },
+                    { name: "Equal Row and Column Pairs", diff: "medium" }
+                ]
+            },
+            {
+                category: "Stack",
+                problems: [
+                    { name: "Removing Stars From a String", diff: "medium" },
+                    { name: "Asteroid Collision", diff: "medium" },
+                    { name: "Decode String", diff: "medium" }
+                ]
+            },
+            {
+                category: "Queue",
+                problems: [
+                    { name: "Number of Recent Calls", diff: "easy" },
+                    { name: "Dota2 Senate", diff: "medium" }
+                ]
+            },
+            {
+                category: "Linked List",
+                problems: [
+                    { name: "Delete the Middle Node of a Linked List", diff: "medium" },
+                    { name: "Odd Even Linked List", diff: "medium" },
+                    { name: "Reverse Linked List", diff: "easy" },
+                    { name: "Maximum Twin Sum of a Linked List", diff: "medium" }
+                ]
+            },
+            {
+                category: "Binary Tree - DFS",
+                problems: [
+                    { name: "Maximum Depth of Binary Tree1", diff: "easy" },
+                    { name: "Leaf-Similar Trees", diff: "easy" },
+                    { name: "Count Good Nodes in Binary Tree", diff: "medium" },
+                    { name: "Path Sum III", diff: "medium" },
+                    { name: "Longest ZigZag Path in a Binary Tree", diff: "medium" },
+                    { name: "Lowest Common Ancestor", diff: "medium" }
+                ]
+            },
+            {
+                category: "Binary Tree - BFS",
+                problems: [
+                    { name: "Binary Tree Right Side View1", diff: "medium" },
+                    { name: "Maximum Level Sum of a Binary Tree", diff: "medium" }
+                ]
+            },
+            {
+                category: "Binary Search Tree",
+                problems: [
+                    { name: "Search in a Binary Search Tree", diff: "easy" },
+                    { name: "Delete Node in a BST", diff: "medium" }
+                ]
+            },
+            {
+                category: "Graphs - DFS",
+                problems: [
+                    { name: "Keys and Rooms", diff: "medium" },
+                    { name: "Number of Provinces", diff: "medium" },
+                    { name: "Reorder Routes to Lead to Zero", diff: "medium" },
+                    { name: "Evaluate Division1", diff: "medium" }
+                ]
+            },
+            {
+                category: "Graphs - BFS",
+                problems: [
+                    { name: "Nearest Exit from Entrance in Maze", diff: "medium" },
+                    { name: "Rotting Oranges", diff: "medium" }
+                ]
+            },
+            {
+                category: "Heap / Priority Queue",
+                problems: [
+                    { name: "Kth Largest Element in an Array1", diff: "medium" },
+                    { name: "Smallest Number in Infinite Set", diff: "medium" },
+                    { name: "Maximum Subsequence Score", diff: "medium" },
+                    { name: "Total Cost to Hire K Workers", diff: "medium" }
+                ]
+            },
+            {
+                category: "Binary Search",
+                problems: [
+                    { name: "Guess Number Higher or Lower", diff: "easy" },
+                    { name: "Successful Pairs of Spells and Potions", diff: "medium" },
+                    { name: "Find Peak Element1", diff: "medium" },
+                    { name: "Koko Eating Bananas", diff: "medium" }
+                ]
+            },
+            {
+                category: "Backtracking",
+                problems: [
+                    { name: "Letter Combinations of a Phone Number1", diff: "medium" },
+                    { name: "Combination Sum III", diff: "medium" }
+                ]
+            },
+            {
+                category: "DP - 1D",
+                problems: [
+                    { name: "N-th Tribonacci Number", diff: "easy" },
+                    { name: "Min Cost Climbing Stairs", diff: "easy" },
+                    { name: "House Robber1", diff: "medium" },
+                    { name: "Domino and Tromino Tiling", diff: "medium" }
+                ]
+            },
+            {
+                category: "DP - Multidimensional",
+                problems: [
+                    { name: "Unique Paths", diff: "medium" },
+                    { name: "Longest Common Subsequence", diff: "medium" },
+                    { name: "best time", diff: "medium" },
+                    { name: "Edit Distance1", diff: "medium" }
+                ]
+            },
+            {
+                category: "Bit Manipulation",
+                problems: [
+                    { name: "Counting Bits", diff: "easy" },
+                    { name: "Single Number1", diff: "easy" },
+                    { name: "Minimum Flips to Make a OR b Equal to c", diff: "medium" }
+                ]
+            },
+            {
+                category: "Trie",
+                problems: [
+                    { name: "Implement Trie (Prefix Tree)1", diff: "medium" },
+                    { name: "Search Suggestions System", diff: "medium" }
+                ]
+            },
+            {
+                category: "Intervals",
+                problems: [
+                    { name: "Non-overlapping Intervals", diff: "medium" },
+                    { name: "Min Number of Arrows to Burst Balloons", diff: "medium" }
+                ]
+            },
+            {
+                category: "Monotonic Stack",
+                problems: [
+                    { name: "Daily Temperatures", diff: "medium" },
+                    { name: "Online Stock Span", diff: "medium" }
+                ]
+            }
+        ];
+
+        const container = document.getElementById('dashboard');
+
+        studyPlan.forEach(section => {
+            const sectionEl = document.createElement('div');
+            sectionEl.className = 'category-section';
+            
+            sectionEl.innerHTML = `
+                <h2 class="category-title">${section.category}</h2>
+                <div class="grid">
+                    ${section.problems.map(prob => `
+                        <a href="${prob.name}.html" class="card">
+                            <h3>${prob.name}</h3>
+                            <div class="card-meta">
+                                <span class="diff-tag ${prob.diff}">${prob.diff}</span>
+                                <span class="btn-view">VIEW SOLUTION ></span>
+                            </div>
+                        </a>
+                    `).join('')}
+                </div>
+            `;
+            container.appendChild(sectionEl);
+        });
+    </script>
+</body>
+</html>

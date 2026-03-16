@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4d4d; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4d4d; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 77, 77, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .schema-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border); }
+        .schema-table th, .schema-table td { text-align: left; padding: 10px; border: 1px solid var(--border); }
+        .schema-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .note { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="sql-50.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>185. Department Top Three Salaries</h1>
+        
+        <div class="section-header">Problem Tables</div>
+        
+        <p style="font-size: 0.8rem; margin-bottom: 5px; color: var(--text-dim);">Employee table:</p>
+        <table class="schema-table">
+            <thead><tr><th>id</th><th>name</th><th>salary</th><th>departmentId</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>Joe</td><td>85000</td><td>1</td></tr>
+                <tr><td>2</td><td>Henry</td><td>80000</td><td>2</td></tr>
+                <tr><td>3</td><td>Sam</td><td>60000</td><td>2</td></tr>
+                <tr><td>4</td><td>Max</td><td>90000</td><td>1</td></tr>
+                <tr><td>5</td><td>Janet</td><td>69000</td><td>1</td></tr>
+                <tr><td>6</td><td>Randy</td><td>85000</td><td>1</td></tr>
+                <tr><td>7</td><td>Will</td><td>70000</td><td>1</td></tr>
+            </tbody>
+        </table>
+
+        <p style="font-size: 0.8rem; margin-bottom: 5px; color: var(--text-dim);">Department table:</p>
+        <table class="schema-table" style="width: auto;">
+            <thead><tr><th>id</th><th>name</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>IT</td></tr>
+                <tr><td>2</td><td>Sales</td></tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">Problem Statement</div>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            A <b>high earner</b> in a department is an employee who has a salary in the <b>top three unique</b> salaries for that department.
+            <br><br>
+            Write a solution to find the employees who are high earners in each of the departments.
+        </div>
+
+        <div class="section-header">Example 1 Explanation</div>
+        <div style="background: #111; padding: 15px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px;">
+            In the IT department (ID 1):<br>
+            - Rank 1: Max (90,000)<br>
+            - Rank 2: Joe & Randy (85,000) - Shared rank<br>
+            - Rank 3: Will (70,000)<br><br>
+            In the Sales department (ID 2):<br>
+            - Rank 1: Henry (80,000)<br>
+            - Rank 2: Sam (60,000)
+        </div>
+
+        <div class="section-header">Output:</div>
+        <table class="schema-table" style="width: auto;">
+            <thead><tr><th>Department</th><th>Employee</th><th>Salary</th></tr></thead>
+            <tbody>
+                <tr><td>IT</td><td>Max</td><td>90000</td></tr>
+                <tr><td>IT</td><td>Joe</td><td>85000</td></tr>
+                <tr><td>IT</td><td>Randy</td><td>85000</td></tr>
+                <tr><td>IT</td><td>Will</td><td>70000</td></tr>
+                <tr><td>Sales</td><td>Henry</td><td>80000</td></tr>
+                <tr><td>Sales</td><td>Sam</td><td>60000</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="mysql">MySQL</option>
+                <option value="pandas">Pandas</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.sql</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW SOLUTION' to run query..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            mysql: `/* SQL Query: Using DENSE_RANK to handle unique salary rankings */\nSELECT \n    Department, \n    Employee, \n    Salary\nFROM (\n    SELECT \n        d.name AS Department, \n        e.name AS Employee, \n        e.salary AS Salary,\n        DENSE_RANK() OVER (PARTITION BY d.name ORDER BY e.salary DESC) AS rnk\n    FROM Employee e\n    JOIN Department d ON e.departmentId = d.id\n) AS sub\nWHERE rnk <= 3;`,
+            pandas: `import pandas as pd\n\ndef top_three_salaries(employee: pd.DataFrame, department: pd.DataFrame) -> pd.DataFrame:\n    # 1. Merge tables to combine Dept name and Salary\n    df = employee.merge(department, left_on='departmentId', right_on='id', suffixes=('_emp', '_dept'))\n    \n    # 2. Use rank method='dense' to allow ties to count as one rank\n    df['rnk'] = df.groupby('name_dept')['salary'].rank(method='dense', ascending=False)\n    \n    # 3. Filter for top 3 and select columns\n    result = df[df['rnk'] <= 3][['name_dept', 'name_emp', 'salary']]\n    result.columns = ['Department', 'Employee', 'Salary']\n    \n    return result`
+        };
+
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = lang === 'mysql' ? 'solution.sql' : 'solution.py';
+        }
+
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

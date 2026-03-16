@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>39. Combination Sum</h1>
+        
+        <div class="desc">
+            Find all unique combinations in <code>candidates</code> where the chosen numbers sum up to <code>target</code>. Numbers can be reused.
+        </div>
+
+        <div class="section-header">Backtracking logic:</div>
+        <div class="visual-container">
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); text-align: left; font-size: 0.85rem; line-height: 1.6;">
+                For each candidate:<br>
+                1. <b>Pick:</b> target &larr; target - val, keep index<br>
+                2. <b>Skip:</b> target stays same, index &larr; index + 1<br>
+                <span style="color:var(--primary)">Base Case: target == 0</span>
+            </div>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(2<sup>target</sup>) - Worst case exponential.</li>
+            <li>Space: O(target/min_val) - Depth of recursion.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> res = new ArrayList<>();\n        backtrack(res, new ArrayList<>(), candidates, target, 0);\n        return res;\n    }\n\n    private void backtrack(List<List<Integer>> res, List<Integer> current, int[] candidates, int target, int start) {\n        if (target == 0) {\n            res.add(new ArrayList<>(current));\n            return;\n        }\n        if (target < 0) return;\n\n        for (int i = start; i < candidates.length; i++) {\n            current.add(candidates[i]);\n            backtrack(res, current, candidates, target - candidates[i], i);\n            current.remove(current.size() - 1);\n        }\n    }\n}`,
+            python: `class Solution:\n    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:\n        res = []\n        def backtrack(i, cur, total):\n            if total == target:\n                res.append(cur.copy())\n                return\n            if i >= len(candidates) or total > target:\n                return\n            \n            # Choice 1: Include candidates[i]\n            cur.append(candidates[i])\n            backtrack(i, cur, total + candidates[i])\n            \n            # Choice 2: Skip candidates[i]\n            cur.pop()\n            backtrack(i + 1, cur, total)\n            \n        backtrack(0, [], 0)\n        return res`,
+            cpp: `class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        vector<vector<int>> res;\n        vector<int> current;\n        backtrack(res, current, candidates, target, 0);\n        return res;\n    }\n\n    void backtrack(vector<vector<int>>& res, vector<int>& cur, vector<int>& candidates, int target, int start) {\n        if (target == 0) {\n            res.push_back(cur);\n            return;\n        }\n        for (int i = start; i < candidates.size(); i++) {\n            if (target - candidates[i] >= 0) {\n                cur.push_back(candidates[i]);\n                backtrack(res, cur, candidates, target - candidates[i], i);\n                cur.pop_back();\n            }\n        }\n    }\n};`,
+            c: `void backtrack(int* candidates, int size, int target, int start, int* cur, int curSize, int*** res, int* resSize, int** colSizes) {\n    if (target == 0) {\n        (*res) = realloc(*res, ((*resSize) + 1) * sizeof(int*));\n        (*colSizes) = realloc(*colSizes, ((*resSize) + 1) * sizeof(int));\n        (*res)[*resSize] = malloc(curSize * sizeof(int));\n        memcpy((*res)[*resSize], cur, curSize * sizeof(int));\n        (*colSizes)[*resSize] = curSize;\n        (*resSize)++;\n        return;\n    }\n    for (int i = start; i < size; i++) {\n        if (target >= candidates[i]) {\n            cur[curSize] = candidates[i];\n            backtrack(candidates, size, target - candidates[i], i, cur, curSize + 1, res, resSize, colSizes);\n        }\n    }\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

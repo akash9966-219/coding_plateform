@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #00ff9d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #00ff9d;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+
+        <h1>67. Add Binary</h1>
+        
+        <div class="desc">
+            Return the sum of two binary strings as a binary string.
+        </div>
+
+        <div class="section-header">Binary Addition Logic:</div>
+        <div class="visual-container">
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); text-align: left; font-size: 0.9rem; line-height: 1.8;">
+                &nbsp;&nbsp;1 1 (a)<br>
+                + &nbsp;&nbsp;1 (b)<br>
+                ------<br>
+                1 0 0 (Result)
+            </div>
+            <p style="color: var(--primary); margin-top: 20px; font-size: 0.85rem;">Rules: 1+1=0 (carry 1), 1+0=1, 0+0=0</p>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li><b>Time:</b> O(max(N, M))</li>
+            <li><b>Space:</b> O(max(N, M)) for the result string.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public String addBinary(String a, String b) {\n        StringBuilder sb = new StringBuilder();\n        int i = a.length() - 1, j = b.length() - 1, carry = 0;\n        \n        while (i >= 0 || j >= 0 || carry == 1) {\n            int sum = carry;\n            if (i >= 0) sum += a.charAt(i--) - '0';\n            if (j >= 0) sum += b.charAt(j--) - '0';\n            sb.append(sum % 2);\n            carry = sum / 2;\n        }\n        return sb.reverse().toString();\n    }\n}`,
+            python: `class Solution:\n    def addBinary(self, a: str, b: str) -> str:\n        res = []\n        i, j, carry = len(a) - 1, len(b) - 1, 0\n        \n        while i >= 0 or j >= 0 or carry:\n            sum_val = carry\n            if i >= 0:\n                sum_val += int(a[i])\n                i -= 1\n            if j >= 0:\n                sum_val += int(b[j])\n                j -= 1\n            res.append(str(sum_val % 2))\n            carry = sum_val // 2\n            \n        return "".join(reversed(res))`,
+            cpp: `class Solution {\npublic:\n    string addBinary(string a, string b) {\n        string res = "";\n        int i = a.size() - 1, j = b.size() - 1, carry = 0;\n        \n        while (i >= 0 || j >= 0 || carry) {\n            int sum = carry;\n            if (i >= 0) sum += a[i--] - '0';\n            if (j >= 0) sum += b[j--] - '0';\n            res += to_string(sum % 2);\n            carry = sum / 2;\n        }\n        reverse(res.begin(), res.end());\n        return res;\n    }\n};`,
+            c: `char* addBinary(char* a, char* b) {\n    int len_a = strlen(a), len_b = strlen(b);\n    int max_len = (len_a > len_b ? len_a : len_b) + 1;\n    char* res = (char*)malloc(max_len + 1);\n    res[max_len] = '\\0';\n    \n    int i = len_a - 1, j = len_b - 1, k = max_len - 1, carry = 0;\n    while (i >= 0 || j >= 0 || carry) {\n        int sum = carry;\n        if (i >= 0) sum += a[i--] - '0';\n        if (j >= 0) sum += b[j--] - '0';\n        res[k--] = (sum % 2) + '0';\n        carry = sum / 2;\n    }\n    return &res[k + 1];\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

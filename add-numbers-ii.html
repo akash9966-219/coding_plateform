@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>445. Add Two Numbers II</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given two <b>non-empty</b> linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+            <br><br>
+            You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+        </p>
+
+        <div class="section-header">Valid Test Cases</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            l1 = [7,2,4,3], l2 = [5,6,4]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [7,8,0,7]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:\n        s1, s2 = [], []\n        while l1: \n            s1.append(l1.val)\n            l1 = l1.next\n        while l2:\n            s2.append(l2.val)\n            l2 = l2.next\n            \n        res = None\n        carry = 0\n        while s1 or s2 or carry:\n            v1 = s1.pop() if s1 else 0\n            v2 = s2.pop() if s2 else 0\n            val = (v1 + v2 + carry) % 10\n            carry = (v1 + v2 + carry) // 10\n            \n            node = ListNode(val)\n            node.next = res\n            res = node\n        return res`,
+            java: `class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        Stack<Integer> s1 = new Stack<>();\n        Stack<Integer> s2 = new Stack<>();\n        while (l1 != null) { s1.push(l1.val); l1 = l1.next; }\n        while (l2 != null) { s2.push(l2.val); l2 = l2.next; }\n        \n        ListNode res = null;\n        int carry = 0;\n        while (!s1.isEmpty() || !s2.isEmpty() || carry != 0) {\n            int v1 = s1.isEmpty() ? 0 : s1.pop();\n            int v2 = s2.isEmpty() ? 0 : s2.pop();\n            int sum = v1 + v2 + carry;\n            ListNode node = new ListNode(sum % 10);\n            node.next = res;\n            res = node;\n            carry = sum / 10;\n        }\n        return res;\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        stack<int> s1, s2;\n        while (l1) { s1.push(l1->val); l1 = l1->next; }\n        while (l2) { s2.push(l2->val); l2 = l2->next; }\n        \n        ListNode* res = nullptr;\n        int carry = 0;\n        while (!s1.empty() || !s2.empty() || carry) {\n            int v1 = 0, v2 = 0;\n            if (!s1.empty()) { v1 = s1.top(); s1.pop(); }\n            if (!s2.empty()) { v2 = s2.top(); s2.pop(); }\n            int sum = v1 + v2 + carry;\n            ListNode* node = new ListNode(sum % 10);\n            node->next = res;\n            res = node;\n            carry = sum / 10;\n        }\n        return res;\n    }\n};`,
+            c: `// C typically requires manual stack implementation or reversing the lists.\n// Reversing is often the memory-efficient approach in C.\nstruct ListNode* reverse(struct ListNode* head) {\n    struct ListNode *prev = NULL, *curr = head;\n    while (curr) {\n        struct ListNode* next = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = next;\n    }\n    return prev;\n}\n\nstruct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {\n    l1 = reverse(l1); l2 = reverse(l2);\n    struct ListNode* res = NULL;\n    int carry = 0;\n    while (l1 || l2 || carry) {\n        int v1 = l1 ? l1->val : 0;\n        int v2 = l2 ? l2->val : 0;\n        int sum = v1 + v2 + carry;\n        struct ListNode* node = (struct ListNode*)malloc(sizeof(struct ListNode));\n        node->val = sum % 10;\n        node->next = res;\n        res = node;\n        carry = sum / 10;\n        if (l1) l1 = l1->next;\n        if (l2) l2 = l2->next;\n    }\n    return res;\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

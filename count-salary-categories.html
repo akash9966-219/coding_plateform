@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .schema-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: 'Fira Code', monospace; font-size: 0.8rem; border: 1px solid var(--border); }
+        .schema-table th, .schema-table td { text-align: left; padding: 10px; border: 1px solid var(--border); }
+        .schema-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .note { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="sql-50.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1907. Count Salary Categories</h1>
+        
+        <div class="section-header">Table: Accounts</div>
+        <table class="schema-table">
+            <thead><tr><th>Column Name</th><th>Type</th></tr></thead>
+            <tbody>
+                <tr><td>account_id</td><td>int</td></tr>
+                <tr><td>income</td><td>int</td></tr>
+            </tbody>
+        </table>
+        <div class="note">
+            <code>account_id</code> is the primary key.<br>
+            Each row contains information about the monthly income for one bank account.
+        </div>
+
+        <div class="section-header">Problem Statement</div>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Calculate the number of bank accounts for each salary category. The categories are:
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><b>"Low Salary":</b> Income strictly less than 20,000.</li>
+                <li><b>"Average Salary":</b> Income in inclusive range [20,000, 50,000].</li>
+                <li><b>"High Salary":</b> Income strictly greater than 50,000.</li>
+            </ul>
+            The result <b>must</b> contain all three categories. If a category has no accounts, return <b>0</b>.
+        </div>
+
+        <div class="section-header">Example 1 Input</div>
+        <table class="schema-table">
+            <thead><tr><th>account_id</th><th>income</th></tr></thead>
+            <tbody>
+                <tr><td>3</td><td>108939</td></tr>
+                <tr><td>2</td><td>12747</td></tr>
+                <tr><td>8</td><td>87709</td></tr>
+                <tr><td>6</td><td>91796</td></tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">Output:</div>
+        <table class="schema-table" style="width: auto;">
+            <thead><tr><th>category</th><th>accounts_count</th></tr></thead>
+            <tbody>
+                <tr><td>Low Salary</td><td>1</td></tr>
+                <tr><td>Average Salary</td><td>0</td></tr>
+                <tr><td>High Salary</td><td>3</td></tr>
+            </tbody>
+        </table>
+
+        <div class="section-header">Explanation:</div>
+        <div style="background: #111; padding: 15px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--text-dim); margin-bottom: 20px;">
+            - Low Salary: Account 2 (12747).<br>
+            - Average Salary: No accounts.<br>
+            - High Salary: Accounts 3, 6, and 8.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="mysql">MySQL</option>
+                <option value="pandas">Pandas</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.sql</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW SOLUTION' to run query..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            mysql: `/* Query uses UNION to force rows for categories with 0 counts */\nSELECT 'Low Salary' AS category, COUNT(*) AS accounts_count \nFROM Accounts WHERE income < 20000\n\nUNION\n\nSELECT 'Average Salary' AS category, COUNT(*) AS accounts_count \nFROM Accounts WHERE income >= 20000 AND income <= 50000\n\nUNION\n\nSELECT 'High Salary' AS category, COUNT(*) AS accounts_count \nFROM Accounts WHERE income > 50000;`,
+            pandas: `import pandas as pd\n\ndef count_salary_categories(accounts: pd.DataFrame) -> pd.DataFrame:\n    # Define counts using boolean filtering\n    low = (accounts['income'] < 20000).sum()\n    avg = ((accounts['income'] >= 20000) & (accounts['income'] <= 50000)).sum()\n    high = (accounts['income'] > 50000).sum()\n    \n    # Manual construction ensures all categories appear\n    return pd.DataFrame({\n        'category': ['Low Salary', 'Average Salary', 'High Salary'],\n        'accounts_count': [low, avg, high]\n    })`
+        };
+
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = lang === 'mysql' ? 'solution.sql' : 'solution.py';
+        }
+
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

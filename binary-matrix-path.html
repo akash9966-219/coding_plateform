@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1091. Shortest Path in Binary Matrix</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given an <code>n x n</code> binary matrix <code>grid</code>, return the length of the shortest clear path from top-left to bottom-right. 
+            <br><br>A clear path is a path of 0s. You can move in <b>8 directions</b>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            grid = [[0,1],[1,0]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            2
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def shortestPathBinaryMatrix(self, grid: List[List[int]]) -> int:
+        n = len(grid)
+        if grid[0][0] == 1 or grid[n-1][n-1] == 1: return -1
+        
+        queue = collections.deque([(0, 0, 1)]) # r, c, length
+        grid[0][0] = 1 # Mark visited
+        
+        while queue:
+            r, c, length = queue.popleft()
+            if r == n - 1 and c == n - 1: return length
+            
+            for dr in [-1, 0, 1]:
+                for dc in [-1, 0, 1]:
+                    if dr == 0 and dc == 0: continue
+                    nr, nc = r + dr, c + dc
+                    if 0 <= nr < n and 0 <= nc < n and grid[nr][nc] == 0:
+                        grid[nr][nc] = 1
+                        queue.append((nr, nc, length + 1))
+        return -1`,
+            java: `class Solution {
+    public int shortestPathBinaryMatrix(int[][] grid) {
+        int n = grid.length;
+        if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
+        
+        Queue<int[]> q = new LinkedList<>();
+        q.offer(new int[]{0, 0, 1});
+        grid[0][0] = 1;
+        
+        while (!q.isEmpty()) {
+            int[] curr = q.poll();
+            int r = curr[0], c = curr[1], len = curr[2];
+            if (r == n - 1 && c == n - 1) return len;
+            
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    int nr = r + i, nc = c + j;
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                        grid[nr][nc] = 1;
+                        q.offer(new int[]{nr, nc, len + 1});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int n = grid.size();
+        if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
+        
+        queue<pair<pair<int, int>, int>> q;
+        q.push({{0, 0}, 1});
+        grid[0][0] = 1;
+
+        while (!q.empty()) {
+            auto curr = q.front(); q.pop();
+            int r = curr.first.first, c = curr.first.second, d = curr.second;
+            if (r == n - 1 && c == n - 1) return d;
+
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    int nr = r + i, nc = c + j;
+                    if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                        grid[nr][nc] = 1;
+                        q.push({{nr, nc}, d + 1});
+                    }
+                }
+            }
+        }
+        return -1;
+    }
+};`,
+            c: `typedef struct { int r, c, d; } Node;
+
+int shortestPathBinaryMatrix(int** grid, int gridSize, int* gridColSize) {
+    int n = gridSize;
+    if (grid[0][0] == 1 || grid[n-1][n-1] == 1) return -1;
+
+    Node* queue = malloc(n * n * sizeof(Node));
+    int head = 0, tail = 0;
+    queue[tail++] = (Node){0, 0, 1};
+    grid[0][0] = 1;
+
+    while (head < tail) {
+        Node curr = queue[head++];
+        if (curr.r == n - 1 && curr.c == n - 1) {
+            free(queue); return curr.d;
+        }
+
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                int nr = curr.r + i, nc = curr.c + j;
+                if (nr >= 0 && nr < n && nc >= 0 && nc < n && grid[nr][nc] == 0) {
+                    grid[nr][nc] = 1;
+                    queue[tail++] = (Node){nr, nc, curr.d + 1};
+                }
+            }
+        }
+    }
+    free(queue); return -1;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

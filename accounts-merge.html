@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>721. Accounts Merge</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given a list of <code>accounts</code> where each element <code>accounts[i]</code> is a list of strings, the first element <code>accounts[i][0]</code> is a name, and the rest are emails. 
+            <br><br>Merge accounts belonging to the same person. Two accounts belong to the same person if there is some common email to both accounts.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            accounts = [["John","a@m.com","b@m.com"],["John","c@m.com"],["John","a@m.com","d@m.com"]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [["John","a@m.com","b@m.com","d@m.com"],["John","c@m.com"]]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+    def find(self, i):
+        if self.parent[i] == i: return i
+        self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+    def union(self, i, j):
+        root_i, root_j = self.find(i), self.find(j)
+        if root_i != root_j: self.parent[root_i] = root_j
+
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        dsu = DSU(len(accounts))
+        email_to_acc = {} # email -> index of account
+
+        for i, acc in enumerate(accounts):
+            for email in acc[1:]:
+                if email in email_to_acc:
+                    dsu.union(i, email_to_acc[email])
+                else:
+                    email_to_acc[email] = i
+        
+        merged = collections.defaultdict(list)
+        for email, acc_idx in email_to_acc.items():
+            merged[dsu.find(acc_idx)].append(email)
+        
+        return [[accounts[i][0]] + sorted(emails) for i, emails in merged.items()]`,
+            java: `class Solution {
+    class DSU {
+        int[] parent;
+        public DSU(int n) {
+            parent = new int[n];
+            for (int i = 0; i < n; i++) parent[i] = i;
+        }
+        public int find(int i) {
+            if (parent[i] == i) return i;
+            return parent[i] = find(parent[i]);
+        }
+        public void union(int i, int j) {
+            int rootI = find(i), rootJ = find(j);
+            if (rootI != rootJ) parent[rootI] = rootJ;
+        }
+    }
+
+    public List<List<String>> accountsMerge(List<List<String>> accounts) {
+        int n = accounts.size();
+        DSU dsu = new DSU(n);
+        Map<String, Integer> emailToAcc = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < accounts.get(i).size(); j++) {
+                String email = accounts.get(i).get(j);
+                if (emailToAcc.containsKey(email)) {
+                    dsu.union(i, emailToAcc.get(email));
+                } else {
+                    emailToAcc.put(email, i);
+                }
+            }
+        }
+
+        Map<Integer, List<String>> merged = new HashMap<>();
+        for (String email : emailToAcc.keySet()) {
+            int root = dsu.find(emailToAcc.get(email));
+            merged.computeIfAbsent(root, x -> new ArrayList<>()).add(email);
+        }
+
+        List<List<String>> result = new ArrayList<>();
+        for (int root : merged.keySet()) {
+            List<String> emails = merged.get(root);
+            Collections.sort(emails);
+            emails.add(0, accounts.get(root).get(0));
+            result.add(emails);
+        }
+        return result;
+    }
+}`,
+            cpp: `class DSU {
+public:
+    vector<int> parent;
+    DSU(int n) {
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+    }
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
+    }
+    void unite(int i, int j) {
+        int rootI = find(i), rootJ = find(j);
+        if (rootI != rootJ) parent[rootI] = rootJ;
+    }
+};
+
+class Solution {
+public:
+    vector<vector<string>> accountsMerge(vector<vector<string>>& accounts) {
+        int n = accounts.size();
+        DSU dsu(n);
+        unordered_map<string, int> emailToAcc;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j < accounts[i].size(); j++) {
+                string email = accounts[i][j];
+                if (emailToAcc.count(email)) dsu.unite(i, emailToAcc[email]);
+                else emailToAcc[email] = i;
+            }
+        }
+
+        unordered_map<int, vector<string>> merged;
+        for (auto const& [email, accIdx] : emailToAcc) {
+            merged[dsu.find(accIdx)].push_back(email);
+        }
+
+        vector<vector<string>> result;
+        for (auto& [accIdx, emails] : merged) {
+            sort(emails.begin(), emails.end());
+            emails.insert(emails.begin(), accounts[accIdx][0]);
+            result.push_back(emails);
+        }
+        return result;
+    }
+};`,
+            c: `typedef struct {
+    int* parent;
+} DSU;
+
+int find(DSU* dsu, int i) {
+    if (dsu->parent[i] == i) return i;
+    return dsu->parent[i] = find(dsu, dsu->parent[i]);
+}
+
+void unite(DSU* dsu, int i, int j) {
+    int rootI = find(dsu, i);
+    int rootJ = find(dsu, j);
+    if (rootI != rootJ) dsu->parent[rootI] = rootJ;
+}
+
+// Note: A full C implementation requires a custom Hash Map for strings 
+// to map emails to account IDs. Due to C's complexity with string 
+// management and dynamic arrays, the following is a structural outline:
+
+char*** accountsMerge(char*** accounts, int accountsSize, int* accountsColSize, int* returnSize, int** returnColumnSizes) {
+    DSU dsu;
+    dsu.parent = (int*)malloc(accountsSize * sizeof(int));
+    for (int i = 0; i < accountsSize; i++) dsu.parent[i] = i;
+
+    // 1. Logic to Map Emails to Account Indices and Union them
+    // 2. Logic to Group Emails by their DSU Root
+    // 3. Logic to Sort emails and format the final char*** result
+
+    // This problem is exceptionally boilerplate-heavy in C. 
+    // Most solutions involve building a custom Hash Table and 
+    // using qsort() for the alphabetical requirement.
+
+    *returnSize = 0; // Final count of merged accounts
+    return NULL; 
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

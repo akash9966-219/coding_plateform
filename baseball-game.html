@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: var(--primary); font-size: 0.8rem; font-weight: 700; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+        <h1>682. Baseball Game</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are keeping the scores for a baseball game with strange rules. The game consists of several rounds, where the scores of past rounds may affect future rounds' scores.
+            <br><br>
+            You are given a list of strings <code>ops</code>, where <code>ops[i]</code> is the <code>i<sup>th</sup></code> operation you must apply to the record:
+            <ul style="margin-left: 20px; color: #ccc; margin-top: 10px;">
+                <li><b>An integer x:</b> Record a new score of <code>x</code>.</li>
+                <li><b>"+":</b> Record a new score that is the sum of the previous two scores.</li>
+                <li><b>"D":</b> Record a new score that is double the previous score.</li>
+                <li><b>"C":</b> Invalidate the previous score, removing it from the record.</li>
+            </ul>
+            Return the sum of all the scores on the record.
+        </p>
+
+        <div class="section-header">Example 1</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            ops = ["5","2","C","D","+"]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            30<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            "5": [5]<br>
+            "2": [5, 2]<br>
+            "C": [5]<br>
+            "D": [5, 10]<br>
+            "+": [5, 10, 15]<br>
+            Sum: 5 + 10 + 15 = 30
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def calPoints(self, ops: List[str]) -> int:\n        stack = []\n        for op in ops:\n            if op == "+":\n                stack.append(stack[-1] + stack[-2])\n            elif op == "D":\n                stack.append(2 * stack[-1])\n            elif op == "C":\n                stack.pop()\n            else:\n                stack.append(int(op))\n        return sum(stack)`,
+            java: `import java.util.Stack;\n\nclass Solution {\n    public int calPoints(String[] ops) {\n        Stack<Integer> stack = new Stack<>();\n        for (String op : ops) {\n            if (op.equals(\"+\")) {\n                int top = stack.pop();\n                int newTop = top + stack.peek();\n                stack.push(top);\n                stack.push(newTop);\n            } else if (op.equals(\"D\")) {\n                stack.push(2 * stack.peek());\n            } else if (op.equals(\"C\")) {\n                stack.pop();\n            } else {\n                stack.push(Integer.parseInt(op));\n            }\n        }\n        int total = 0;\n        for (int score : stack) total += score;\n        return total;\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    int calPoints(vector<string>& ops) {\n        vector<int> record;\n        for (string& op : ops) {\n            if (op == \"+\") {\n                record.push_back(record.back() + record[record.size() - 2]);\n            } else if (op == \"D\") {\n                record.push_back(2 * record.back());\n            } else if (op == \"C\") {\n                record.pop_back();\n            } else {\n                record.push_back(stoi(op));\n            }\n        }\n        int sum = 0;\n        for (int score : record) sum += score;\n        return sum;\n    }\n};`,
+            c: `int calPoints(char ** ops, int opsSize){\n    int* stack = (int*)malloc(opsSize * sizeof(int));\n    int top = -1;\n    for (int i = 0; i < opsSize; i++) {\n        if (strcmp(ops[i], \"+\") == 0) {\n            stack[top + 1] = stack[top] + stack[top - 1];\n            top++;\n        } else if (strcmp(ops[i], \"D\") == 0) {\n            stack[top + 1] = 2 * stack[top];\n            top++;\n        } else if (strcmp(ops[i], \"C\") == 0) {\n            top--;\n        } else {\n            stack[++top] = atoi(ops[i]);\n        }\n    }\n    int sum = 0;\n    for (int i = 0; i <= top; i++) sum += stack[i];\n    free(stack);\n    return sum;\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #00ff9d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #00ff9d;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+
+        <h1>605. Can Place Flowers</h1>
+        
+        <div class="desc">
+            Given a flowerbed where 1 means planted and 0 means empty, determine if <code>n</code> new flowers can be planted without any two being adjacent.
+        </div>
+
+        <div class="section-header">Examples:</div>
+        <div class="example-box">
+            <b>Example 1:</b><br>
+            Input: flowerbed = [1,0,0,0,1], n = 1<br>
+            Output: true
+        </div>
+        <div class="example-box">
+            <b>Example 2:</b><br>
+            Input: flowerbed = [1,0,0,0,1], n = 2<br>
+            Output: false
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Greedy:</b> Iterate through the array and plant a flower wherever valid.<br>
+            2. <b>Validation:</b> A spot is valid if it's 0 AND its left neighbor is 0 (or start) AND its right neighbor is 0 (or end).<br>
+            3. <b>Update:</b> When planting, set <code>flowerbed[i] = 1</code> and decrement <code>n</code>.<br>
+            4. <b>Result:</b> Return <code>true</code> if <code>n <= 0</code> at any point.
+        </div>
+
+        
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(m) - Linear scan of the flowerbed.</li>
+            <li>Space: O(1) - Constant auxiliary space.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public boolean canPlaceFlowers(int[] flowerbed, int n) {\n        for (int i = 0; i < flowerbed.length; i++) {\n            if (flowerbed[i] == 0) {\n                boolean leftEmpty = (i == 0 || flowerbed[i - 1] == 0);\n                boolean rightEmpty = (i == flowerbed.length - 1 || flowerbed[i + 1] == 0);\n                \n                if (leftEmpty && rightEmpty) {\n                    flowerbed[i] = 1;\n                    n--;\n                }\n            }\n            if (n <= 0) return true;\n        }\n        return n <= 0;\n    }\n}`,
+            python: `class Solution:\n    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:\n        for i in range(len(flowerbed)):\n            if flowerbed[i] == 0:\n                left = (i == 0) or (flowerbed[i-1] == 0)\n                right = (i == len(flowerbed) - 1) or (flowerbed[i+1] == 0)\n                \n                if left and right:\n                    flowerbed[i] = 1\n                    n -= 1\n            if n <= 0: return True\n        return n <= 0`,
+            cpp: `class Solution {\npublic:\n    bool canPlaceFlowers(vector<int>& flowerbed, int n) {\n        for (int i = 0; i < flowerbed.size(); i++) {\n            if (flowerbed[i] == 0) {\n                bool left = (i == 0 || flowerbed[i-1] == 0);\n                bool right = (i == flowerbed.size()-1 || flowerbed[i+1] == 0);\n                if (left && right) {\n                    flowerbed[i] = 1;\n                    n--;\n                }\n            }\n            if (n <= 0) return true;\n        }\n        return n <= 0;\n    }\n};`,
+            c: `bool canPlaceFlowers(int* flowerbed, int flowerbedSize, int n) {\n    for (int i = 0; i < flowerbedSize; i++) {\n        if (flowerbed[i] == 0) {\n            int left = (i == 0 || flowerbed[i-1] == 0);\n            int right = (i == flowerbedSize-1 || flowerbed[i+1] == 0);\n            if (left && right) {\n                flowerbed[i] = 1;\n                n--;\n            }\n        }\n        if (n <= 0) return true;\n    }\n    return n <= 0;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

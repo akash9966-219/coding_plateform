@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>269. Alien Dictionary</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            There is a new alien language that uses the English alphabet. However, the order of the letters is unknown to you. You are given a list of strings <code>words</code> from the alien language's dictionary, where the strings are <b>sorted lexicographically</b>.
+            <br><br>Return a string of the unique letters in the new alien language sorted in lexicographical increasing order. If there is no solution, return <code>""</code>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            words = ["wrt","wrf","er","ett","rftt"]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            "wertf"
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def alienOrder(self, words: List[str]) -> str:
+        adj = {c: set() for w in words for c in w}
+        indegree = {c: 0 for w in words for c in w}
+        
+        for i in range(len(words) - 1):
+            w1, w2 = words[i], words[i+1]
+            min_len = min(len(w1), len(w2))
+            if len(w1) > len(w2) and w1[:min_len] == w2[:min_len]:
+                return "" # Edge case: prefix longer than word
+            for j in range(min_len):
+                if w1[j] != w2[j]:
+                    if w2[j] not in adj[w1[j]]:
+                        adj[w1[j]].add(w2[j])
+                        indegree[w2[j]] += 1
+                    break
+        
+        q = collections.deque([c for c in indegree if indegree[c] == 0])
+        res = []
+        while q:
+            c = q.popleft()
+            res.append(c)
+            for neighbor in adj[c]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    q.append(neighbor)
+        
+        return "".join(res) if len(res) == len(indegree) else ""`,
+            java: `class Solution {
+    public String alienOrder(String[] words) {
+        Map<Character, Set<Character>> adj = new HashMap<>();
+        Map<Character, Integer> indegree = new HashMap<>();
+        for (String w : words) {
+            for (char c : w.toCharArray()) {
+                adj.putIfAbsent(c, new HashSet<>());
+                indegree.putIfAbsent(c, 0);
+            }
+        }
+        
+        for (int i = 0; i < words.length - 1; i++) {
+            String w1 = words[i], w2 = words[i+1];
+            int len = Math.min(w1.length(), w2.length());
+            if (w1.length() > w2.length() && w1.startsWith(w2)) return "";
+            for (int j = 0; j < len; j++) {
+                if (w1.charAt(j) != w2.charAt(j)) {
+                    if (adj.get(w1.charAt(j)).add(w2.charAt(j))) {
+                        indegree.put(w2.charAt(j), indegree.get(w2.charAt(j)) + 1);
+                    }
+                    break;
+                }
+            }
+        }
+        
+        Queue<Character> q = new LinkedList<>();
+        for (char c : indegree.keySet()) {
+            if (indegree.get(c) == 0) q.offer(c);
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        while (!q.isEmpty()) {
+            char c = q.poll();
+            sb.append(c);
+            for (char neighbor : adj.get(c)) {
+                indegree.put(neighbor, indegree.get(neighbor) - 1);
+                if (indegree.get(neighbor) == 0) q.offer(neighbor);
+            }
+        }
+        return sb.length() == indegree.size() ? sb.toString() : "";
+    }
+}`,
+            cpp: `class Solution {
+public:
+    string alienOrder(vector<string>& words) {
+        unordered_map<char, unordered_set<char>> adj;
+        unordered_map<char, int> indegree;
+        for (auto& w : words) for (char c : w) { adj[c]; indegree[c] = 0; }
+        
+        for (int i = 0; i < words.size() - 1; i++) {
+            string w1 = words[i], w2 = words[i+1];
+            int len = min(w1.size(), w2.size());
+            if (w1.size() > w2.size() && w1.substr(0, len) == w2) return "";
+            for (int j = 0; j < len; j++) {
+                if (w1[j] != w2[j]) {
+                    if (adj[w1[j]].insert(w2[j]).second) indegree[w2[j]]++;
+                    break;
+                }
+            }
+        }
+        
+        queue<char> q;
+        for (auto& it : indegree) if (it.second == 0) q.push(it.first);
+        
+        string res = "";
+        while (!q.empty()) {
+            char c = q.front(); q.pop();
+            res += c;
+            for (char next : adj[c]) {
+                if (--indegree[next] == 0) q.push(next);
+            }
+        }
+        return res.size() == indegree.size() ? res : "";
+    }
+};`,
+            c: `char* alienOrder(char** words, int wordsSize) {
+    bool exists[26] = {false};
+    bool adj[26][26] = {false};
+    int indegree[26] = {0};
+    int uniqueCount = 0;
+
+    // 1. Mark existing characters
+    for (int i = 0; i < wordsSize; i++) {
+        for (int j = 0; words[i][j]; j++) {
+            if (!exists[words[i][j] - 'a']) {
+                exists[words[i][j] - 'a'] = true;
+                uniqueCount++;
+            }
+        }
+    }
+
+    // 2. Build graph
+    for (int i = 0; i < wordsSize - 1; i++) {
+        char *w1 = words[i], *w2 = words[i+1];
+        int len1 = strlen(w1), len2 = strlen(w2);
+        int foundDiff = 0;
+        for (int j = 0; j < (len1 < len2 ? len1 : len2); j++) {
+            if (w1[j] != w2[j]) {
+                if (!adj[w1[j] - 'a'][w2[j] - 'a']) {
+                    adj[w1[j] - 'a'][w2[j] - 'a'] = true;
+                    indegree[w2[j] - 'a']++;
+                }
+                foundDiff = 1;
+                break;
+            }
+        }
+        if (!foundDiff && len1 > len2) return ""; // Prefix edge case
+    }
+
+    // 3. BFS (Kahn's Algorithm)
+    char* res = (char*)calloc(uniqueCount + 1, sizeof(char));
+    int queue[26], head = 0, tail = 0, resIdx = 0;
+
+    for (int i = 0; i < 26; i++) {
+        if (exists[i] && indegree[i] == 0) queue[tail++] = i;
+    }
+
+    while (head < tail) {
+        int u = queue[head++];
+        res[resIdx++] = u + 'a';
+        for (int v = 0; v < 26; v++) {
+            if (adj[u][v]) {
+                if (--indegree[v] == 0) queue[tail++] = v;
+            }
+        }
+    }
+
+    if (resIdx == uniqueCount) return res;
+    free(res);
+    return "";
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

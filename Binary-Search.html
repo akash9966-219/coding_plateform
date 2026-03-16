@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Roadmap | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+            --easy: #00ff9d;
+            --medium: #facc15;
+            --hard: #ff4757;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            line-height: 1.6;
+            padding: 40px;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 3rem;
+            letter-spacing: -2px;
+            background: linear-gradient(90deg, #fff, #555);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .topics-link {
+            text-decoration: none;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            border: 1px solid var(--primary);
+            padding: 8px 20px;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
+
+        .topics-link:hover {
+            background: rgba(0, 255, 157, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 157, 0.2);
+        }
+
+        .roadmap-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-section {
+            margin-bottom: 60px;
+        }
+
+        .category-title {
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+            margin-left: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            background: #151515;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            padding-right: 40px;
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .difficulty {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid currentColor;
+        }
+
+        .easy { color: var(--easy); }
+        .medium { color: var(--medium); }
+        .hard { color: var(--hard); }
+
+        .solution-tag {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .card::before {
+            content: "→";
+            position: absolute;
+            right: 20px;
+            top: 24px;
+            color: var(--primary);
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <p style="color: var(--primary); font-family: 'Fira Code'; margin-bottom: 10px;">Algorithm Roadmap</p>
+            <h1>Binary Search</h1>
+        </div>
+        <a href="topics.html" class="topics-link">view_all_topics.sh</a>
+    </header>
+
+    <div class="roadmap-container">
+        
+        <section class="category-section">
+            <div class="category-title">Search In Array</div>
+            <div class="grid">
+                <a href="binary-search22.html" class="card">
+                    <h3>Binary Search</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="search-insert33.html" class="card">
+                    <h3>Search Insert Position</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="smallest-letter33.html" class="card">
+                    <h3>Find Smallest Letter Greater Than Target</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="count-negatives33.html" class="card">
+                    <h3>Count Negative Numbers in Sorted Matrix</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="first-last-pos33.html" class="card">
+                    <h3>First and Last Position of Element</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="right-interva33l.html" class="card">
+                    <h3>Find Right Interval</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                    </div>
+                </a>
+                <a href="time-kv-store33.html" class="card">
+                    <h3>Time Based Key-Value Store</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="snapshot-array33.html" class="card">
+                    <h3>Snapshot Array</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <div class="category-title">Rotated Array</div>
+            <div class="grid">
+                <a href="search-rotated33.html" class="card">
+                    <h3>Search in Rotated Sorted Array</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="min-rotated33.html" class="card">
+                    <h3>Find Minimum in Rotated Sorted Array</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="min-rotated-ii33.html" class="card">
+                    <h3>Find Minimum in Rotated Sorted Array II</h3>
+                    <div class="badge-container">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <div class="category-title">Standard Search</div>
+            <div class="grid">
+                <a href="guess-number33.html" class="card">
+                    <h3>Guess Number Higher or Lower</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="first-bad-version33.html" class="card">
+                    <h3>First Bad Version</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="search-2d-matrix33.html" class="card">
+                    <h3>Search a 2D Matrix</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="sorted-array-unknown-size33.html" class="card">
+                    <h3>Search in Array of Unknown Size</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="index-large-integer33.html" class="card">
+                    <h3>Find Index of the Large Integer</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <div class="category-title">Math</div>
+            <div class="grid">
+                <a href="perfect-square33.html" class="card">
+                    <h3>Valid Perfect Square</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="sqrt-x33.html" class="card">
+                    <h3>Sqrt(x)</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="arranging-coins33.html" class="card">
+                    <h3>Arranging Coins</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <div class="category-title">Tricky Invariant</div>
+            <div class="grid">
+                <a href="kth-missing33.html" class="card">
+                    <h3>Kth Missing Positive Number</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="h-index-ii33.html" class="card">
+                    <h3>H-Index II</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="single-element33.html" class="card">
+                    <h3>Single Element in Sorted Array</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="peak-index34.html" class="card">
+                    <h3>Peak Index in a Mountain Array</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="k-closest33.html" class="card">
+                    <h3>Find K Closest Elements</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="median-two-arrays54.html" class="card">
+                    <h3>Median of Two Sorted Arrays</h3>
+                    <div class="badge-container">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <div class="category-title">As A Tool</div>
+            <div class="grid">
+                <a href="two-sum-less-k55.html" class="card">
+                    <h3>Two Sum Less Than K</h3>
+                    <div class="badge-container">
+                        <span class="difficulty easy">Easy</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="valid-triangle55.html" class="card">
+                    <h3>Valid Triangle Number</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="spells-potions55.html" class="card">
+                    <h3>Successful Pairs Spells & Potions</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="sum-condition55.html" class="card">
+                    <h3>Subsequences Sum Condition</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="random-pick-weight55.html" class="card">
+                    <h3>Random Pick with Weight</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="lis55.html" class="card">
+                    <h3>Longest Increasing Subsequence</h3>
+                    <div class="badge-container">
+                        <span class="difficulty medium">Medium</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+                <a href="russian-doll56.html" class="card">
+                    <h3>Russian Doll Envelopes</h3>
+                    <div class="badge-container">
+                        <span class="difficulty hard">Hard</span>
+                        <span class="solution-tag">Solution Available</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>

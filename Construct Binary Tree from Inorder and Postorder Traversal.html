@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .visual-container {
+            background: #111;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .visual-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>106. Build Tree (In/Post)</h1>
+        
+        <div class="desc">
+            Construct a binary tree from its <b>inorder</b> and <b>postorder</b> traversal arrays.
+            <br><br>
+            Note: In postorder traversal, the root node appears at the very end of the array.
+        </div>
+
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2021/02/19/tree.jpg" alt="Tree example">
+        </div>
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+<b>Input:</b> inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
+<br>
+<b>Output:</b> [3,9,20,null,null,15,7]
+        </div>
+
+        <div class="section-header">Logic Note:</div>
+        <div class="desc" style="font-size: 0.85rem; color: var(--text-dim);">
+            Since postorder is (Left, Right, Root), we process from the end of <code>postorder</code> and build the <b>Right</b> child first.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    int post_idx;\n    Map<Integer, Integer> idx_map = new HashMap<>();\n\n    public TreeNode buildTree(int[] inorder, int[] postorder) {\n        this.post_idx = postorder.length - 1;\n        for (int i = 0; i < inorder.length; i++) {\n            idx_map.put(inorder[i], i);\n        }\n        return helper(0, inorder.length - 1, postorder);\n    }\n\n    private TreeNode helper(int in_left, int in_right, int[] postorder) {\n        if (in_left > in_right) return null;\n\n        int root_val = postorder[post_idx--];\n        TreeNode root = new TreeNode(root_val);\n\n        int index = idx_map.get(root_val);\n\n        // Right child MUST be built first for postorder backwards traversal\n        root.right = helper(index + 1, in_right, postorder);\n        root.left = helper(in_left, index - 1, postorder);\n\n        return root;\n    }\n}`,
+            python: `class Solution:\n    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:\n        idx_map = {val: i for i, val in enumerate(inorder)}\n        \n        def helper(in_left, in_right):\n            if in_left > in_right: return None\n            \n            val = postorder.pop()\n            root = TreeNode(val)\n            \n            index = idx_map[val]\n            \n            # Right subtree first\n            root.right = helper(index + 1, in_right)\n            root.left = helper(in_left, index - 1)\n            return root\n            \n        return helper(0, len(inorder) - 1)`,
+            cpp: `class Solution {\n    int postIdx;\n    unordered_map<int, int> inMap;\npublic:\n    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {\n        postIdx = postorder.size() - 1;\n        for(int i = 0; i < inorder.size(); i++) inMap[inorder[i]] = i;\n        return solve(inorder, postorder, 0, inorder.size() - 1);\n    }\n\n    TreeNode* solve(vector<int>& in, vector<int>& post, int left, int right) {\n        if(left > right) return nullptr;\n\n        int val = post[postIdx--];\n        TreeNode* root = new TreeNode(val);\n        int mid = inMap[val];\n\n        root->right = solve(in, post, mid + 1, right);\n        root->left = solve(in, post, left, mid - 1);\n        return root;\n    }\n};`,
+            c: `// Standard C approach using a helper for range selection\nstruct TreeNode* helper(int* inorder, int* postorder, int* pIdx, int inL, int inR) {\n    if (inL > inR) return NULL;\n    \n    struct TreeNode* root = malloc(sizeof(struct TreeNode));\n    root->val = postorder[(*pIdx)--];\n    \n    int mid = inL;\n    while (inorder[mid] != root->val) mid++;\n    \n    root->right = helper(inorder, postorder, pIdx, mid + 1, inR);\n    root->left = helper(inorder, postorder, pIdx, inL, mid - 1);\n    return root;\n}\n\nstruct TreeNode* buildTree(int* inorder, int inorderSize, int* postorder, int postorderSize) {\n    int pIdx = postorderSize - 1;\n    return helper(inorder, postorder, &pIdx, 0, inorderSize - 1);\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

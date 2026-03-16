@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>1657. Strings Are Close</h1>
+        
+        <div class="desc">
+            Determine if two strings are close based on swapping characters or transforming all occurrences of one character into another.
+        </div>
+
+        <div class="section-header">Examples:</div>
+        <div class="example-box">
+            <b>Example 1:</b><br>
+            Input: word1 = "abc", word2 = "bca"<br>
+            Output: true (Direct swap possible)
+        </div>
+        <div class="example-box">
+            <b>Example 2:</b><br>
+            Input: word1 = "cabbba", word2 = "abbccc"<br>
+            Output: true (Frequencies: [1,2,3] for both)
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Length:</b> If lengths differ, return <code>false</code>.<br>
+            2. <b>Characters:</b> Check if both strings contain the same unique character set.<br>
+            3. <b>Frequencies:</b> Count character frequencies and sort them. The sorted frequency arrays must be identical.<br>
+            4. <b>Efficiency:</b> O(N) time with O(1) space (fixed size alphabet array).
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(n) - One pass to count frequencies.</li>
+            <li>Space: O(1) - Constant size (26) arrays for counts.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public boolean closeStrings(String word1, String word2) {\n        if (word1.length() != word2.length()) return false;\n        int[] f1 = new int[26], f2 = new int[26];\n        for (char c : word1.toCharArray()) f1[c - 'a']++;\n        for (char c : word2.toCharArray()) f2[c - 'a']++;\n\n        for (int i = 0; i < 26; i++) {\n            if ((f1[i] == 0 && f2[i] != 0) || (f1[i] != 0 && f2[i] == 0)) return false;\n        }\n\n        Arrays.sort(f1); Arrays.sort(f2);\n        return Arrays.equals(f1, f2);\n    }\n}`,
+            python: `class Solution:\n    def closeStrings(self, word1: str, word2: str) -> bool:\n        if len(word1) != len(word2): return False\n        c1, c2 = Counter(word1), Counter(word2)\n        return set(c1.keys()) == set(c2.keys()) and sorted(c1.values()) == sorted(c2.values())`,
+            cpp: `class Solution {\npublic:\n    bool closeStrings(string word1, string word2) {\n        if (word1.size() != word2.size()) return false;\n        vector<int> f1(26, 0), f2(26, 0);\n        set<char> s1, s2;\n        for (char c : word1) { f1[c - 'a']++; s1.insert(c); }\n        for (char c : word2) { f2[c - 'a']++; s2.insert(c); }\n        if (s1 != s2) return false;\n        sort(f1.begin(), f1.end());\n        sort(f2.begin(), f2.end());\n        return f1 == f2;\n    }\n};`,
+            c: `int cmp(const void* a, const void* b) { return (*(int*)a - *(int*)b); }\n\nbool closeStrings(char* word1, char* word2) {\n    int n1 = strlen(word1), n2 = strlen(word2);\n    if (n1 != n2) return false;\n    int f1[26] = {0}, f2[26] = {0};\n    for (int i = 0; i < n1; i++) { f1[word1[i] - 'a']++; f2[word2[i] - 'a']++; }\n    for (int i = 0; i < 26; i++) {\n        if ((f1[i] == 0 && f2[i] != 0) || (f1[i] != 0 && f2[i] == 0)) return false;\n    }\n    qsort(f1, 26, sizeof(int), cmp); qsort(f2, 26, sizeof(int), cmp);\n    for (int i = 0; i < 26; i++) if (f1[i] != f2[i]) return false;\n    return true;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

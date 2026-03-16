@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>1312. Min Insertion Palindrome</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given a string <code>s</code>. In one step you can insert any character at any index of the string.
+            <br><br>Return <i>the minimum number of steps</i> to make <code>s</code> a palindrome.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            s = "zzazz"<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            0<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            The string "zzazz" is already palindrome we do not need any insertions.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def minInsertions(self, s: str) -> int:
+        n = len(s)
+        s_rev = s[::-1]
+        dp = [[0] * (n + 1) for _ in range(n + 1)]
+        
+        # Calculate LCS between s and reversed s
+        for i in range(1, n + 1):
+            for j in range(1, n + 1):
+                if s[i-1] == s_rev[j-1]:
+                    dp[i][j] = 1 + dp[i-1][j-1]
+                else:
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+        
+        # Min insertions = length - Longest Palindromic Subsequence
+        return n - dp[n][n]`,
+            java: `class Solution {
+    public int minInsertions(String s) {
+        int n = s.length();
+        String rev = new StringBuilder(s).reverse().toString();
+        int[][] dp = new int[n + 1][n + 1];
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s.charAt(i-1) == rev.charAt(j-1))
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        return n - dp[n][n];
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int minInsertions(string s) {
+        int n = s.size();
+        string rev = s;
+        reverse(rev.begin(), rev.end());
+        vector<vector<int>> dp(n + 1, vector<int>(n + 1, 0));
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s[i-1] == rev[j-1])
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                else
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
+        }
+        return n - dp[n][n];
+    }
+};`,
+            c: `int minInsertions(char * s){
+    int n = strlen(s);
+    int** dp = (int**)malloc((n + 1) * sizeof(int*));
+    for (int i = 0; i <= n; i++) dp[i] = (int*)calloc(n + 1, sizeof(int));
+    
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (s[i-1] == s[n-j]) // s[n-j] is the reversed s index
+                dp[i][j] = 1 + dp[i-1][j-1];
+            else {
+                int up = dp[i-1][j];
+                int left = dp[i][j-1];
+                dp[i][j] = (up > left) ? up : left;
+            }
+        }
+    }
+    int res = n - dp[n][n];
+    for (int i = 0; i <= n; i++) free(dp[i]);
+    free(dp);
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

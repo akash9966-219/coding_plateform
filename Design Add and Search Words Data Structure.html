@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>211. Word Dictionary</h1>
+        
+        <div class="desc">
+            Design a data structure that supports adding words and searching with a <b>wildcard '.'</b> which matches any letter.
+        </div>
+
+        <div class="section-header">Example:</div>
+        <div class="example-box">
+addWord("bad");<br>
+search(".ad"); // returns true<br>
+search("b.."); // returns true
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div class="desc" style="font-size: 0.85rem; color: var(--text-dim);">
+            When encountering '.', use <b>DFS</b> to branch into all existing children at that level.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class WordDictionary {\n    class Node {\n        Node[] children = new Node[26];\n        boolean isEnd = false;\n    }\n    Node root = new Node();\n\n    public void addWord(String word) {\n        Node curr = root;\n        for (char c : word.toCharArray()) {\n            if (curr.children[c - 'a'] == null) curr.children[c - 'a'] = new Node();\n            curr = curr.children[c - 'a'];\n        }\n        curr.isEnd = true;\n    }\n\n    public boolean search(String word) {\n        return match(word.toCharArray(), 0, root);\n    }\n\n    private boolean match(char[] chs, int k, Node node) {\n        if (k == chs.length) return node.isEnd;\n        if (chs[k] != '.') {\n            return node.children[chs[k] - 'a'] != null && match(chs, k + 1, node.children[chs[k] - 'a']);\n        } else {\n            for (int i = 0; i < 26; i++) {\n                if (node.children[i] != null) {\n                    if (match(chs, k + 1, node.children[i])) return true;\n                }\n            }\n        }\n        return false;\n    }\n}`,
+            python: `class WordDictionary:\n    def __init__(self):\n        self.trie = {}\n\n    def addWord(self, word: str) -> None:\n        node = self.trie\n        for char in word:\n            node = node.setdefault(char, {})\n        node['$'] = True\n\n    def search(self, word: str) -> bool:\n        def dfs(word, node):\n            for i, char in enumerate(word):\n                if char == '.':\n                    return any(dfs(word[i+1:], node[child]) for child in node if child != '$')\n                if char not in node: return False\n                node = node[char]\n            return '$' in node\n        return dfs(word, self.trie)`,
+            cpp: `class WordDictionary {\n    struct Node {\n        Node* children[26] = {nullptr};\n        bool isEnd = false;\n    } *root;\npublic:\n    WordDictionary() { root = new Node(); }\n    void addWord(string word) {\n        Node* curr = root;\n        for (char c : word) {\n            if (!curr->children[c - 'a']) curr->children[c - 'a'] = new Node();\n            curr = curr->children[c - 'a'];\n        }\n        curr->isEnd = true;\n    }\n    bool search(string word) { return dfs(word, 0, root); }\n    bool dfs(string& word, int idx, Node* node) {\n        if (!node) return false;\n        if (idx == word.size()) return node->isEnd;\n        if (word[idx] != '.') return dfs(word, idx + 1, node->children[word[idx] - 'a']);\n        for (int i = 0; i < 26; i++)\n            if (dfs(word, idx + 1, node->children[i])) return true;\n        return false;\n    }\n};`,
+            c: `typedef struct Node {\n    struct Node* children[26];\n    bool isEnd;\n} WordDictionary;\n\nWordDictionary* wordDictionaryCreate() {\n    return (WordDictionary*)calloc(1, sizeof(WordDictionary));\n}\n\nvoid wordDictionaryAddWord(WordDictionary* obj, char* word) {\n    for (int i = 0; word[i]; i++) {\n        int c = word[i] - 'a';\n        if (!obj->children[c]) obj->children[c] = wordDictionaryCreate();\n        obj = obj->children[c];\n    }\n    obj->isEnd = true;\n}\n\nbool dfs(char* word, WordDictionary* obj) {\n    if (!obj) return false;\n    if (!*word) return obj->isEnd;\n    if (*word != '.') {\n        return dfs(word + 1, obj->children[*word - 'a']);\n    }\n    for (int i = 0; i < 26; i++) {\n        if (dfs(word + 1, obj->children[i])) return true;\n    }\n    return false;\n}\n\nbool wordDictionarySearch(WordDictionary* obj, char* word) {\n    return dfs(word, obj);\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>
