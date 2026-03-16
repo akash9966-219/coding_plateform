@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .visual-container {
+            background: #111;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>139. Word Break</h1>
+        
+        <div class="desc">
+            Return true if the string <code>s</code> can be segmented into a space-separated sequence of one or more dictionary words.
+        </div>
+
+        <div class="section-header">DP Logic:</div>
+        <div class="visual-container">
+            <p style="color: #aaa; font-size: 0.85rem; margin-bottom: 15px;">s = "leetcode", dict = ["leet", "code"]</p>
+            <div style="font-family: 'Fira Code'; color: var(--text-dim); text-align: left; font-size: 0.8rem; line-height: 1.6;">
+                dp[0] = T (Empty)<br>
+                dp[4] = dp[0] && "leet" is in dict &rarr; T<br>
+                dp[8] = dp[4] && "code" is in dict &rarr; <span style="color:var(--primary)">T</span>
+            </div>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(n<sup>3</sup>) - n<sup>2</sup> for loops, n for substring slicing.</li>
+            <li>Space: O(n) for the DP array.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public boolean wordBreak(String s, List<String> wordDict) {\n        Set<String> set = new HashSet<>(wordDict);\n        boolean[] dp = new boolean[s.length() + 1];\n        dp[0] = true;\n\n        for (int i = 1; i <= s.length(); i++) {\n            for (int j = 0; j < i; j++) {\n                if (dp[j] && set.contains(s.substring(j, i))) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        return dp[s.length()];\n    }\n}`,
+            python: `class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        word_set = set(wordDict)\n        dp = [False] * (len(s) + 1)\n        dp[0] = True\n        \n        for i in range(1, len(s) + 1):\n            for j in range(i):\n                if dp[j] and s[j:i] in word_set:\n                    dp[i] = True\n                    break\n        return dp[len(s)]`,
+            cpp: `class Solution {\npublic:\n    bool wordBreak(string s, vector<string>& wordDict) {\n        unordered_set<string> dict(wordDict.begin(), wordDict.end());\n        vector<bool> dp(s.size() + 1, false);\n        dp[0] = true;\n\n        for (int i = 1; i <= s.size(); i++) {\n            for (int j = 0; j < i; j++) {\n                if (dp[j] && dict.count(s.substr(j, i - j))) {\n                    dp[i] = true;\n                    break;\n                }\n            }\n        }\n        return dp[s.size()];\n    }\n};`,
+            c: `bool wordBreak(char* s, char** wordDict, int wordDictSize) {\n    int n = strlen(s);\n    bool* dp = calloc(n + 1, sizeof(bool));\n    dp[0] = true;\n\n    for (int i = 1; i <= n; i++) {\n        for (int j = 0; j < i; j++) {\n            if (dp[j]) {\n                char sub[301];\n                strncpy(sub, s + j, i - j);\n                sub[i - j] = '\\0';\n                for (int k = 0; k < wordDictSize; k++) {\n                    if (strcmp(sub, wordDict[k]) == 0) {\n                        dp[i] = true;\n                        break;\n                    }\n                }\n            }\n            if (dp[i]) break;\n        }\n    }\n    bool res = dp[n];\n    free(dp);\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

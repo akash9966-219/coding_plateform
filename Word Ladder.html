@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ff4b4b;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ff4b4b;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 75, 75, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Hard</span>
+        </div>
+
+        <h1>127. Word Ladder</h1>
+        
+        <div class="desc">
+            Find the shortest transformation sequence from <code>beginWord</code> to <code>endWord</code>. One letter changes at a time.
+        </div>
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+<b>Input:</b> "hit" → "cog"
+<b>Bank:</b> ["hot","dot","dog","lot","log","cog"]
+<br>
+<b>Output:</b> 5
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>WordList size ≤ 5000.</li>
+            <li>Word length ≤ 10.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public int ladderLength(String beginWord, String endWord, List<String> wordList) {\n        Set<String> set = new HashSet<>(wordList);\n        if (!set.contains(endWord)) return 0;\n\n        Queue<String> q = new LinkedList<>();\n        q.add(beginWord);\n        int level = 1;\n\n        while (!q.isEmpty()) {\n            int size = q.size();\n            for (int i = 0; i < size; i++) {\n                String curr = q.poll();\n                if (curr.equals(endWord)) return level;\n\n                char[] words = curr.toCharArray();\n                for (int j = 0; j < words.length; j++) {\n                    char original = words[j];\n                    for (char c = 'a'; c <= 'z'; c++) {\n                        words[j] = c;\n                        String next = new String(words);\n                        if (set.contains(next)) {\n                            q.add(next);\n                            set.remove(next);\n                        }\n                    }\n                    words[j] = original;\n                }\n            }\n            level++;\n        }\n        return 0;\n    }\n}`,
+            python: `class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        wordSet = set(wordList)\n        if endWord not in wordSet: return 0\n\n        queue = collections.deque([(beginWord, 1)])\n        while queue:\n            word, length = queue.popleft()\n            if word == endWord: return length\n            \n            for i in range(len(word)):\n                for c in 'abcdefghijklmnopqrstuvwxyz':\n                    next_word = word[:i] + c + word[i+1:]\n                    if next_word in wordSet:\n                        wordSet.remove(next_word)\n                        queue.append((next_word, length + 1))\n        return 0`,
+            cpp: `class Solution {\npublic:\n    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {\n        unordered_set<string> dict(wordList.begin(), wordList.end());\n        if (!dict.count(endWord)) return 0;\n\n        queue<pair<string, int>> q;\n        q.push({beginWord, 1});\n\n        while (!q.empty()) {\n            auto [word, dist] = q.front(); q.pop();\n            if (word == endWord) return dist;\n\n            for (int i = 0; i < word.size(); i++) {\n                char original = word[i];\n                for (char c = 'a'; c <= 'z'; c++) {\n                    word[i] = c;\n                    if (dict.count(word)) {\n                        dict.erase(word);\n                        q.push({word, dist + 1});\n                    }\n                }\n                word[i] = original;\n            }\n        }\n        return 0;\n    }\n};`,
+            c: `bool canMutate(char* s1, char* s2) {\n    int diff = 0;\n    while (*s1) {\n        if (*s1++ != *s2++) diff++;\n        if (diff > 1) return false;\n    }\n    return diff == 1;\n}\n\nint ladderLength(char* beginWord, char* endWord, char** wordList, int wordListSize) {\n    int* queue = (int*)malloc(sizeof(int) * (wordListSize + 1));\n    int* dist = (int*)malloc(sizeof(int) * (wordListSize + 1));\n    bool* visited = (bool*)calloc(wordListSize, sizeof(bool));\n    int head = 0, tail = 0;\n\n    // Check if endWord is in wordList\n    int targetIdx = -1;\n    for(int i=0; i<wordListSize; i++) {\n        if(strcmp(wordList[i], endWord) == 0) targetIdx = i;\n    }\n    if (targetIdx == -1) return 0;\n\n    // BFS start from beginWord\n    for(int i=0; i<wordListSize; i++) {\n        if(canMutate(beginWord, wordList[i])) {\n            visited[i] = true;\n            queue[tail] = i; dist[tail++] = 2;\n        }\n    }\n\n    while(head < tail) {\n        int curr = queue[head];\n        int d = dist[head++];\n        if (curr == targetIdx) return d;\n\n        for(int i=0; i<wordListSize; i++) {\n            if(!visited[i] && canMutate(wordList[curr], wordList[i])) {\n                visited[i] = true;\n                queue[tail] = i; dist[tail++] = d + 1;\n            }\n        }\n    }\n    return 0;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>
