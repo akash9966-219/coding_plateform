@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .visual-container {
+            background: #111;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .visual-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>130. Surrounded Regions</h1>
+        
+        <div class="desc">
+            Replace all 'O's with 'X's if they are <b>surrounded</b> by 'X's. An 'O' is not surrounded if it is connected to the edge of the board.
+        </div>
+
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2021/02/19/xogrid.jpg" alt="X O Grid Example">
+        </div>
+
+        <div class="section-header">Strategy:</div>
+        <div class="desc" style="font-size: 0.85rem; color: var(--text-dim);">
+            1. DFS from all border 'O's to mark escapable regions.<br>
+            2. Iterate through board: 'O' → 'X', 'Marked' → 'O'.
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>m, n <= 200</li>
+            <li>Board contains only 'X' and 'O'.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public void solve(char[][] board) {\n        if (board.length == 0) return;\n        int rows = board.length, cols = board[0].length;\n\n        // DFS from border O's\n        for (int i = 0; i < rows; i++) {\n            dfs(board, i, 0); dfs(board, i, cols - 1);\n        }\n        for (int j = 0; j < cols; j++) {\n            dfs(board, 0, j); dfs(board, rows - 1, j);\n        }\n\n        for (int i = 0; i < rows; i++) {\n            for (int j = 0; j < cols; j++) {\n                if (board[i][j] == 'O') board[i][j] = 'X';\n                else if (board[i][j] == 'T') board[i][j] = 'O';\n            }\n        }\n    }\n\n    private void dfs(char[][] board, int r, int c) {\n        if (r < 0 || c < 0 || r >= board.length || c >= board[0].length || board[r][c] != 'O') return;\n        board[r][c] = 'T';\n        dfs(board, r + 1, c); dfs(board, r - 1, c);\n        dfs(board, r, c + 1); dfs(board, r, c - 1);\n    }\n}`,
+            python: `class Solution:\n    def solve(self, board: List[List[str]]) -> None:\n        if not board: return\n        R, C = len(board), len(board[0])\n\n        def dfs(r, c):\n            if 0 <= r < R and 0 <= c < C and board[r][c] == 'O':\n                board[r][c] = 'T'\n                for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:\n                    dfs(r + dr, c + dc)\n\n        # Start from borders\n        for r in range(R):\n            dfs(r, 0); dfs(r, C - 1)\n        for c in range(C):\n            dfs(0, c); dfs(R - 1, c)\n\n        for r in range(R):\n            for c in range(C):\n                board[r][c] = 'X' if board[r][c] == 'O' else ('O' if board[r][c] == 'T' else 'X')`,
+            cpp: `class Solution {\npublic:\n    void solve(vector<vector<char>>& board) {\n        int R = board.size(), C = board[0].size();\n        for(int i=0; i<R; i++) { dfs(board, i, 0); dfs(board, i, C-1); }\n        for(int j=0; j<C; j++) { dfs(board, 0, j); dfs(board, R-1, j); }\n\n        for(int i=0; i<R; i++) {\n            for(int j=0; j<C; j++) {\n                if(board[i][j] == 'O') board[i][j] = 'X';\n                else if(board[i][j] == 'T') board[i][j] = 'O';\n            }\n        }\n    }\n\n    void dfs(vector<vector<char>>& b, int r, int c) {\n        if(r<0 || c<0 || r>=b.size() || c>=b[0].size() || b[r][c] != 'O') return;\n        b[r][c] = 'T';\n        dfs(b, r+1, c); dfs(b, r-1, c); dfs(b, r, c+1); dfs(b, r, c-1);\n    }\n};`,
+            c: `void dfs(char** b, int r, int c, int R, int C) {\n    if(r<0 || c<0 || r>=R || c>=C || b[r][c] != 'O') return;\n    b[r][c] = 'T';\n    dfs(b, r+1, c, R, C); dfs(b, r-1, c, R, C);\n    dfs(b, r, c+1, R, C); dfs(b, r, c-1, R, C);\n}\n\nvoid solve(char** board, int boardSize, int* boardColSize) {\n    int R = boardSize, C = boardColSize[0];\n    for(int i=0; i<R; i++) { dfs(board, i, 0, R, C); dfs(board, i, C-1, R, C); }\n    for(int j=0; j<C; j++) { dfs(board, 0, j, R, C); dfs(board, R-1, j, R, C); }\n    for(int i=0; i<R; i++) {\n        for(int j=0; j<C; j++) {\n            if(board[i][j] == 'O') board[i][j] = 'X';\n            else if(board[i][j] == 'T') board[i][j] = 'O';\n        }\n    }\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

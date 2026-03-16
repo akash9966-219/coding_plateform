@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>188. Stock IV (k Transactions)</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given an integer <code>k</code> and an array <code>prices</code>.
+            <br><br>Find the maximum profit you can achieve. You may complete <b>at most k transactions</b>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            k = 2, prices = [3,2,6,5,0,3]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            7<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            Buy at price 2, sell at 6 (profit 4). Then buy at 0, sell at 3 (profit 3). Total = 7.
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def maxProfit(self, k: int, prices: List[int]) -> int:
+        if not prices or k == 0: return 0
+        
+        # Optimization: If k is large, it's unlimited transactions
+        if k >= len(prices) // 2:
+            return sum(max(0, prices[i] - prices[i-1]) for i in range(1, len(prices)))
+        
+        buy = [-float('inf')] * (k + 1)
+        sell = [0] * (k + 1)
+        
+        for p in prices:
+            for j in range(1, k + 1):
+                buy[j] = max(buy[j], sell[j-1] - p)
+                sell[j] = max(sell[j], buy[j] + p)
+        
+        return sell[k]`,
+            java: `class Solution {
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        if (n <= 1 || k == 0) return 0;
+
+        if (k >= n / 2) {
+            int res = 0;
+            for (int i = 1; i < n; i++) res += Math.max(0, prices[i] - prices[i-1]);
+            return res;
+        }
+
+        int[] buy = new int[k + 1];
+        int[] sell = new int[k + 1];
+        Arrays.fill(buy, Integer.MIN_VALUE);
+
+        for (int p : prices) {
+            for (int j = 1; j <= k; j++) {
+                buy[j] = Math.max(buy[j], sell[j-1] - p);
+                sell[j] = Math.max(sell[j], buy[j] + p);
+            }
+        }
+        return sell[k];
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int maxProfit(int k, vector<int>& prices) {
+        int n = prices.size();
+        if (n <= 1 || k == 0) return 0;
+
+        if (k >= n / 2) {
+            int res = 0;
+            for (int i = 1; i < n; i++) res += max(0, prices[i] - prices[i-1]);
+            return res;
+        }
+
+        vector<int> buy(k + 1, INT_MIN);
+        vector<int> sell(k + 1, 0);
+
+        for (int p : prices) {
+            for (int j = 1; j <= k; j++) {
+                buy[j] = max(buy[j], sell[j-1] - p);
+                sell[j] = max(sell[j], buy[j] + p);
+            }
+        }
+        return sell[k];
+    }
+};`,
+            c: `int maxProfit(int k, int* prices, int pricesSize) {
+    if (pricesSize <= 1 || k == 0) return 0;
+
+    if (k >= pricesSize / 2) {
+        int res = 0;
+        for (int i = 1; i < pricesSize; i++) {
+            if (prices[i] > prices[i-1]) res += prices[i] - prices[i-1];
+        }
+        return res;
+    }
+
+    int* buy = (int*)malloc((k + 1) * sizeof(int));
+    int* sell = (int*)malloc((k + 1) * sizeof(int));
+    for (int i = 0; i <= k; i++) {
+        buy[i] = -2147483648; // INT_MIN
+        sell[i] = 0;
+    }
+
+    for (int i = 0; i < pricesSize; i++) {
+        for (int j = 1; j <= k; j++) {
+            if (sell[j-1] - prices[i] > buy[j]) buy[j] = sell[j-1] - prices[i];
+            if (buy[j] + prices[i] > sell[j]) sell[j] = buy[j] + prices[i];
+        }
+    }
+    int res = sell[k];
+    free(buy); free(sell);
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

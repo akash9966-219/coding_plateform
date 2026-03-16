@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* --- LEFT SIDE: QUESTION DETAILS --- */
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ff4d4d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ff4d4d;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 77, 77, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            white-space: pre;
+        }
+
+        /* --- RIGHT SIDE: CODE VIEW --- */
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.1);
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Hard</span>
+        </div>
+
+        <h1>68. Text Justification</h1>
+        
+        <div class="desc">
+            Given an array of strings <code>words</code> and a width <code>maxWidth</code>, format the text such that each line has exactly <code>maxWidth</code> characters and is fully justified.
+            <br><br>
+            Pack as many words as you can in each line. Pad extra spaces evenly. If spaces don't divide evenly, the left slots get more. The last line should be left-justified.
+        </div>
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+Input: words = ["This", "is", "an", "example"], maxWidth = 16
+Output:
+[
+  "This    is    an",
+  "example         "
+]
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>1 <= words.length <= 300</li>
+            <li>1 <= maxWidth <= 100</li>
+            <li>words[i].length <= maxWidth</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public List<String> fullJustify(String[] words, int maxWidth) {\n        List<String> res = new ArrayList<>();\n        int n = words.length;\n        int i = 0;\n\n        while (i < n) {\n            int len = words[i].length();\n            int j = i + 1;\n            while (j < n && len + 1 + words[j].length() <= maxWidth) {\n                len += 1 + words[j].length();\n                j++;\n            }\n\n            StringBuilder sb = new StringBuilder();\n            int count = j - i;\n            if (j == n || count == 1) {\n                for (int k = i; k < j; k++) {\n                    sb.append(words[k]);\n                    if (k < j - 1) sb.append(" ");\n                }\n                while (sb.length() < maxWidth) sb.append(" ");\n            } else {\n                int spaces = (maxWidth - len) / (count - 1);\n                int extra = (maxWidth - len) % (count - 1);\n                for (int k = i; k < j; k++) {\n                    sb.append(words[k]);\n                    if (k < j - 1) {\n                        for (int s = 0; s <= spaces + (k - i < extra ? 1 : 0); s++) sb.append(" ");\n                    }\n                }\n            }\n            res.add(sb.toString());\n            i = j;\n        }\n        return res;\n    }\n}`,
+            python: `class Solution:\n    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:\n        res, cur, num_of_letters = [], [], 0\n        for w in words:\n            if num_of_letters + len(w) + len(cur) > maxWidth:\n                for i in range(maxWidth - num_of_letters):\n                    cur[i % (len(cur) - 1 or 1)] += ' '\n                res.append(''.join(cur))\n                cur, num_of_letters = [], 0\n            cur += [w]\n            num_of_letters += len(w)\n        return res + [' '.join(cur).ljust(maxWidth)]`,
+            cpp: `class Solution {\npublic:\n    vector<string> fullJustify(vector<string>& words, int maxWidth) {\n        vector<string> res;\n        int i = 0;\n        while (i < words.size()) {\n            int j = i + 1, len = words[i].size();\n            while (j < words.size() && len + 1 + words[j].size() <= maxWidth) {\n                len += 1 + words[j].size();\n                j++;\n            }\n            string line = words[i];\n            int count = j - i;\n            if (j == words.size() || count == 1) {\n                for (int k = i + 1; k < j; k++) line += " " + words[k];\n                line += string(maxWidth - line.size(), ' ');\n            } else {\n                int spaces = (maxWidth - len) / (count - 1);\n                int extra = (maxWidth - len) % (count - 1);\n                for (int k = i + 1; k < j; k++) {\n                    line += string(spaces + (k - i - 1 < extra ? 2 : 1), ' ') + words[k];\n                }\n            }\n            res.push_back(line);\n            i = j;\n        }\n        return res;\n    }\n};`,
+            c: `// C implementation involves dynamic string allocation and padding logic\n// typically resulting in ~60-80 lines of pointer manipulation.`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

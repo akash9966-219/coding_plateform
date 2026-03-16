@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Binary-Search.html" class="back-btn">← Back to Binary Search</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>2563. Count Fair Pairs</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given a 0-indexed integer array <code>nums</code> of size <code>n</code> and two integers <code>lower</code> and <code>upper</code>, return the number of fair pairs.
+            <br><br>A pair <code>(i, j)</code> is <b>fair</b> if:
+            <ul style="margin-left: 20px; color: #ccc; margin-top: 10px;">
+                <li><code>0 <= i < j < n</code>, and</li>
+                <li><code>lower <= nums[i] + nums[j] <= upper</code></li>
+            </ul>
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            nums = [0,1,7,4,4,5], lower = 3, upper = 6<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            6
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
+        nums.sort()
+        ans = 0
+        for i in range(len(nums)):
+            # Find range [low, up] such that lower <= nums[i] + nums[j] <= upper
+            # j > i
+            low = bisect_left(nums, lower - nums[i], lo=i + 1)
+            up = bisect_right(nums, upper - nums[i], lo=i + 1)
+            ans += (up - low)
+        return ans`,
+            java: `class Solution {
+    public long countFairPairs(int[] nums, int lower, int upper) {
+        Arrays.sort(nums);
+        long ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int low = lowerBound(nums, i + 1, lower - nums[i]);
+            int up = upperBound(nums, i + 1, upper - nums[i]);
+            ans += (up - low);
+        }
+        return ans;
+    }
+
+    private int lowerBound(int[] nums, int start, int target) {
+        int l = start, r = nums.length;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] >= target) r = m;
+            else l = m + 1;
+        }
+        return l;
+    }
+
+    private int upperBound(int[] nums, int start, int target) {
+        int l = start, r = nums.length;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] > target) r = m;
+            else l = m + 1;
+        }
+        return l;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(), nums.end());
+        long long ans = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            auto low = lower_bound(nums.begin() + i + 1, nums.end(), lower - nums[i]);
+            auto up = upper_bound(nums.begin() + i + 1, nums.end(), upper - nums[i]);
+            ans += (up - low);
+        }
+        return ans;
+    }
+};`,
+            c: `int compare(const void* a, const void* b) {
+    return (*(int*)a - *(int*)b);
+}
+
+long long countFairPairs(int* nums, int numsSize, int lower, int upper) {
+    qsort(nums, numsSize, sizeof(int), compare);
+    long long ans = 0;
+    for (int i = 0; i < numsSize; i++) {
+        int target_low = lower - nums[i];
+        int target_up = upper - nums[i];
+        
+        // Manual Lower Bound
+        int l = i + 1, r = numsSize, low_idx;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] >= target_low) r = m;
+            else l = m + 1;
+        }
+        low_idx = l;
+        
+        // Manual Upper Bound
+        l = i + 1, r = numsSize;
+        while (l < r) {
+            int m = l + (r - l) / 2;
+            if (nums[m] > target_up) r = m;
+            else l = m + 1;
+        }
+        ans += (l - low_idx);
+    }
+    return ans;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

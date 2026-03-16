@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1268. Search Suggestions</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Design a system that suggests at most three product names from <code>products</code> after each character of <code>searchWord</code> is typed. Suggested products should have a common prefix with <code>searchWord</code>.
+        </div>
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Products</th><th>SearchWord</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>["mobile","mouse","moneypot"]</td><td>"mou"</td><td>[["mobile","moneypot","mouse"], ["moneypot","mouse"], ["mouse"]]</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">Efficiency Logic:</div>
+        <div class="logic-visual">
+            1. Sort products lexicographically.<br>
+            2. Use left/right pointers to find the range matching the current prefix.<br>
+            3. For each character i in searchWord:<br>
+            &nbsp;&nbsp;Update pointers: while (prod[L][i] != c) L++;<br>
+            &nbsp;&nbsp;Collect min(3, R-L+1) products.
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2; margin-bottom: 30px;">
+            <li>Time: O(N log N + M) - N is products count, M is searchWord length.</li>
+            <li>Space: O(N) - Sorting and output storage.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `public List<List<String>> suggestedProducts(String[] products, String searchWord) {\n    Arrays.sort(products);\n    List<List<String>> res = new ArrayList<>();\n    int left = 0, right = products.length - 1;\n    for (int i = 0; i < searchWord.length(); i++) {\n        char c = searchWord.charAt(i);\n        while (left <= right && (products[left].length() <= i || products[left].charAt(i) != c)) left++;\n        while (left <= right && (products[right].length() <= i || products[right].charAt(i) != c)) right--;\n        \n        List<String> suggestion = new ArrayList<>();\n        for (int j = 0; j < Math.min(3, right - left + 1); j++) {\n            suggestion.add(products[left + j]);\n        }\n        res.add(suggestion);\n    }\n    return res;\n}`,
+            python: `def suggestedProducts(self, products: List[str], searchWord: str) -> List[List[str]]:\n    products.sort()\n    res = []\n    left, right = 0, len(products) - 1\n    for i in range(len(searchWord)):\n        char = searchWord[i]\n        while left <= right and (len(products[left]) <= i or products[left][i] != char): left += 1\n        while left <= right and (len(products[right]) <= i or products[right][i] != char): right -= 1\n        \n        res.append(products[left : min(left + 3, right + 1)])\n    return res`,
+            cpp: `vector<vector<string>> suggestedProducts(vector<string>& products, string searchWord) {\n    sort(products.begin(), products.end());\n    vector<vector<string>> res;\n    int left = 0, right = products.size() - 1;\n    for (int i = 0; i < searchWord.size(); i++) {\n        char c = searchWord[i];\n        while (left <= right && (products[left].size() <= i || products[left][i] != c)) left++;\n        while (left <= right && (products[right].size() <= i || products[right][i] != c)) right--;\n        \n        vector<string> suggestion;\n        for (int j = 0; j < min(3, right - left + 1); j++) {\n            suggestion.push_back(products[left + j]);\n        }\n        res.push_back(suggestion);\n    }\n    return res;\n}`,
+            c: `int compare(const void* a, const void* b) { return strcmp(*(char**)a, *(char**)b); }\n\nchar*** suggestedProducts(char** products, int productsSize, char* searchWord, int* returnSize, int** returnColumnSizes) {\n    qsort(products, productsSize, sizeof(char*), compare);\n    int n = strlen(searchWord);\n    char*** res = malloc(n * sizeof(char**));\n    *returnColumnSizes = malloc(n * sizeof(int));\n    *returnSize = n;\n    int left = 0, right = productsSize - 1;\n    for (int i = 0; i < n; i++) {\n        while (left <= right && (strlen(products[left]) <= i || products[left][i] != searchWord[i])) left++;\n        while (left <= right && (strlen(products[right]) <= i || products[right][i] != searchWord[i])) right--;\n        int count = (right - left + 1 < 3) ? (right - left + 1 > 0 ? right - left + 1 : 0) : 3;\n        (*returnColumnSizes)[i] = count;\n        res[i] = malloc(count * sizeof(char*));\n        for (int j = 0; j < count; j++) res[i][j] = strdup(products[left + j]);\n    }\n    return res;\n}`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

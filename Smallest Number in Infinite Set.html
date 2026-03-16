@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>2336. Smallest in Infinite Set</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Implement the <code>SmallestInfiniteSet</code> class:
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><code>popSmallest()</code> Removes and returns the smallest integer.</li>
+                <li><code>addBack(num)</code> Adds <code>num</code> back into the set if it is not already present.</li>
+            </ul>
+        </div>
+
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Method</th><th>Argument</th><th>Return Value</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>addBack</td><td>2</td><td>null</td></tr>
+                <tr><td>popSmallest</td><td>-</td><td>1</td></tr>
+                <tr><td>popSmallest</td><td>-</td><td>2</td></tr>
+                <tr><td>addBack</td><td>1</td><td>null</td></tr>
+                <tr><td>popSmallest</td><td>-</td><td>1</td></tr>
+            </tbody>
+        </table>
+        
+        <div class="section-header">Internal State Logic:</div>
+        <div class="logic-visual">
+            Infinite set conceptual start: [1, 2, 3, 4, ...]<br><br>
+            1. <b>popSmallest()</b>: No heap? Return nextSmallest (1). nextSmallest = 2.<br>
+            2. <b>addBack(1)</b>: 1 < 2? Add 1 to minHeap. addedSet = {1}.<br>
+            3. <b>popSmallest()</b>: Heap has 1? Pop 1. Return 1.
+        </div>
+        
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2; margin-bottom: 30px;">
+            <li>popSmallest: O(log N) - Heap pop or O(1) - Pointer.</li>
+            <li>addBack: O(log N) - Heap push with O(1) set check.</li>
+            <li>Space: O(N) where N is unique addBack operations.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class SmallestInfiniteSet {\n    private int nextSmallest = 1;\n    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n    private Set<Integer> addedSet = new HashSet<>();\n\n    public int popSmallest() {\n        if (!minHeap.isEmpty()) {\n            int smallest = minHeap.poll();\n            addedSet.remove(smallest);\n            return smallest;\n        }\n        return nextSmallest++;\n    }\n\n    public void addBack(int num) {\n        if (num < nextSmallest && addedSet.add(num)) {\n            minHeap.offer(num);\n        }\n    }\n}`,
+            python: `import heapq\n\nclass SmallestInfiniteSet:\n    def __init__(self):\n        self.next_smallest = 1\n        self.min_heap = []\n        self.added_set = set()\n\n    def popSmallest(self) -> int:\n        if self.min_heap:\n            smallest = heapq.heappop(self.min_heap)\n            self.added_set.remove(smallest)\n            return smallest\n        self.next_smallest += 1\n        return self.next_smallest - 1\n\n    def addBack(self, num: int) -> None:\n        if num < self.next_smallest and num not in self.added_set:\n            heapq.heappush(self.min_heap, num)\n            self.added_set.add(num)`,
+            cpp: `class SmallestInfiniteSet {\n    int nextSmallest = 1;\n    set<int> addedSet;\npublic:\n    int popSmallest() {\n        if (!addedSet.empty()) {\n            int smallest = *addedSet.begin();\n            addedSet.erase(addedSet.begin());\n            return smallest;\n        }\n        return nextSmallest++;\n    }\n\n    void addBack(int num) {\n        if (num < nextSmallest) {\n            addedSet.insert(num);\n        }\n    }\n};`,
+            c: `typedef struct {\n    int nextSmallest;\n    int heap[1001];\n    int heapSize;\n    bool exists[1001];\n} SmallestInfiniteSet;\n\nSmallestInfiniteSet* smallestInfiniteSetCreate() {\n    SmallestInfiniteSet* obj = malloc(sizeof(SmallestInfiniteSet));\n    obj->nextSmallest = 1;\n    obj->heapSize = 0;\n    memset(obj->exists, 0, sizeof(obj->exists));\n    return obj;\n}\n\n// pop and push logic using standard min-heap...`
+        };
+
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

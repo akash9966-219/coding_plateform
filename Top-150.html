@@ -1,0 +1,387 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 150 | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --card-bg: #111;
+            --primary: #00ff9d;
+            --easy: #00ff9d;
+            --medium: #ffb800;
+            --hard: #ff4b4b;
+            --text-dim: #888;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            padding: 40px 20px;
+            background: radial-gradient(circle at 50% 0%, #11221a 0%, #050505 50%);
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header {
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+        }
+
+        h1 { font-size: 2.5rem; letter-spacing: -1px; }
+
+        .search-bar {
+            background: #1a1a1a;
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 12px;
+            color: white;
+            width: 350px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 255, 157, 0.2); }
+
+        .category-group { margin-bottom: 60px; }
+
+        h2 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        h2::after { content: ""; height: 1px; flex-grow: 1; background: var(--border); }
+
+        .problem-list { display: flex; flex-direction: column; gap: 10px; }
+
+        .problem-row {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 18px 25px;
+            border-radius: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .problem-row:hover {
+            transform: translateX(10px);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .problem-info { display: flex; align-items: center; gap: 20px; }
+        .title { font-weight: 500; font-size: 1.1rem; color: #eee; }
+
+        .difficulty {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .Easy { color: var(--easy); background: rgba(0, 255, 157, 0.1); }
+        .Medium { color: var(--medium); background: rgba(255, 184, 0, 0.1); }
+        .Hard { color: var(--hard); background: rgba(255, 75, 75, 0.1); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div>
+                <a href="topics.html" class="back-btn">← Back to List</a>
+                <h1>Top 150 Interview Prep</h1>
+                <p style="color: var(--text-dim);">Systematic coverage of essential patterns.</p>
+            </div>
+            <input type="text" class="search-bar" placeholder="Search problems (e.g. 'Jump', 'Tree')..." onkeyup="filterProblems()">
+        </header>
+
+        <div id="problem-container">
+            </div>
+    </div>
+
+    <script>
+        const questionsData = [
+    // Array / String
+    { cat: "Array / String", q: "Merge Sorted Array", diff: "Easy" },
+    { cat: "Array / String", q: "Remove Element", diff: "Easy" },
+    { cat: "Array / String", q: "Remove Duplicates from Sorted Array", diff: "Easy" },
+    { cat: "Array / String", q: "Remove Duplicates from Sorted Array II", diff: "Medium" },
+    { cat: "Array / String", q: "Majority Element", diff: "Easy" },
+    { cat: "Array / String", q: "Rotate Array", diff: "Medium" },
+    { cat: "Array / String", q: "Best Time to Buy and Sell Stock", diff: "Easy" },
+    { cat: "Array / String", q: "Best Time to Buy and Sell Stock II", diff: "Medium" },
+    { cat: "Array / String", q: "Jump Game", diff: "Medium" },
+    { cat: "Array / String", q: "Jump Game II", diff: "Medium" },
+    { cat: "Array / String", q: "H-Index", diff: "Medium" },
+    { cat: "Array / String", q: "Insert Delete GetRandom O(1)", diff: "Medium" },
+    { cat: "Array / String", q: "Product of Array Except Self", diff: "Medium" },
+    { cat: "Array / String", q: "Gas Station", diff: "Medium" },
+    { cat: "Array / String", q: "Candy", diff: "Hard" },
+    { cat: "Array / String", q: "Trapping Rain Water", diff: "Hard" },
+    { cat: "Array / String", q: "Roman to Integer", diff: "Easy" },
+    { cat: "Array / String", q: "Integer to Roman", diff: "Medium" },
+    { cat: "Array / String", q: "Length of Last Word", diff: "Easy" },
+    { cat: "Array / String", q: "Longest Common Prefix", diff: "Easy" },
+    { cat: "Array / String", q: "Reverse Words in a String", diff: "Medium" },
+    { cat: "Array / String", q: "Zigzag Conversion", diff: "Medium" },
+    { cat: "Array / String", q: "Find the Index of the First Occurrence in a String", diff: "Easy" },
+    { cat: "Array / String", q: "Text Justification", diff: "Hard" },
+
+    // Two Pointers
+    { cat: "Two Pointers", q: "Valid Palindrome", diff: "Easy" },
+    { cat: "Two Pointers", q: "Is Subsequence", diff: "Easy" },
+    { cat: "Two Pointers", q: "Two Sum II - Input Array Is Sorted", diff: "Medium" },
+    { cat: "Two Pointers", q: "Container With Most Water", diff: "Medium" },
+    { cat: "Two Pointers", q: "3Sum", diff: "Medium" },
+
+    // Sliding Window
+    { cat: "Sliding Window", q: "Minimum Size Subarray Sum", diff: "Medium" },
+    { cat: "Sliding Window", q: "Longest Substring Without Repeating Characters", diff: "Medium" },
+    { cat: "Sliding Window", q: "Substring with Concatenation of All Words", diff: "Hard" },
+    { cat: "Sliding Window", q: "Minimum Window Substring", diff: "Hard" },
+
+    // Matrix
+    { cat: "Matrix", q: "Valid Sudoku", diff: "Medium" },
+    { cat: "Matrix", q: "Spiral Matrix", diff: "Medium" },
+    { cat: "Matrix", q: "Rotate Image", diff: "Medium" },
+    { cat: "Matrix", q: "Set Matrix Zeroes", diff: "Medium" },
+    { cat: "Matrix", q: "Game of Life", diff: "Medium" },
+
+    // Hashmap
+    { cat: "Hashmap", q: "Ransom Note", diff: "Easy" },
+    { cat: "Hashmap", q: "Isomorphic Strings", diff: "Easy" },
+    { cat: "Hashmap", q: "Word Pattern", diff: "Easy" },
+    { cat: "Hashmap", q: "Valid Anagram", diff: "Easy" },
+    { cat: "Hashmap", q: "Group Anagrams", diff: "Medium" },
+    { cat: "Hashmap", q: "Two Sum", diff: "Easy" },
+    { cat: "Hashmap", q: "Happy Number", diff: "Easy" },
+    { cat: "Hashmap", q: "Contains Duplicate II", diff: "Easy" },
+    { cat: "Hashmap", q: "Longest Consecutive Sequence", diff: "Medium" },
+
+    // Intervals
+    { cat: "Intervals", q: "Summary Ranges", diff: "Easy" },
+    { cat: "Intervals", q: "Merge Intervals", diff: "Medium" },
+    { cat: "Intervals", q: "Insert Interval", diff: "Medium" },
+    { cat: "Intervals", q: "Minimum Number of Arrows to Burst Balloons", diff: "Medium" },
+
+    // Stack
+    { cat: "Stack", q: "Valid Parentheses", diff: "Easy" },
+    { cat: "Stack", q: "Simplify Path", diff: "Medium" },
+    { cat: "Stack", q: "Min Stack", diff: "Medium" },
+    { cat: "Stack", q: "Evaluate Reverse Polish Notation", diff: "Medium" },
+    { cat: "Stack", q: "Basic Calculator", diff: "Hard" },
+
+    // Linked List
+    { cat: "Linked List", q: "Linked List Cycle", diff: "Easy" },
+    { cat: "Linked List", q: "Add Two Numbers", diff: "Medium" },
+    { cat: "Linked List", q: "Merge Two Sorted Lists", diff: "Easy" },
+    { cat: "Linked List", q: "Copy List with Random Pointer", diff: "Medium" },
+    { cat: "Linked List", q: "Reverse Linked List II", diff: "Medium" },
+    { cat: "Linked List", q: "Reverse Nodes in k-Group", diff: "Hard" },
+    { cat: "Linked List", q: "Remove Nth Node From End of List", diff: "Medium" },
+    { cat: "Linked List", q: "Remove Duplicates from Sorted List II", diff: "Medium" },
+    { cat: "Linked List", q: "Rotate List", diff: "Medium" },
+    { cat: "Linked List", q: "Partition List", diff: "Medium" },
+    { cat: "Linked List", q: "LRU Cache", diff: "Medium" },
+
+    // Binary Tree General
+    { cat: "Binary Tree General", q: "Maximum Depth of Binary Tree", diff: "Easy" },
+    { cat: "Binary Tree General", q: "Same Tree", diff: "Easy" },
+    { cat: "Binary Tree General", q: "Invert Binary Tree", diff: "Easy" },
+    { cat: "Binary Tree General", q: "Symmetric Tree", diff: "Easy" },
+    { cat: "Binary Tree General", q: "Construct Binary Tree from Preorder and Inorder Traversal", diff: "Medium" },
+    { cat: "Binary Tree General", q: "Construct Binary Tree from Inorder and Postorder Traversal", diff: "Medium" },
+    { cat: "Binary Tree General", q: "Populating Next Right Pointers in Each Node II", diff: "Medium" },
+    { cat: "Binary Tree General", q: "Flatten Binary Tree to Linked List", diff: "Medium" },
+    { cat: "Binary Tree General", q: "Path Sum", diff: "Easy" },
+    { cat: "Binary Tree General", q: "Sum Root to Leaf Numbers", diff: "Medium" },
+    { cat: "Binary Tree General", q: "Binary Tree Maximum Path Sum", diff: "Hard" },
+    { cat: "Binary Tree General", q: "Binary Search Tree Iterator", diff: "Medium" },
+    { cat: "Binary Tree General", q: "Count Complete Tree Nodes", diff: "Easy" },
+    { cat: "Binary Tree General", q: "Lowest Common Ancestor of a Binary Tree", diff: "Medium" },
+
+    // Binary Tree BFS
+    { cat: "Binary Tree BFS", q: "Binary Tree Right Side View", diff: "Medium" },
+    { cat: "Binary Tree BFS", q: "Average of Levels in Binary Tree", diff: "Easy" },
+    { cat: "Binary Tree BFS", q: "Binary Tree Level Order Traversal", diff: "Medium" },
+    { cat: "Binary Tree BFS", q: "Binary Tree Zigzag Level Order Traversal", diff: "Medium" },
+
+    // Binary Search Tree
+    { cat: "Binary Search Tree", q: "Minimum Absolute Difference in BST", diff: "Easy" },
+    { cat: "Binary Search Tree", q: "Kth Smallest Element in a BST", diff: "Medium" },
+    { cat: "Binary Search Tree", q: "Validate Binary Search Tree", diff: "Medium" },
+
+    // Graph General
+    { cat: "Graph General", q: "Number of Islands", diff: "Medium" },
+    { cat: "Graph General", q: "Surrounded Regions", diff: "Medium" },
+    { cat: "Graph General", q: "Clone Graph", diff: "Medium" },
+    { cat: "Graph General", q: "Evaluate Division", diff: "Medium" },
+    { cat: "Graph General", q: "Course Schedule", diff: "Medium" },
+    { cat: "Graph General", q: "Course Schedule II", diff: "Medium" },
+
+    // Graph BFS
+    { cat: "Graph BFS", q: "Snakes and Ladders", diff: "Medium" },
+    { cat: "Graph BFS", q: "Minimum Genetic Mutation", diff: "Medium" },
+    { cat: "Graph BFS", q: "Word Ladder", diff: "Hard" },
+
+    // Trie
+    { cat: "Trie", q: "Implement Trie (Prefix Tree)", diff: "Medium" },
+    { cat: "Trie", q: "Design Add and Search Words Data Structure", diff: "Medium" },
+    { cat: "Trie", q: "Word Search II", diff: "Hard" },
+
+    // Backtracking
+    { cat: "Backtracking", q: "Letter Combinations of a Phone Number", diff: "Medium" },
+    { cat: "Backtracking", q: "Combinations", diff: "Medium" },
+    { cat: "Backtracking", q: "Permutations", diff: "Medium" },
+    { cat: "Backtracking", q: "Combination Sum", diff: "Medium" },
+    { cat: "Backtracking", q: "N-Queens II", diff: "Hard" },
+    { cat: "Backtracking", q: "Generate Parentheses", diff: "Medium" },
+    { cat: "Backtracking", q: "Word Search", diff: "Medium" },
+
+    // Divide & Conquer
+    { cat: "Divide & Conquer", q: "Convert Sorted Array to Binary Search Tree", diff: "Easy" },
+    { cat: "Divide & Conquer", q: "Sort List", diff: "Medium" },
+    { cat: "Divide & Conquer", q: "Construct Quad Tree", diff: "Medium" },
+    { cat: "Divide & Conquer", q: "Merge k Sorted Lists", diff: "Hard" },
+
+    // Kadane's Algorithm
+    { cat: "Kadane's Algorithm", q: "Maximum Subarray", diff: "Medium" },
+    { cat: "Kadane's Algorithm", q: "Maximum Sum Circular Subarray", diff: "Medium" },
+
+    // Binary Search
+    { cat: "Binary Search", q: "Search Insert Position", diff: "Easy" },
+    { cat: "Binary Search", q: "Search a 2D Matrix", diff: "Medium" },
+    { cat: "Binary Search", q: "Find Peak Element", diff: "Medium" },
+    { cat: "Binary Search", q: "Search in Rotated Sorted Array", diff: "Medium" },
+    { cat: "Binary Search", q: "Find First and Last Position of Element in Sorted Array", diff: "Medium" },
+    { cat: "Binary Search", q: "Find Minimum in Rotated Sorted Array", diff: "Medium" },
+    { cat: "Binary Search", q: "Median of Two Sorted Arrays", diff: "Hard" },
+
+    // Heap
+    { cat: "Heap", q: "Kth Largest Element in an Array", diff: "Medium" },
+    { cat: "Heap", q: "IPO", diff: "Hard" },
+    { cat: "Heap", q: "Find K Pairs with Smallest Sums", diff: "Medium" },
+    { cat: "Heap", q: "Find Median from Data Stream", diff: "Hard" },
+
+    // Bit Manipulation
+    { cat: "Bit Manipulation", q: "Add Binary", diff: "Easy" },
+    { cat: "Bit Manipulation", q: "Reverse Bits", diff: "Easy" },
+    { cat: "Bit Manipulation", q: "Number of 1 Bits", diff: "Easy" },
+    { cat: "Bit Manipulation", q: "Single Number", diff: "Easy" },
+    { cat: "Bit Manipulation", q: "Single Number II", diff: "Medium" },
+    { cat: "Bit Manipulation", q: "Bitwise AND of Numbers Range", diff: "Medium" },
+
+    // Math
+    { cat: "Math", q: "Palindrome Number", diff: "Easy" },
+    { cat: "Math", q: "Plus One", diff: "Easy" },
+    { cat: "Math", q: "Factorial Trailing Zeroes", diff: "Medium" },
+    { cat: "Math", q: "Sqrt(x)", diff: "Easy" },
+    { cat: "Math", q: "Pow(x,n)", diff: "Medium" },
+    { cat: "Math", q: "Max Points on a Line", diff: "Hard" },
+
+    // 1D DP
+    { cat: "1D DP", q: "Climbing Stairs", diff: "Easy" },
+    { cat: "1D DP", q: "House Robber", diff: "Medium" },
+    { cat: "1D DP", q: "Word Break", diff: "Medium" },
+    { cat: "1D DP", q: "Coin Change", diff: "Medium" },
+    { cat: "1D DP", q: "Longest Increasing Subsequence", diff: "Medium" },
+
+    // Multidimensional DP
+    { cat: "Multidimensional DP", q: "Triangle", diff: "Medium" },
+    { cat: "Multidimensional DP", q: "Minimum Path Sum", diff: "Medium" },
+    { cat: "Multidimensional DP", q: "Unique Paths II", diff: "Medium" },
+    { cat: "Multidimensional DP", q: "Longest Palindromic Substring", diff: "Medium" },
+    { cat: "Multidimensional DP", q: "Interleaving String", diff: "Medium" },
+    { cat: "Multidimensional DP", q: "Edit Distance", diff: "Medium" },
+    { cat: "Multidimensional DP", q: "Best Time to Buy and Sell Stock III", diff: "Hard" },
+    { cat: "Multidimensional DP", q: "Best Time to Buy and Sell Stock IV", diff: "Hard" },
+    { cat: "Multidimensional DP", q: "Maximal Square", diff: "Medium" }
+];
+
+function renderProblems() {
+    const container = document.getElementById('problem-container');
+    // Clear container first to avoid duplicates
+    container.innerHTML = "";
+    
+    // Get unique categories in order of appearance
+    const categories = [];
+    questionsData.forEach(item => {
+        if (!categories.includes(item.cat)) {
+            categories.push(item.cat);
+        }
+    });
+
+    categories.forEach(category => {
+        const section = document.createElement('section');
+        section.className = 'category-group';
+        
+        const title = document.createElement('h2');
+        title.innerText = category;
+        section.appendChild(title);
+
+        const list = document.createElement('div');
+        list.className = 'problem-list';
+
+        questionsData.filter(q => q.cat === category).forEach(problem => {
+            const row = document.createElement('div');
+            row.className = 'problem-row';
+            row.onclick = () => goToTerminal(problem.q);
+            
+            row.innerHTML = `
+                <div class="problem-info">
+                    <span class="status-icon">○</span>
+                    <span class="title">${problem.q}</span>
+                </div>
+                <span class="difficulty ${problem.diff}">${problem.diff}</span>
+            `;
+            list.appendChild(row);
+        });
+
+        section.appendChild(list);
+        container.appendChild(section);
+    });
+}
+
+function filterProblems() {
+    const input = document.querySelector('.search-bar').value.toLowerCase();
+    const rows = document.querySelectorAll('.problem-row');
+    
+    rows.forEach(row => {
+        const text = row.querySelector('.title').innerText.toLowerCase();
+        row.style.display = text.includes(input) ? 'flex' : 'none';
+    });
+}
+
+function goToTerminal(questionTitle) {
+    const encodedTitle = encodeURIComponent(questionTitle);
+    window.location.href = `${encodedTitle}.html`;
+}
+
+window.onload = renderProblems;
+    </script>
+</body>
+</html>

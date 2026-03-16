@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Binary-Search.html" class="back-btn">← Back to Binary Search</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>1146. Snapshot Array</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Implement a <code>SnapshotArray</code> that supports the following interface:
+            <ul style="margin-left: 20px; color: #ccc; margin-top: 10px;">
+                <li><code>SnapshotArray(int length)</code>: initializes the data structure with the given length. Initially, each element equals 0.</li>
+                <li><code>void set(index, val)</code>: sets the element at the given index to be equal to <code>val</code>.</li>
+                <li><code>int snap()</code>: takes a snapshot of the array and returns the <code>snap_id</code>.</li>
+                <li><code>int get(index, snap_id)</code>: returns the value at the given index, at the time we took the snapshot with the given <code>snap_id</code>.</li>
+            </ul>
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            ["SnapshotArray","set","snap","set","get"]<br>
+            [[3],[0,5],[],[0,6],[0,0]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [null,null,0,null,5]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class SnapshotArray:
+    def __init__(self, length: int):
+        self.snap_id = 0
+        self.history = [[(0, 0)] for _ in range(length)]
+
+    def set(self, index: int, val: int) -> None:
+        if self.history[index][-1][0] == self.snap_id:
+            self.history[index][-1] = (self.snap_id, val)
+        else:
+            self.history[index].append((self.snap_id, val))
+
+    def snap(self) -> int:
+        self.snap_id += 1
+        return self.snap_id - 1
+
+    def get(self, index: int, snap_id: int) -> int:
+        idx = bisect_right(self.history[index], (snap_id, float('inf')))
+        return self.history[index][idx - 1][1]`,
+            java: `class SnapshotArray {
+    List<int[]>[] history;
+    int snapId = 0;
+
+    public SnapshotArray(int length) {
+        history = new List[length];
+        for (int i = 0; i < length; i++) {
+            history[i] = new ArrayList<>();
+            history[i].add(new int[]{0, 0});
+        }
+    }
+
+    public void set(int index, int val) {
+        List<int[]> curr = history[index];
+        if (curr.get(curr.size() - 1)[0] == snapId) {
+            curr.get(curr.size() - 1)[1] = val;
+        } else {
+            curr.add(new int[]{snapId, val});
+        }
+    }
+
+    public int snap() {
+        return snapId++;
+    }
+
+    public int get(int index, int snap_id) {
+        List<int[]> curr = history[index];
+        int left = 0, right = curr.size() - 1;
+        int resIdx = 0;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (curr.get(mid)[0] <= snap_id) {
+                resIdx = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return curr.get(resIdx)[1];
+    }
+}`,
+            cpp: `class SnapshotArray {
+    vector<vector<pair<int, int>>> history;
+    int snapId = 0;
+public:
+    SnapshotArray(int length) {
+        history.resize(length);
+        for(int i=0; i<length; i++) history[i].push_back({0, 0});
+    }
+    
+    void set(int index, int val) {
+        if (history[index].back().first == snapId) {
+            history[index].back().second = val;
+        } else {
+            history[index].push_back({snapId, val});
+        }
+    }
+    
+    int snap() {
+        return snapId++;
+    }
+    
+    int get(int index, int snap_id) {
+        auto it = upper_bound(history[index].begin(), history[index].end(), make_pair(snap_id, INT_MAX));
+        return prev(it)->second;
+    }
+};`,
+           c: `typedef struct {
+    int snap_id;
+    int val;
+} SnapNode;
+
+typedef struct {
+    SnapNode** history;
+    int* sizes;
+    int* capacities;
+    int current_snap;
+    int length;
+} SnapshotArray;
+
+SnapshotArray* snapshotArrayCreate(int length) {
+    SnapshotArray* obj = (SnapshotArray*)malloc(sizeof(SnapshotArray));
+    obj->length = length;
+    obj->current_snap = 0;
+    obj->history = (SnapNode**)malloc(length * sizeof(SnapNode*));
+    obj->sizes = (int*)malloc(length * sizeof(int));
+    obj->capacities = (int*)malloc(length * sizeof(int));
+    
+    for (int i = 0; i < length; i++) {
+        obj->capacities[i] = 4;
+        obj->history[i] = (SnapNode*)malloc(obj->capacities[i] * sizeof(SnapNode));
+        obj->history[i][0] = (SnapNode){0, 0};
+        obj->sizes[i] = 1;
+    }
+    return obj;
+}
+
+void snapshotArraySet(SnapshotArray* obj, int index, int val) {
+    int last_idx = obj->sizes[index] - 1;
+    if (obj->history[index][last_idx].snap_id == obj->current_snap) {
+        obj->history[index][last_idx].val = val;
+    } else {
+        if (obj->sizes[index] == obj->capacities[index]) {
+            obj->capacities[index] *= 2;
+            obj->history[index] = (SnapNode*)realloc(obj->history[index], obj->capacities[index] * sizeof(SnapNode));
+        }
+        obj->history[index][obj->sizes[index]++] = (SnapNode){obj->current_snap, val};
+    }
+}
+
+int snapshotArraySnap(SnapshotArray* obj) {
+    return obj->current_snap++;
+}
+
+int snapshotArrayGet(SnapshotArray* obj, int index, int snap_id) {
+    SnapNode* hist = obj->history[index];
+    int left = 0, right = obj->sizes[index] - 1;
+    int res = 0;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        if (hist[mid].snap_id <= snap_id) {
+            res = hist[mid].val;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

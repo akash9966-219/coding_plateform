@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .visual-container {
+            background: #111;
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .visual-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>54. Spiral Matrix</h1>
+        
+        <div class="desc">
+            Given an <code>m x n</code> matrix, return all elements of the matrix in <b>spiral order</b>.
+        </div>
+
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2020/11/13/spiral1.jpg" alt="Spiral Matrix Example 1">
+        </div>
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+<b>Input:</b> matrix = [[1,2,3],[4,5,6],[7,8,9]]
+<br>
+<b>Output:</b> [1,2,3,6,9,8,7,4,5]
+        </div>
+
+        <div class="visual-container">
+            <img src="https://assets.leetcode.com/uploads/2020/11/13/spiral.jpg" alt="Spiral Matrix Example 2">
+        </div>
+
+        <div class="section-header">Example 2:</div>
+        <div class="example-box">
+<b>Input:</b> matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+<br>
+<b>Output:</b> [1,2,3,4,8,12,11,10,9,5,6,7]
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>m == matrix.length, n == matrix[i].length</li>
+            <li>1 <= m, n <= 10</li>
+            <li>-100 <= matrix[i][j] <= 100</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public List<Integer> spiralOrder(int[][] matrix) {\n        List<Integer> res = new ArrayList<>();\n        if (matrix.length == 0) return res;\n        int rowBegin = 0, rowEnd = matrix.length - 1;\n        int colBegin = 0, colEnd = matrix[0].length - 1;\n        \n        while (rowBegin <= rowEnd && colBegin <= colEnd) {\n            for (int j = colBegin; j <= colEnd; j++) res.add(matrix[rowBegin][j]);\n            rowBegin++;\n            for (int j = rowBegin; j <= rowEnd; j++) res.add(matrix[j][colEnd]);\n            colEnd--;\n            if (rowBegin <= rowEnd) {\n                for (int j = colEnd; j >= colBegin; j--) res.add(matrix[rowEnd][j]);\n            }\n            rowEnd--;\n            if (colBegin <= colEnd) {\n                for (int j = rowEnd; j >= rowBegin; j--) res.add(matrix[j][colBegin]);\n            }\n            colBegin++;\n        }\n        return res;\n    }\n}`,
+            python: `class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        res = []\n        if not matrix: return res\n        r_start, r_end = 0, len(matrix) - 1\n        c_start, c_end = 0, len(matrix[0]) - 1\n        \n        while r_start <= r_end and c_start <= c_end:\n            for j in range(c_start, c_end + 1): res.append(matrix[r_start][j])\n            r_start += 1\n            for i in range(r_start, r_end + 1): res.append(matrix[i][c_end])\n            c_end -= 1\n            if r_start <= r_end:\n                for j in range(c_end, c_start - 1, -1): res.append(matrix[r_end][j])\n                r_end -= 1\n            if c_start <= c_end:\n                for i in range(r_end, r_start - 1, -1): res.append(matrix[i][c_start])\n                c_start += 1\n        return res`,
+            cpp: `class Solution {\npublic:\n    vector<int> spiralOrder(vector<vector<int>>& matrix) {\n        if (matrix.empty()) return {};\n        int m = matrix.size(), n = matrix[0].size();\n        vector<int> res;\n        int u = 0, d = m - 1, l = 0, r = n - 1;\n        while (true) {\n            for (int j = l; j <= r; j++) res.push_back(matrix[u][j]);\n            if (++u > d) break;\n            for (int i = u; i <= d; i++) res.push_back(matrix[i][r]);\n            if (--r < l) break;\n            for (int j = r; j >= l; j--) res.push_back(matrix[d][j]);\n            if (--d < u) break;\n            for (int i = d; i >= u; i--) res.push_back(matrix[i][l]);\n            if (++l > r) break;\n        }\n        return res;\n    }\n};`,
+            c: `int* spiralOrder(int** matrix, int matrixSize, int* matrixColSize, int* returnSize) {\n    if (matrixSize == 0) { *returnSize = 0; return NULL; }\n    int m = matrixSize, n = matrixColSize[0];\n    int* res = (int*)malloc(sizeof(int) * m * n);\n    *returnSize = 0;\n    int top = 0, bottom = m - 1, left = 0, right = n - 1;\n    while (top <= bottom && left <= right) {\n        for (int i = left; i <= right; i++) res[(*returnSize)++] = matrix[top][i];\n        if (++top > bottom) break;\n        for (int i = top; i <= bottom; i++) res[(*returnSize)++] = matrix[i][right];\n        if (--right < left) break;\n        for (int i = right; i >= left; i--) res[(*returnSize)++] = matrix[bottom][i];\n        if (--bottom < top) break;\n        for (int i = bottom; i >= top; i--) res[(*returnSize)++] = matrix[i][left];\n        left++;\n    }\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

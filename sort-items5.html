@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>1203. Sort Items Respecting Dependencies</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            There are <code>n</code> items and <code>m</code> groups. Each item belongs to one group, or no group at all (indicated by -1). 
+            <br><br>Sort the items such that:
+            <ul style="padding-left: 20px; margin-top: 10px;">
+                <li>Items belonging to the same group are adjacent.</li>
+                <li>Item-level and group-level dependencies are respected.</li>
+            </ul>
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            n = 8, m = 2, group = [-1,-1,1,0,0,1,0,-1], beforeItems = [[],[6],[5],[6],[3,6],[],[],[]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            [6,3,4,1,5,2,0,7]
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def sortItems(self, n: int, m: int, group: List[int], beforeItems: List[List[int]]) -> List[int]:
+        # Handle group -1
+        group_id = m
+        for i in range(n):
+            if group[i] == -1:
+                group[i] = group_id
+                group_id += 1
+        
+        # Build graphs
+        item_adj = collections.defaultdict(list)
+        item_indegree = [0] * n
+        group_adj = collections.defaultdict(list)
+        group_indegree = [0] * group_id
+        
+        for i in range(n):
+            for prev in beforeItems[i]:
+                item_adj[prev].append(i)
+                item_indegree[i] += 1
+                if group[i] != group[prev]:
+                    group_adj[group[prev]].append(group[i])
+                    group_indegree[group[i]] += 1
+        
+        def topo_sort(nodes, adj, indegree):
+            queue = collections.deque([node for node in nodes if indegree[node] == 0])
+            res = []
+            while queue:
+                u = queue.popleft()
+                res.append(u)
+                for v in adj[u]:
+                    indegree[v] -= 1
+                    if indegree[v] == 0:
+                        queue.append(v)
+            return res if len(res) == len(nodes) else []
+
+        item_order = topo_sort(range(n), item_adj, item_indegree)
+        group_order = topo_sort(range(group_id), group_adj, group_indegree)
+        
+        if not item_order or not group_order:
+            return []
+        
+        # Group items together
+        ordered_groups = collections.defaultdict(list)
+        for item in item_order:
+            ordered_groups[group[item]].append(item)
+            
+        res = []
+        for g_id in group_order:
+            res.extend(ordered_groups[g_id])
+        return res`,
+            java: `class Solution {
+    public int[] sortItems(int n, int m, int[] group, List<List<Integer>> beforeItems) {
+        int groupId = m;
+        for (int i = 0; i < n; i++) {
+            if (group[i] == -1) group[i] = groupId++;
+        }
+
+        List<Integer>[] itemAdj = new List[n];
+        List<Integer>[] groupAdj = new List[groupId];
+        for (int i = 0; i < n; i++) itemAdj[i] = new ArrayList<>();
+        for (int i = 0; i < groupId; i++) groupAdj[i] = new ArrayList<>();
+
+        int[] itemIndegree = new int[n];
+        int[] groupIndegree = new int[groupId];
+
+        for (int i = 0; i < n; i++) {
+            for (int prev : beforeItems.get(i)) {
+                itemAdj[prev].add(i);
+                itemIndegree[i]++;
+                if (group[i] != group[prev]) {
+                    groupAdj[group[prev]].add(group[i]);
+                    groupIndegree[group[i]]++;
+                }
+            }
+        }
+
+        List<Integer> itemOrder = topoSort(itemAdj, itemIndegree, n);
+        List<Integer> groupOrder = topoSort(groupAdj, groupIndegree, groupId);
+
+        if (itemOrder.isEmpty() || groupOrder.isEmpty()) return new int[0];
+
+        Map<Integer, List<Integer>> groupToItems = new HashMap<>();
+        for (int item : itemOrder) {
+            groupToItems.computeIfAbsent(group[item], x -> new ArrayList<>()).add(item);
+        }
+
+        int[] res = new int[n];
+        int idx = 0;
+        for (int g : groupOrder) {
+            List<Integer> items = groupToItems.getOrDefault(g, new ArrayList<>());
+            for (int item : items) res[idx++] = item;
+        }
+        return res;
+    }
+
+    private List<Integer> topoSort(List<Integer>[] adj, int[] indegree, int count) {
+        List<Integer> res = new ArrayList<>();
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < count; i++) if (indegree[i] == 0) q.add(i);
+
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            res.add(u);
+            for (int v : adj[u]) {
+                if (--indegree[v] == 0) q.add(v);
+            }
+        }
+        return res.size() == count ? res : new ArrayList<>();
+    }
+}`,
+            cpp: `class Solution {
+public:
+    vector<int> topoSort(vector<vector<int>>& adj, vector<int>& indegree, int n) {
+        vector<int> res;
+        queue<int> q;
+        for (int i = 0; i < n; i++) if (indegree[i] == 0) q.push(i);
+
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            res.push_back(u);
+            for (int v : adj[u]) {
+                if (--indegree[v] == 0) q.push(v);
+            }
+        }
+        return res.size() == n ? res : vector<int>();
+    }
+
+    vector<int> sortItems(int n, int m, vector<int>& group, vector<vector<int>>& beforeItems) {
+        int groupId = m;
+        for (int i = 0; i < n; i++) if (group[i] == -1) group[i] = groupId++;
+
+        vector<vector<int>> itemAdj(n), groupAdj(groupId);
+        vector<int> itemIndegree(n, 0), groupIndegree(groupId, 0);
+
+        for (int i = 0; i < n; i++) {
+            for (int prev : beforeItems[i]) {
+                itemAdj[prev].push_back(i);
+                itemIndegree[i]++;
+                if (group[i] != group[prev]) {
+                    groupAdj[group[prev]].push_back(group[i]);
+                    groupIndegree[group[i]]++;
+                }
+            }
+        }
+
+        auto itemOrder = topoSort(itemAdj, itemIndegree, n);
+        auto groupOrder = topoSort(groupAdj, groupIndegree, groupId);
+
+        if (itemOrder.empty() || groupOrder.empty()) return {};
+
+        unordered_map<int, vector<int>> groupToItems;
+        for (int item : itemOrder) groupToItems[group[item]].push_back(item);
+
+        vector<int> res;
+        for (int g : groupOrder) {
+            for (int item : groupToItems[g]) res.push_back(item);
+        }
+        return res;
+    }
+};`,
+           c: `typedef struct { int* data; int size; int capacity; } Vector;
+
+void push(Vector* v, int val) {
+    if (v->size == v->capacity) {
+        v->capacity = v->capacity == 0 ? 4 : v->capacity * 2;
+        v->data = (int*)realloc(v->data, v->capacity * sizeof(int));
+    }
+    v->data[v->size++] = val;
+}
+
+int* topoSort(Vector* adj, int* indegree, int n, int* returnCount) {
+    int* res = (int*)malloc(n * sizeof(int));
+    int* queue = (int*)malloc(n * sizeof(int));
+    int head = 0, tail = 0, count = 0;
+
+    for (int i = 0; i < n; i++) if (indegree[i] == 0) queue[tail++] = i;
+
+    while (head < tail) {
+        int u = queue[head++];
+        res[count++] = u;
+        for (int i = 0; i < adj[u].size; i++) {
+            int v = adj[u].data[i];
+            if (--indegree[v] == 0) queue[tail++] = v;
+        }
+    }
+    free(queue);
+    *returnCount = count;
+    if (count == n) return res;
+    free(res);
+    return NULL;
+}
+
+int* sortItems(int n, int m, int* group, int groupSize, int** beforeItems, int beforeItemsSize, int* beforeItemsColSize, int* returnSize) {
+    // 1. Assign unique IDs to -1 groups
+    int maxGroups = m + n;
+    for (int i = 0; i < n; i++) if (group[i] == -1) group[i] = m++;
+
+    Vector* itemAdj = (Vector*)calloc(n, sizeof(Vector));
+    Vector* groupAdj = (Vector*)calloc(maxGroups, sizeof(Vector));
+    int* itemIndegree = (int*)calloc(n, sizeof(int));
+    int* groupIndegree = (int*)calloc(maxGroups, sizeof(int));
+
+    // 2. Build Graphs
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < beforeItemsColSize[i]; j++) {
+            int prev = beforeItems[i][j];
+            push(&itemAdj[prev], i);
+            itemIndegree[i]++;
+            if (group[i] != group[prev]) {
+                push(&groupAdj[group[prev]], i); // Group dependency logic
+                groupIndegree[group[i]]++;
+            }
+        }
+    }
+
+    // 3. Perform Topological Sorts
+    int itemResCount, groupResCount;
+    int* itemOrder = topoSort(itemAdj, itemIndegree, n, &itemResCount);
+    int* groupOrder = topoSort(groupAdj, groupIndegree, m, &groupResCount);
+
+    if (!itemOrder || !groupOrder) {
+        *returnSize = 0; return NULL;
+    }
+
+    // 4. Final grouping
+    Vector* groupToItems = (Vector*)calloc(m, sizeof(Vector));
+    for (int i = 0; i < n; i++) {
+        int item = itemOrder[i];
+        push(&groupToItems[group[item]], item);
+    }
+
+    int* finalRes = (int*)malloc(n * sizeof(int));
+    int idx = 0;
+    for (int i = 0; i < m; i++) {
+        int gId = groupOrder[i];
+        for (int j = 0; j < groupToItems[gId].size; j++) {
+            finalRes[idx++] = groupToItems[gId].data[j];
+        }
+    }
+
+    // Cleanup omitted for brevity
+    *returnSize = n;
+    return finalRes;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

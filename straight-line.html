@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: var(--primary); font-size: 0.8rem; font-weight: 700; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+        <h1>1232. Straight Line Check</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given an array <code>coordinates</code>, <code>coordinates[i] = [x, y]</code>, where <code>[x, y]</code> represents the coordinate of a point. Check if these points make a straight line in the XY plane.
+        </p>
+
+        <div class="section-header">Valid Test Cases</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            coordinates = [[1,2],[2,3],[3,4],[4,5],[5,6]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            true
+        </div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            coordinates = [[1,1],[2,2],[3,4]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            false
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:\n        x0, y0 = coordinates[0]\n        x1, y1 = coordinates[1]\n        \n        for i in range(2, len(coordinates)):\n            xi, yi = coordinates[i]\n            if (y1 - y0) * (xi - x1) != (yi - y1) * (x1 - x0):\n                return False\n        return True`,
+            java: `class Solution {\n    public boolean checkStraightLine(int[][] coordinates) {\n        int x0 = coordinates[0][0], y0 = coordinates[0][1];\n        int x1 = coordinates[1][0], y1 = coordinates[1][1];\n        \n        for (int i = 2; i < coordinates.length; i++) {\n            int xi = coordinates[i][0], yi = coordinates[i][1];\n            if ((y1 - y0) * (xi - x1) != (yi - y1) * (x1 - x0)) return false;\n        }\n        return true;\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    bool checkStraightLine(vector<vector<int>>& coordinates) {\n        int x0 = coordinates[0][0], y0 = coordinates[0][1];\n        int x1 = coordinates[1][0], y1 = coordinates[1][1];\n        \n        for (int i = 2; i < coordinates.size(); i++) {\n            int xi = coordinates[i][0], yi = coordinates[i][1];\n            if ((y1 - y0) * (xi - x1) != (yi - y1) * (x1 - x0)) return false;\n        }\n        return true;\n    }\n};`,
+            c: `bool checkStraightLine(int** coordinates, int coordinatesSize, int* coordinatesColSize){\n    int x0 = coordinates[0][0], y0 = coordinates[0][1];\n    int x1 = coordinates[1][0], y1 = coordinates[1][1];\n    \n    for (int i = 2; i < coordinatesSize; i++) {\n        int xi = coordinates[i][0], yi = coordinates[i][1];\n        if ((y1 - y0) * (xi - x1) != (yi - y1) * (x1 - x0)) return false;\n    }\n    return true;\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

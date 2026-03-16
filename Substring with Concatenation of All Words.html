@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ff4d4d;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ff4d4d;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 77, 77, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;       
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Hard</span>
+        </div>
+
+        <h1>30. Substring with Concatenation of All Words</h1>
+        
+        <div class="desc">
+            You are given a string <code>s</code> and an array of strings <code>words</code>. All the strings of <code>words</code> are of <b>the same length</b>.
+            <br><br>
+            A <b>concatenated string</b> is a string that exactly contains all the strings of any permutation of <code>words</code> concatenated.
+            <br><br>
+            Return an array of the <b>starting indices</b> of all the concatenated substrings in <code>s</code>.
+        </div>
+
+        
+
+        <div class="section-header">Example 1:</div>
+        <div class="example-box">
+Input: s = "barfoothefoobarman", words = ["foo","bar"]
+Output: [0,9]
+Explanation: "barfoo" at index 0 and "foobar" at index 9.
+        </div>
+
+        <div class="section-header">Example 2:</div>
+        <div class="example-box">
+Input: s = "wordgoodgoodgoodbestword", words = ["word","good","best","word"]
+Output: []
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>1 <= s.length <= 10<sup>4</sup></li>
+            <li>1 <= words.length <= 5000</li>
+            <li>1 <= words[i].length <= 30</li>
+            <li>All <code>words[i]</code> are the same length.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public List<Integer> findSubstring(String s, String[] words) {\n        List<Integer> res = new ArrayList<>();\n        int n = s.length(), m = words.length, len = words[0].length();\n        Map<String, Integer> map = new HashMap<>();\n        for (String w : words) map.put(w, map.getOrDefault(w, 0) + 1);\n\n        for (int i = 0; i < len; i++) {\n            Map<String, Integer> curMap = new HashMap<>();\n            int count = 0, left = i;\n            for (int j = i; j <= n - len; j += len) {\n                String word = s.substring(j, j + len);\n                if (map.containsKey(word)) {\n                    curMap.put(word, curMap.getOrDefault(word, 0) + 1);\n                    count++;\n                    while (curMap.get(word) > map.get(word)) {\n                        String leftWord = s.substring(left, left + len);\n                        curMap.put(leftWord, curMap.get(leftWord) - 1);\n                        count--;\n                        left += len;\n                    }\n                    if (count == m) res.add(left);\n                } else {\n                    curMap.clear();\n                    count = 0;\n                    left = j + len;\n                }\n            }\n        }\n        return res;\n    }\n}`,
+            python: `class Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        if not s or not words: return []\n        n, m, length = len(s), len(words), len(words[0])\n        word_map = collections.Counter(words)\n        res = []\n\n        for i in range(length):\n            left = i\n            cur_map = collections.defaultdict(int)\n            count = 0\n            for j in range(i, n - length + 1, length):\n                word = s[j:j+length]\n                if word in word_map:\n                    cur_map[word] += 1\n                    count += 1\n                    while cur_map[word] > word_map[word]:\n                        cur_map[s[left:left+length]] -= 1\n                        count -= 1\n                        left += length\n                    if count == m: res.append(left)\n                else:\n                    cur_map.clear()\n                    count = 0\n                    left = j + length\n        return res`,
+            cpp: `class Solution {\npublic:\n    vector<int> findSubstring(string s, vector<string>& words) {\n        int n = s.size(), m = words.size(), len = words[0].size();\n        unordered_map<string, int> counts;\n        for (string word : words) counts[word]++;\n        vector<int> res;\n        for (int i = 0; i < len; i++) {\n            int left = i, count = 0;\n            unordered_map<string, int> cur;\n            for (int j = i; j <= n - len; j += len) {\n                string word = s.substr(j, len);\n                if (counts.count(word)) {\n                    cur[word]++;\n                    if (cur[word] <= counts[word]) count++;\n                    else {\n                        while (cur[word] > counts[word]) {\n                            string str = s.substr(left, len);\n                            cur[str]--;\n                            if (cur[str] < counts[str]) count--;\n                            left += len;\n                        }\n                    }\n                    if (count == m) res.push_back(left);\n                } else {\n                    cur.clear();\n                    count = 0;\n                    left = j + len;\n                }\n            }\n        }\n        return res;\n    }\n};`,
+            c: `#include <stdio.h>\n#include <stdlib.h>\n#include <string.h>\n\n// Basic C approach using string comparison and frequency check\nint* findSubstring(char* s, char** words, int wordsSize, int* returnSize) {\n    int sLen = strlen(s);\n    int wordLen = strlen(words[0]);\n    int windowLen = wordsSize * wordLen;\n    int* res = malloc(sizeof(int) * sLen);\n    *returnSize = 0;\n\n    if (sLen < windowLen) return res;\n\n    // Using a sorted array approach for word matching in C\n    for (int i = 0; i <= sLen - windowLen; i++) {\n        int* used = calloc(wordsSize, sizeof(int));\n        int count = 0;\n        for (int j = 0; j < wordsSize; j++) {\n            char sub[31];\n            strncpy(sub, s + i + j * wordLen, wordLen);\n            sub[wordLen] = '\\0';\n            for (int k = 0; k < wordsSize; k++) {\n                if (!used[k] && strcmp(sub, words[k]) == 0) {\n                    used[k] = 1;\n                    count++;\n                    break;\n                }\n            }\n        }\n        if (count == wordsSize) res[(*returnSize)++] = i;\n        free(used);\n    }\n    return res;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

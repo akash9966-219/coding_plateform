@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>994. Rotting Oranges</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            You are given an <code>m x n</code> grid where <code>0</code> is empty, <code>1</code> is fresh, and <code>2</code> is rotten. Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten. Return the minimum minutes to rot all fresh oranges.
+        </div>
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Grid</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>[[2,1,1],[1,1,0],[0,1,1]]</td><td>4</td></tr>
+                <tr><td>[[2,1,1],[0,1,1],[1,0,1]]</td><td>-1</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">Multi-Source BFS Logic:</div>
+        <div class="logic-visual">
+            1. Queue q = all initial rotten oranges (2)<br>
+            2. count fresh_oranges (1)<br>
+            3. while q and fresh > 0:<br>
+            &nbsp;&nbsp;&nbsp;for each orange in current q:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;infect adjacent fresh neighbors<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;q.push(newly_rotten), fresh--<br>
+            &nbsp;&nbsp;&nbsp;minutes++<br>
+            4. return fresh == 0 ? minutes : -1
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(M * N) - Visit each cell at most twice.</li>
+            <li>Space: O(M * N) - Queue storage for all oranges.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `public int orangesRotting(int[][] grid) {\n    int rows = grid.length, cols = grid[0].length, fresh = 0;\n    Queue<int[]> q = new LinkedList<>();\n    for (int r = 0; r < rows; r++) {\n        for (int c = 0; c < cols; c++) {\n            if (grid[r][c] == 2) q.offer(new int[]{r, c});\n            else if (grid[r][c] == 1) fresh++;\n        }\n    }\n    int mins = 0;\n    int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};\n    while (!q.isEmpty() && fresh > 0) {\n        int size = q.size();\n        for (int i = 0; i < size; i++) {\n            int[] curr = q.poll();\n            for (int[] d : dirs) {\n                int r = curr[0] + d[0], c = curr[1] + d[1];\n                if (r >= 0 && r < rows && c >= 0 && c < cols && grid[r][c] == 1) {\n                    grid[r][c] = 2;\n                    q.offer(new int[]{r, c});\n                    fresh--;\n                }\n            }\n        }\n        mins++;\n    }\n    return fresh == 0 ? mins : -1;\n}`,
+            python: `def orangesRotting(self, grid: List[List[int]]) -> int:\n    rows, cols = len(grid), len(grid[0])\n    q = collections.deque()\n    fresh = 0\n    for r in range(rows):\n        for c in range(cols):\n            if grid[r][c] == 2: q.append((r, c))\n            elif grid[r][c] == 1: fresh += 1\n    \n    mins = 0\n    while q and fresh > 0:\n        for _ in range(len(q)):\n            r, c = q.popleft()\n            for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:\n                    grid[nr][nc] = 2\n                    fresh -= 1\n                    q.append((nr, nc))\n        mins += 1\n    return mins if fresh == 0 else -1`,
+            cpp: `int orangesRotting(vector<vector<int>>& grid) {\n    int rows = grid.size(), cols = grid[0].size(), fresh = 0, mins = 0;\n    queue<pair<int, int>> q;\n    for (int r = 0; r < rows; r++) {\n        for (int c = 0; c < cols; c++) {\n            if (grid[r][c] == 2) q.push({r, c});\n            else if (grid[r][c] == 1) fresh++;\n        }\n    }\n    vector<pair<int, int>> dirs = {{0,1}, {0,-1}, {1,0}, {-1,0}};\n    while (!q.empty() && fresh > 0) {\n        int size = q.size();\n        for (int i = 0; i < size; i++) {\n            auto [r, c] = q.front(); q.pop();\n            for (auto [dr, dc] : dirs) {\n                int nr = r + dr, nc = c + dc;\n                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {\n                    grid[nr][nc] = 2;\n                    fresh--;\n                    q.push({nr, nc});\n                }\n            }\n        }\n        mins++;\n    }\n    return fresh == 0 ? mins : -1;\n}`,
+            c: `int orangesRotting(int** grid, int gridSize, int* gridColSize) {\n    int rows = gridSize, cols = gridColSize[0], fresh = 0, mins = 0;\n    int q[rows * cols][2], head = 0, tail = 0;\n    for (int r = 0; r < rows; r++) {\n        for (int c = 0; c < cols; c++) {\n            if (grid[r][c] == 2) { q[tail][0] = r; q[tail++][1] = c; }\n            else if (grid[r][c] == 1) fresh++;\n        }\n    }\n    int dr[] = {0,0,1,-1}, dc[] = {1,-1,0,0};\n    while (head < tail && fresh > 0) {\n        int size = tail - head;\n        for (int i = 0; i < size; i++) {\n            int r = q[head][0], c = q[head++][1];\n            for (int j = 0; j < 4; j++) {\n                int nr = r + dr[j], nc = c + dc[j];\n                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 1) {\n                    grid[nr][nc] = 2; fresh--;\n                    q[tail][0] = nr; q[tail++][1] = nc;\n                }\n            }\n        }\n        mins++;\n    }\n    return fresh == 0 ? mins : -1;\n}`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { const lang = document.getElementById('lang-select').value; document.getElementById('code-display').value = codeRepo[lang]; }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

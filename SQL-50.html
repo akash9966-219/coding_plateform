@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL 50 | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+            --easy: #00ff9d;
+            --medium: #ffb800;
+            --hard: #ff4646;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 50px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 30px;
+        }
+
+        .logo {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 { font-size: 3rem; letter-spacing: -2px; }
+
+        .grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .category-section {
+            grid-column: 1 / -1;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .category-section h2 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+            padding: 5px 15px;
+            border: 1px solid var(--primary);
+            border-radius: 4px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .card:hover::before { transform: translateX(100%); }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .card-id {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .diff {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .diff.easy { border: 1px solid var(--easy); color: var(--easy); }
+        .diff.medium { border: 1px solid var(--medium); color: var(--medium); }
+        .diff.hard { border: 1px solid var(--hard); color: var(--hard); }
+
+        h3 { font-size: 1.25rem; margin-bottom: 10px; font-weight: 500; }
+
+        .status {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .status::before {
+            content: ">>";
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="topics.html">Back to Home</a>
+        <span class="logo">TERMINAL.SQL_CORE</span>
+        <h1>SQL 50 Study Guide</h1>
+    </header>
+
+    <div class="grid-container">
+
+        <div class="category-section"><h2>Select</h2></div>
+        
+        <a href="recyclable2.html" class="card">
+            <div class="card-header"><span class="card-id">#1757</span><span class="diff easy">Easy</span></div>
+            <h3>Recyclable and Low Fat Products</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="referee.html" class="card">
+            <div class="card-header"><span class="card-id">#584</span><span class="diff easy">Easy</span></div>
+            <h3>Find Customer Referee</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="big-countries.html" class="card">
+            <div class="card-header"><span class="card-id">#595</span><span class="diff easy">Easy</span></div>
+            <h3>Big Countries</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="article-views.html" class="card">
+            <div class="card-header"><span class="card-id">#1148</span><span class="diff easy">Easy</span></div>
+            <h3>Article Views I</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="invalid-tweets.html" class="card">
+            <div class="card-header"><span class="card-id">#1683</span><span class="diff easy">Easy</span></div>
+            <h3>Invalid Tweets</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <div class="category-section"><h2>Basic Joins</h2></div>
+
+        <a href="basic-join.html" class="card">
+            <div class="card-header"><span class="card-id">#1378</span><span class="diff easy">Easy</span></div>
+            <h3>Replace Employee ID With Unique ID</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="product-sales.html" class="card">
+            <div class="card-header"><span class="card-id">#1068</span><span class="diff easy">Easy</span></div>
+            <h3>Product Sales Analysis I</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="customer-who-visited-no-transactions.html" class="card">
+            <div class="card-header"><span class="card-id">#1581</span><span class="diff easy">Easy</span></div>
+            <h3>Customer Who Visited but No Transactions</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="rising-temperature.html" class="card">
+            <div class="card-header"><span class="card-id">#197</span><span class="diff easy">Easy</span></div>
+            <h3>Rising Temperature</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="avg-time-of-process-per-machine.html" class="card">
+            <div class="card-header"><span class="card-id">#1661</span><span class="diff easy">Easy</span></div>
+            <h3>Avg Time of Process per Machine</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="employee-bonus.html" class="card">
+            <div class="card-header"><span class="card-id">#577</span><span class="diff easy">Easy</span></div>
+            <h3>Employee Bonus</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="students-and-examinations.html" class="card">
+            <div class="card-header"><span class="card-id">#1280</span><span class="diff easy">Easy</span></div>
+            <h3>Students and Examinations</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="managers-with-at-least-5-direct-reports.html" class="card">
+            <div class="card-header"><span class="card-id">#570</span><span class="diff medium">Medium</span></div>
+            <h3>Managers with at Least 5 Direct Reports</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="confirmation-rate.html" class="card">
+            <div class="card-header"><span class="card-id">#1934</span><span class="diff medium">Medium</span></div>
+            <h3>Confirmation Rate</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <div class="category-section"><h2>Basic Aggregate Functions</h2></div>
+
+        <a href="not-boring-movies.html" class="card">
+            <div class="card-header"><span class="card-id">#620</span><span class="diff easy">Easy</span></div>
+            <h3>Not Boring Movies</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="average-selling-price.html" class="card">
+            <div class="card-header"><span class="card-id">#1251</span><span class="diff easy">Easy</span></div>
+            <h3>Average Selling Price</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="project-employees-i.html" class="card">
+            <div class="card-header"><span class="card-id">#1075</span><span class="diff easy">Easy</span></div>
+            <h3>Project Employees I</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="percentage-of-users-attended-contest.html" class="card">
+            <div class="card-header"><span class="card-id">#1633</span><span class="diff easy">Easy</span></div>
+            <h3>Percentage of Users Attended Contest</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="queries-quality-and-percentage.html" class="card">
+            <div class="card-header"><span class="card-id">#1211</span><span class="diff easy">Easy</span></div>
+            <h3>Queries Quality and Percentage</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="monthly-transactions-i.html" class="card">
+            <div class="card-header"><span class="card-id">#1193</span><span class="diff medium">Medium</span></div>
+            <h3>Monthly Transactions I</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="immediate-food-delivery-ii.html" class="card">
+            <div class="card-header"><span class="card-id">#1174</span><span class="diff medium">Medium</span></div>
+            <h3>Immediate Food Delivery II</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="game-play-analysis-iv.html" class="card">
+            <div class="card-header"><span class="card-id">#550</span><span class="diff medium">Medium</span></div>
+            <h3>Game Play Analysis IV</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <div class="category-section"><h2>Sorting and Grouping</h2></div>
+
+        <a href="number-of-unique-subjects-per-teacher.html" class="card">
+            <div class="card-header"><span class="card-id">#2356</span><span class="diff easy">Easy</span></div>
+            <h3>Number of Unique Subjects per Teacher</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="user-activity-for-past-30-days-i.html" class="card">
+            <div class="card-header"><span class="card-id">#1141</span><span class="diff easy">Easy</span></div>
+            <h3>User Activity for Past 30 Days I</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="product-sales-analysis-iii.html" class="card">
+            <div class="card-header"><span class="card-id">#1070</span><span class="diff medium">Medium</span></div>
+            <h3>Product Sales Analysis III</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="classes-more-than-5-students.html" class="card">
+            <div class="card-header"><span class="card-id">#596</span><span class="diff easy">Easy</span></div>
+            <h3>Classes With at Least 5 Students</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="find-followers-count.html" class="card">
+            <div class="card-header"><span class="card-id">#1729</span><span class="diff easy">Easy</span></div>
+            <h3>Find Followers Count</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="biggest-single-number.html" class="card">
+            <div class="card-header"><span class="card-id">#619</span><span class="diff easy">Easy</span></div>
+            <h3>Biggest Single Number</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="customers-who-bought-all-products.html" class="card">
+            <div class="card-header"><span class="card-id">#1045</span><span class="diff medium">Medium</span></div>
+            <h3>Customers Who Bought All Products</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <div class="category-section"><h2>Advanced Select and Joins</h2></div>
+
+        <a href="number-of-employees-reporting-to-each-employee.html" class="card">
+            <div class="card-header"><span class="card-id">#1731</span><span class="diff easy">Easy</span></div>
+            <h3>Number of Employees Reporting to Each</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="primary-department-for-each-employee.html" class="card">
+            <div class="card-header"><span class="card-id">#1789</span><span class="diff easy">Easy</span></div>
+            <h3>Primary Department for Each Employee</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="triangle-judgement.html" class="card">
+            <div class="card-header"><span class="card-id">#610</span><span class="diff easy">Easy</span></div>
+            <h3>Triangle Judgement</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="consecutive-numbers.html" class="card">
+            <div class="card-header"><span class="card-id">#180</span><span class="diff medium">Medium</span></div>
+            <h3>Consecutive Numbers</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="product-price-at-a-given-date.html" class="card">
+            <div class="card-header"><span class="card-id">#1164</span><span class="diff medium">Medium</span></div>
+            <h3>Product Price at a Given Date</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="last-person-to-fit-in-the-bus.html" class="card">
+            <div class="card-header"><span class="card-id">#1204</span><span class="diff medium">Medium</span></div>
+            <h3>Last Person to Fit in the Bus</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="count-salary-categories.html" class="card">
+            <div class="card-header"><span class="card-id">#1907</span><span class="diff medium">Medium</span></div>
+            <h3>Count Salary Categories</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <div class="category-section"><h2>Subqueries</h2></div>
+
+        <a href="employees-whose-manager-left.html" class="card">
+            <div class="card-header"><span class="card-id">#1978</span><span class="diff easy">Easy</span></div>
+            <h3>Employees Whose Manager Left</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="exchange-seats.html" class="card">
+            <div class="card-header"><span class="card-id">#626</span><span class="diff medium">Medium</span></div>
+            <h3>Exchange Seats</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="movie-rating.html" class="card">
+            <div class="card-header"><span class="card-id">#1341</span><span class="diff medium">Medium</span></div>
+            <h3>Movie Rating</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="restaurant-growth.html" class="card">
+            <div class="card-header"><span class="card-id">#1321</span><span class="diff medium">Medium</span></div>
+            <h3>Restaurant Growth</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="friend-requests-ii-who-has-the-most-friends.html" class="card">
+            <div class="card-header"><span class="card-id">#602</span><span class="diff medium">Medium</span></div>
+            <h3>Friend Requests II</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="investments-in-2016.html" class="card">
+            <div class="card-header"><span class="card-id">#1341</span><span class="diff medium">Medium</span></div>
+            <h3>Investments in 2016</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="department-top-three-salaries.html" class="card">
+            <div class="card-header"><span class="card-id">#185</span><span class="diff hard">Hard</span></div>
+            <h3>Department Top Three Salaries</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <div class="category-section"><h2>String Functions / Regex</h2></div>
+
+        <a href="fix-names-in-a-table.html" class="card">
+            <div class="card-header"><span class="card-id">#1667</span><span class="diff easy">Easy</span></div>
+            <h3>Fix Names in a Table</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="patients-with-a-condition.html" class="card">
+            <div class="card-header"><span class="card-id">#1527</span><span class="diff easy">Easy</span></div>
+            <h3>Patients With a Condition</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="delete-duplicate-emails.html" class="card">
+            <div class="card-header"><span class="card-id">#196</span><span class="diff easy">Easy</span></div>
+            <h3>Delete Duplicate Emails</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="second-highest-salary.html" class="card">
+            <div class="card-header"><span class="card-id">#176</span><span class="diff medium">Medium</span></div>
+            <h3>Second Highest Salary</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="group-sold-products-by-date.html" class="card">
+            <div class="card-header"><span class="card-id">#1484</span><span class="diff easy">Easy</span></div>
+            <h3>Group Sold Products By Date</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="list-products-ordered-in-a-period.html" class="card">
+            <div class="card-header"><span class="card-id">#1327</span><span class="diff easy">Easy</span></div>
+            <h3>List Products Ordered in Period</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+        <a href="find-users-with-valid-e-mails.html" class="card">
+            <div class="card-header"><span class="card-id">#1517</span><span class="diff easy">Easy</span></div>
+            <h3>Find Users With Valid E-Mails</h3>
+            <div class="status">View Solution</div>
+        </a>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: var(--primary); font-size: 0.8rem; font-weight: 700; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Easy</span>
+        </div>
+        <h1>1137. N-th Tribonacci</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            The Tribonacci sequence <code>T<sub>n</sub></code> is defined as follows: 
+            <br><code>T<sub>0</sub> = 0, T<sub>1</sub> = 1, T<sub>2</sub> = 1</code>, and <code>T<sub>n+3</sub> = T<sub>n</sub> + T<sub>n+1</sub> + T<sub>n+2</sub></code> for <code>n >= 0</code>.
+            <br><br>Given <code>n</code>, return the value of <code>T<sub>n</sub></code>.
+        </p>
+
+        <div class="section-header">Formula</div>
+        <div class="example-box">
+            T(n) = T(n-1) + T(n-2) + T(n-3)
+        </div>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            n = 4<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            4<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            T(3) = 0 + 1 + 1 = 2<br>
+            T(4) = 1 + 1 + 2 = 4
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:\n    def tribonacci(self, n: int) -> int:\n        if n < 3: return 1 if n > 0 else 0\n        \n        t0, t1, t2 = 0, 1, 1\n        for _ in range(3, n + 1):\n            t0, t1, t2 = t1, t2, t0 + t1 + t2\n            \n        return t2`,
+            java: `class Solution {\n    public int tribonacci(int n) {\n        if (n < 3) return n == 0 ? 0 : 1;\n        \n        int t0 = 0, t1 = 1, t2 = 1;\n        for (int i = 3; i <= n; i++) {\n            int next = t0 + t1 + t2;\n            t0 = t1;\n            t1 = t2;\n            t2 = next;\n        }\n        return t2;\n    }\n}`,
+            cpp: `class Solution {\npublic:\n    int tribonacci(int n) {\n        if (n < 3) return n == 0 ? 0 : 1;\n        \n        int t0 = 0, t1 = 1, t2 = 1;\n        for (int i = 3; i <= n; i++) {\n            int next = t0 + t1 + t2;\n            t0 = t1;\n            t1 = t2;\n            t2 = next;\n        }\n        return t2;\n    }\n};`,
+            c: `int tribonacci(int n) {\n    if (n == 0) return 0;\n    if (n <= 2) return 1;\n\n    int t0 = 0, t1 = 1, t2 = 1;\n    int next = 0;\n\n    for (int i = 3; i <= n; i++) {\n        next = t0 + t1 + t2;\n        t0 = t1;\n        t1 = t2;\n        t2 = next;\n    }\n\n    return t2;\n}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

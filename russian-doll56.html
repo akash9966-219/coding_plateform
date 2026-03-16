@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Binary-Search.html" class="back-btn">← Back to Binary Search</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>354. Russian Doll Envelopes</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            You are given a 2D array of integers <code>envelopes</code> where <code>envelopes[i] = [w_i, h_i]</code> represents the width and the height of an envelope.
+            <br><br>One envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope's width and height.
+            <br><br>Return the maximum number of envelopes you can Russian doll (i.e., put one inside another).
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            envelopes = [[5,4],[6,4],[6,7],[2,3]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            3
+            <br><p style="font-size: 0.8rem; margin-top: 5px; color: var(--text-dim);">The maximum is 3: [2,3] => [5,4] => [6,7].</p>
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:
+        # Sort width asc, then height desc
+        envelopes.sort(key=lambda x: (x[0], -x[1]))
+        
+        # Standard LIS on heights
+        tails = []
+        for _, h in envelopes:
+            idx = bisect_left(tails, h)
+            if idx == len(tails):
+                tails.append(h)
+            else:
+                tails[idx] = h
+        return len(tails)`,
+            java: `class Solution {
+    public int maxEnvelopes(int[][] envelopes) {
+        Arrays.sort(envelopes, (a, b) -> {
+            if (a[0] == b[0]) return b[1] - a[1];
+            else return a[0] - b[0];
+        });
+        
+        int[] tails = new int[envelopes.length];
+        int size = 0;
+        for (int[] e : envelopes) {
+            int h = e[1];
+            int i = 0, j = size;
+            while (i != j) {
+                int m = i + (j - i) / 2;
+                if (tails[m] < h) i = m + 1;
+                else j = m;
+            }
+            tails[i] = h;
+            if (i == size) size++;
+        }
+        return size;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin(), envelopes.end(), [](const vector<int>& a, const vector<int>& b){
+            return a[0] < b[0] || (a[0] == b[0] && a[1] > b[1]);
+        });
+        
+        vector<int> tails;
+        for (auto& e : envelopes) {
+            auto it = lower_bound(tails.begin(), tails.end(), e[1]);
+            if (it == tails.end()) tails.push_back(e[1]);
+            else *it = e[1];
+        }
+        return tails.size();
+    }
+};`,
+            c: `int compare(const void* a, const void* b) {
+    int* e1 = *(int**)a;
+    int* e2 = *(int**)b;
+    if (e1[0] == e2[0]) return e2[1] - e1[1];
+    return e1[0] - e2[0];
+}
+
+int maxEnvelopes(int** envelopes, int envelopesSize, int* envelopesColSize) {
+    qsort(envelopes, envelopesSize, sizeof(int*), compare);
+    
+    int* tails = malloc(envelopesSize * sizeof(int));
+    int size = 0;
+    for (int k = 0; k < envelopesSize; k++) {
+        int h = envelopes[k][1];
+        int i = 0, j = size;
+        while (i < j) {
+            int m = i + (j - i) / 2;
+            if (tails[m] < h) i = m + 1;
+            else j = m;
+        }
+        tails[i] = h;
+        if (i == size) size++;
+    }
+    free(tails);
+    return size;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>
