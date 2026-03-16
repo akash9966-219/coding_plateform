@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #facc15; font-size: 0.8rem; font-weight: 700; border: 1px solid #facc15; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(250, 204, 21, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="dp.html" class="back-btn">← Back to DP Roadmap</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>673. Number of LIS</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given an integer array <code>nums</code>, return <i>the number of longest increasing subsequences.</i>
+            <br><br><b>Note:</b> The sequence has to be <b>strictly</b> increasing.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            nums = [1,3,5,4,7]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            2<br>
+            <span class="example-label" style="margin-top:10px;">Explanation</span>
+            The two longest increasing subsequences are [1, 3, 4, 7] and [1, 3, 5, 7].
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def findNumberOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n <= 1: return n
+        
+        lengths = [1] * n
+        counts = [1] * n
+        
+        for i in range(n):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    if lengths[j] + 1 > lengths[i]:
+                        lengths[i] = lengths[j] + 1
+                        counts[i] = counts[j]
+                    elif lengths[j] + 1 == lengths[i]:
+                        counts[i] += counts[j]
+        
+        max_len = max(lengths)
+        return sum(c for l, c in zip(lengths, counts) if l == max_len)`,
+            java: `class Solution {
+    public int findNumberOfLIS(int[] nums) {
+        int n = nums.length;
+        if (n <= 1) return n;
+        int[] lengths = new int[n];
+        int[] counts = new int[n];
+        java.util.Arrays.fill(lengths, 1);
+        java.util.Arrays.fill(counts, 1);
+        
+        int maxLen = 1;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    if (lengths[j] + 1 > lengths[i]) {
+                        lengths[i] = lengths[j] + 1;
+                        counts[i] = counts[j];
+                    } else if (lengths[j] + 1 == lengths[i]) {
+                        counts[i] += counts[j];
+                    }
+                }
+            }
+            maxLen = Math.max(maxLen, lengths[i]);
+        }
+        
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            if (lengths[i] == maxLen) res += counts[i];
+        }
+        return res;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        if (n <= 1) return n;
+        vector<int> lengths(n, 1), counts(n, 1);
+        int maxLen = 1;
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    if (lengths[j] + 1 > lengths[i]) {
+                        lengths[i] = lengths[j] + 1;
+                        counts[i] = counts[j];
+                    } else if (lengths[j] + 1 == lengths[i]) {
+                        counts[i] += counts[j];
+                    }
+                }
+            }
+            maxLen = max(maxLen, lengths[i]);
+        }
+        
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            if (lengths[i] == maxLen) res += counts[i];
+        }
+        return res;
+    }
+};`,
+            c: `int findNumberOfLIS(int* nums, int numsSize) {
+    if (numsSize <= 1) return numsSize;
+    int lengths[numsSize], counts[numsSize];
+    for(int i=0; i<numsSize; i++) { lengths[i] = 1; counts[i] = 1; }
+    
+    int maxLen = 1;
+    for (int i = 0; i < numsSize; i++) {
+        for (int j = 0; j < i; j++) {
+            if (nums[j] < nums[i]) {
+                if (lengths[j] + 1 > lengths[i]) {
+                    lengths[i] = lengths[j] + 1;
+                    counts[i] = counts[j];
+                } else if (lengths[j] + 1 == lengths[i]) {
+                    counts[i] += counts[j];
+                }
+            }
+        }
+        if (lengths[i] > maxLen) maxLen = lengths[i];
+    }
+    
+    int res = 0;
+    for (int i = 0; i < numsSize; i++) {
+        if (lengths[i] == maxLen) res += counts[i];
+    }
+    return res;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

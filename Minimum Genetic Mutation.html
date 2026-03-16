@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .example-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-solution:hover {
+            box-shadow: 0 0 25px var(--primary);
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>433. Minimum Genetic Mutation</h1>
+        
+        <div class="desc">
+            Given a <code>startGene</code> and <code>endGene</code>, find the minimum number of mutations to transform one into the other. 
+            Each mutation must exist in the <code>bank</code>.
+        </div>
+
+        <div class="section-header">Example 2:</div>
+        <div class="example-box">
+<b>Input:</b> startGene = "AACCGGTT", endGene = "AAACGGTA"
+<br>
+<b>Bank:</b> ["AACCGGTA", "AACCGCTA", "AAACGGTA"]
+<br>
+<b>Output:</b> 2
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Gene length is exactly 8.</li>
+            <li>Characters are only 'A', 'C', 'G', 'T'.</li>
+            <li>Bank length is up to 10.</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public int minMutation(String startGene, String endGene, String[] bank) {\n        Set<String> bankSet = new HashSet<>(Arrays.asList(bank));\n        if (!bankSet.contains(endGene)) return -1;\n        \n        char[] genes = {'A', 'C', 'G', 'T'};\n        Queue<String> q = new LinkedList<>();\n        q.offer(startGene);\n        int mutations = 0;\n\n        while (!q.isEmpty()) {\n            int size = q.size();\n            while (size-- > 0) {\n                String curr = q.poll();\n                if (curr.equals(endGene)) return mutations;\n                \n                char[] currArr = curr.toCharArray();\n                for (int i = 0; i < 8; i++) {\n                    char oldChar = currArr[i];\n                    for (char g : genes) {\n                        currArr[i] = g;\n                        String next = new String(currArr);\n                        if (bankSet.contains(next)) {\n                            bankSet.remove(next);\n                            q.offer(next);\n                        }\n                    }\n                    currArr[i] = oldChar;\n                }\n            }\n            mutations++;\n        }\n        return -1;\n    }\n}`,
+            python: `class Solution:\n    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:\n        bank = set(bank)\n        if endGene not in bank: return -1\n        \n        q = collections.deque([(startGene, 0)])\n        while q:\n            curr, dist = q.popleft()\n            if curr == endGene: return dist\n            \n            for i in range(8):\n                for char in "ACGT":\n                    mutation = curr[:i] + char + curr[i+1:]\n                    if mutation in bank:\n                        bank.remove(mutation)\n                        q.append((mutation, dist + 1))\n        return -1`,
+            cpp: `class Solution {\npublic:\n    int minMutation(string start, string end, vector<string>& bank) {\n        unordered_set<string> bankSet(bank.begin(), bank.end());\n        if (!bankSet.count(end)) return -1;\n\n        queue<pair<string, int>> q;\n        q.push({start, 0});\n\n        while (!q.empty()) {\n            auto [curr, d] = q.front(); q.pop();\n            if (curr == end) return d;\n\n            for (int i = 0; i < 8; i++) {\n                char old = curr[i];\n                for (char c : "ACGT") {\n                    curr[i] = c;\n                    if (bankSet.count(curr)) {\n                        bankSet.erase(curr);\n                        q.push({curr, d + 1});\n                    }\n                }\n                curr[i] = old;\n            }\n        }\n        return -1;\n    }\n};`,
+            c: `int minMutation(char* start, char* end, char** bank, int bankSize) {\n    int head = 0, tail = 0, steps = 0;\n    char* queue[100];\n    int dist[100];\n    int visited[10] = {0};\n\n    queue[tail] = start;\n    dist[tail++] = 0;\n\n    while (head < tail) {\n        char* curr = queue[head];\n        int d = dist[head++];\n        if (strcmp(curr, end) == 0) return d;\n\n        for (int i = 0; i < bankSize; i++) {\n            if (visited[i]) continue;\n            int diff = 0;\n            for (int j = 0; j < 8; j++) {\n                if (curr[j] != bank[i][j]) diff++;\n            }\n            if (diff == 1) {\n                visited[i] = 1;\n                queue[tail] = bank[i];\n                dist[tail++] = d + 1;\n            }\n        }\n    }\n    return -1;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

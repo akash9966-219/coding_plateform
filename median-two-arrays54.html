@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Binary-Search.html" class="back-btn">← Back to Binary Search</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>4. Median of Two Sorted Arrays</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            Given two sorted arrays <code>nums1</code> and <code>nums2</code> of size <code>m</code> and <code>n</code> respectively, return the <b>median</b> of the two sorted arrays.
+            <br><br>The overall run time complexity should be <b>O(log (m+n))</b>.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            nums1 = [1,3], nums2 = [2]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            2.00000
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        A, B = nums1, nums2
+        total = len(nums1) + len(nums2)
+        half = total // 2
+        
+        if len(B) < len(A):
+            A, B = B, A
+        
+        l, r = 0, len(A) - 1
+        while True:
+            i = (l + r) // 2
+            j = half - i - 2
+            
+            Aleft = A[i] if i >= 0 else float("-infinity")
+            Aright = A[i + 1] if (i + 1) < len(A) else float("infinity")
+            Bleft = B[j] if j >= 0 else float("-infinity")
+            Bright = B[j + 1] if (j + 1) < len(B) else float("infinity")
+            
+            if Aleft <= Bright and Bleft <= Aright:
+                if total % 2:
+                    return min(Aright, Bright)
+                return (max(Aleft, Bleft) + min(Aright, Bright)) / 2
+            elif Aleft > Bright:
+                r = i - 1
+            else:
+                l = i + 1`,
+            java: `class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if (nums1.length > nums2.length) return findMedianSortedArrays(nums2, nums1);
+        int m = nums1.length, n = nums2.length;
+        int left = 0, right = m;
+        
+        while (left <= right) {
+            int i = left + (right - left) / 2;
+            int j = (m + n + 1) / 2 - i;
+            
+            int Aleft = (i == 0) ? Integer.MIN_VALUE : nums1[i-1];
+            int Aright = (i == m) ? Integer.MAX_VALUE : nums1[i];
+            int Bleft = (j == 0) ? Integer.MIN_VALUE : nums2[j-1];
+            int Bright = (j == n) ? Integer.MAX_VALUE : nums2[j];
+            
+            if (Aleft <= Bright && Bleft <= Aright) {
+                if ((m + n) % 2 == 0) {
+                    return (Math.max(Aleft, Bleft) + Math.min(Aright, Bright)) / 2.0;
+                } else {
+                    return Math.max(Aleft, Bleft);
+                }
+            } else if (Aleft > Bright) right = i - 1;
+            else left = i + 1;
+        }
+        return 0.0;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        if (nums1.size() > nums2.size()) return findMedianSortedArrays(nums2, nums1);
+        int m = nums1.size(), n = nums2.size();
+        int l = 0, r = m;
+        
+        while (l <= r) {
+            int i = l + (r - l) / 2;
+            int j = (m + n + 1) / 2 - i;
+            
+            int Al = (i == 0) ? INT_MIN : nums1[i - 1];
+            int Ar = (i == m) ? INT_MAX : nums1[i];
+            int Bl = (j == 0) ? INT_MIN : nums2[j - 1];
+            int Br = (j == n) ? INT_MAX : nums2[j];
+            
+            if (Al <= Br && Bl <= Ar) {
+                if ((m + n) % 2 == 0) return (max(Al, Bl) + min(Ar, Br)) / 2.0;
+                return max(Al, Bl);
+            } else if (Al > Br) r = i - 1;
+            else l = i + 1;
+        }
+        return 0.0;
+    }
+};`,
+            c: `double findMedianSortedArrays(int* nums1, int nums1Size, int* nums2, int nums2Size) {
+    if (nums1Size > nums2Size) return findMedianSortedArrays(nums2, nums2Size, nums1, nums1Size);
+    int m = nums1Size, n = nums2Size;
+    int l = 0, r = m;
+    
+    while (l <= r) {
+        int i = l + (r - l) / 2;
+        int j = (m + n + 1) / 2 - i;
+        
+        int Al = (i == 0) ? -1e9 : nums1[i - 1];
+        int Ar = (i == m) ? 1e9 : nums1[i];
+        int Bl = (j == 0) ? -1e9 : nums2[j - 1];
+        int Br = (j == n) ? 1e9 : nums2[j];
+        
+        if (Al <= Br && Bl <= Ar) {
+            if ((m + n) % 2 == 0) {
+                int maxL = Al > Bl ? Al : Bl;
+                int minR = Ar < Br ? Ar : Br;
+                return (maxL + minR) / 2.0;
+            } else {
+                return Al > Bl ? Al : Bl;
+            }
+        } else if (Al > Br) r = i - 1;
+        else l = i + 1;
+    }
+    return 0.0;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

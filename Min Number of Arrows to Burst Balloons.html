@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>452. Burst Balloons</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Find the minimum number of arrows that must be shot to burst all balloons. Balloons are represented by intervals <code>[x_start, x_end]</code>.
+        </div>
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>Input (points)</th><th>Output</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>[[10,16],[2,8],[1,6],[7,12]]</td><td>2</td></tr>
+                <tr><td>[[1,2],[3,4],[5,6],[7,8]]</td><td>4</td></tr>
+            </tbody>
+        </table>
+        <div class="section-header">Greedy Logic:</div>
+        <div class="logic-visual">
+            1. Sort by <b>END position</b>.<br>
+            2. Shoot first arrow at points[0].end.<br>
+            3. For next balloon:<br>
+            &nbsp;&nbsp;&nbsp;If balloon.start > arrow_pos:<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shoot new arrow at current balloon.end.<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Increment arrow_count.
+        </div>
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2; margin-bottom: 30px;">
+            <li>Time: O(N log N) - Due to sorting.</li>
+            <li>Space: O(log N) - Space for sorting implementation.</li>
+        </ul>
+    </div>
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+    <script>
+        const codeRepo = {
+            java: `public int findMinArrowShots(int[][] points) {\n    if (points.length == 0) return 0;\n    Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));\n    int arrows = 1;\n    int pos = points[0][1];\n    for (int i = 1; i < points.length; i++) {\n        if (points[i][0] > pos) {\n            arrows++;\n            pos = points[i][1];\n        }\n    }\n    return arrows;\n}`,
+            python: `def findMinArrowShots(self, points: List[List[int]]) -> int:\n    if not points: return 0\n    points.sort(key=lambda x: x[1])\n    arrows = 1\n    pos = points[0][1]\n    for i in range(1, len(points)):\n        if points[i][0] > pos:\n            arrows += 1\n            pos = points[i][1]\n    return arrows`,
+            cpp: `int findMinArrowShots(vector<vector<int>>& points) {\n    if (points.empty()) return 0;\n    sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) {\n        return a[1] < b[1];\n    });\n    int arrows = 1;\n    int pos = points[0][1];\n    for (int i = 1; i < points.size(); i++) {\n        if (points[i][0] > pos) {\n            arrows++;\n            pos = points[i][1];\n        }\n    }\n    return arrows;\n}`,
+            c: `int cmp(const void* a, const void* b) {\n    int* p1 = *(int**)a;\n    int* p2 = *(int**)b;\n    if (p1[1] < p2[1]) return -1;\n    if (p1[1] > p2[1]) return 1;\n    return 0;\n}\nint findMinArrowShots(int** points, int pointsSize, int* pointsColSize) {\n    if (pointsSize == 0) return 0;\n    qsort(points, pointsSize, sizeof(int*), cmp);\n    int arrows = 1;\n    int pos = points[0][1];\n    for (int i = 1; i < pointsSize; i++) {\n        if (points[i][0] > pos) {\n            arrows++;\n            pos = points[i][1];\n        }\n    }\n    return arrows;\n}`
+        };
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

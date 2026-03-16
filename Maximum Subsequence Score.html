@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ffb800; font-size: 0.8rem; font-weight: 700; border: 1px solid #ffb800; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 184, 0, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; }
+        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .data-table th, .data-table td { text-align: left; padding: 12px; border: 1px solid var(--border); }
+        .data-table th { color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .logic-visual { background: #111; padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: 'Fira Code', monospace; font-size: 0.8rem; line-height: 1.6; color: var(--text-dim); }
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 0.82rem; line-height: 1.5; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="code-75.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+        <h1>2542. Maximum Subsequence Score</h1>
+        <div class="desc" style="margin-bottom: 30px; line-height: 1.7; color: #ddd;">
+            Choose a subsequence of length <code>k</code>. Maximize: <code>(sum of nums1 elements) * (min of nums2 elements)</code>.
+        </div>
+
+        <div class="section-header">Sample Test Case:</div>
+        <table class="data-table">
+            <thead>
+                <tr><th>nums1</th><th>nums2</th><th>k</th><th>Max Score</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>[1,3,3,2]</td><td>[2,1,3,4]</td><td>3</td><td>12</td></tr>
+            </tbody>
+        </table>
+        
+        <div class="section-header">Greedy Strategy:</div>
+        <div class="logic-visual">
+            1. Sort pairs by <b>nums2 descending</b>.<br>
+            2. Maintain <b>Min-Heap</b> of k largest nums1 values.<br>
+            3. Score = (Current Heap Sum) * (Current nums2 value).
+        </div>
+        
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(N log N)</li>
+            <li>Space: O(N)</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Select language and click 'SHOW SOLUTION'..."></textarea>
+        <div class="terminal-footer"><button class="btn-solution" onclick="showFullCode()">Show Solution</button></div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `public long maxScore(int[] nums1, int[] nums2, int k) {\n    int n = nums1.length;\n    int[][] pairs = new int[n][2];\n    for (int i = 0; i < n; i++) {\n        pairs[i][0] = nums1[i];\n        pairs[i][1] = nums2[i];\n    }\n    Arrays.sort(pairs, (a, b) -> b[1] - a[1]);\n    PriorityQueue<Integer> pq = new PriorityQueue<>(k);\n    long res = 0, totalSum = 0;\n    for (int[] p : pairs) {\n        pq.add(p[0]);\n        totalSum += p[0];\n        if (pq.size() > k) totalSum -= pq.poll();\n        if (pq.size() == k) res = Math.max(res, totalSum * (long)p[1]);\n    }\n    return res;\n}`,
+            python: `def maxScore(self, nums1: List[int], nums2: List[int], k: int) -> int:\n    pairs = sorted(zip(nums1, nums2), key=lambda x: -x[1])\n    min_heap = []\n    res = total_sum = 0\n    for n1, n2 in pairs:\n        heapq.heappush(min_heap, n1)\n        total_sum += n1\n        if len(min_heap) > k:\n            total_sum -= heapq.heappop(min_heap)\n        if len(min_heap) == k:\n            res = max(res, total_sum * n2)\n    return res`,
+            cpp: `long long maxScore(vector<int>& nums1, vector<int>& nums2, int k) {\n    int n = nums1.size();\n    vector<pair<int, int>> pairs(n);\n    for (int i = 0; i < n; ++i) pairs[i] = {nums2[i], nums1[i]};\n    sort(pairs.rbegin(), pairs.rend());\n    priority_queue<int, vector<int>, greater<int>> pq;\n    long long res = 0, sum = 0;\n    for (auto& p : pairs) {\n        sum += p.second;\n        pq.push(p.second);\n        if (pq.size() > k) {\n            sum -= pq.top(); pq.pop();\n        }\n        if (pq.size() == k) res = max(res, sum * p.first);\n    }\n    return res;\n}`,
+            c: `typedef struct { int n1, n2; } Pair;\nint cmp(const void* a, const void* b) { return ((Pair*)b)->n2 - ((Pair*)a)->n2; }\nvoid heapify(int* h, int s, int i) {\n    int sm = i, l = 2*i+1, r = 2*i+2;\n    if (l < s && h[l] < h[sm]) sm = l;\n    if (r < s && h[r] < h[sm]) sm = r;\n    if (sm != i) { int t = h[i]; h[i] = h[sm]; h[sm] = t; heapify(h, s, sm); }\n}\nlong long maxScore(int* nums1, int n1s, int* nums2, int n2s, int k) {\n    Pair* p = malloc(n1s * sizeof(Pair));\n    for(int i=0; i<n1s; i++) { p[i].n1 = nums1[i]; p[i].n2 = nums2[i]; }\n    qsort(p, n1s, sizeof(Pair), cmp);\n    int* h = malloc(k * sizeof(int));\n    long long sum = 0, maxS = 0;\n    int hs = 0;\n    for(int i=0; i<n1s; i++) {\n        if (hs < k) {\n            h[hs] = p[i].n1; sum += p[i].n1; hs++;\n            int c = hs-1; while(c>0 && h[(c-1)/2] > h[c]) { int t=h[c]; h[c]=h[(c-1)/2]; h[(c-1)/2]=t; c=(c-1)/2; }\n        } else if (p[i].n1 > h[0]) {\n            sum = sum - h[0] + p[i].n1; h[0] = p[i].n1; heapify(h, k, 0);\n        }\n        if (hs == k) { long long cur = sum * p[i].n2; if(cur > maxS) maxS = cur; }\n    }\n    free(p); free(h); return maxS;\n}`
+        };
+
+        function resetView() { 
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = ""; 
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+        function showFullCode() { 
+            const lang = document.getElementById('lang-select').value; 
+            document.getElementById('code-display').value = codeRepo[lang]; 
+        }
+        window.onload = resetView;
+    </script>
+</body>
+</html>

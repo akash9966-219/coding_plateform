@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ff3e3e;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ff3e3e;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 62, 62, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Hard</span>
+        </div>
+
+        <h1>23. Merge k Sorted Lists</h1>
+        
+        <div class="desc">
+            Merge $k$ sorted linked lists into one single sorted linked list. This is solved efficiently using a Min-Heap.
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>Initialize:</b> Push the first node of each list into a Min-Heap.<br>
+            2. <b>Process:</b> Pop the smallest node, attach it to the result list.<br>
+            3. <b>Advance:</b> If the popped node has a <code>next</code>, push it to the heap.<br>
+            <span style="color:var(--primary)">Complexity: $O(N \log k)$ where $N$ is total nodes.</span>
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(N log k)</li>
+            <li>Space: O(k)</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);\n        for (ListNode node : lists) if (node != null) pq.add(node);\n        ListNode dummy = new ListNode(0);\n        ListNode tail = dummy;\n        while (!pq.isEmpty()) {\n            ListNode node = pq.poll();\n            tail.next = node;\n            tail = tail.next;\n            if (node.next != null) pq.add(node.next);\n        }\n        return dummy.next;\n    }\n}`,
+            python: `import heapq\n\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        heap = []\n        for i, node in enumerate(lists):\n            if node: heapq.heappush(heap, (node.val, i, node))\n        dummy = ListNode(0)\n        curr = dummy\n        while heap:\n            val, i, node = heapq.heappop(heap)\n            curr.next = node\n            curr = curr.next\n            if node.next: heapq.heappush(heap, (node.next.val, i, node.next))\n        return dummy.next`,
+            cpp: `class Solution {\n    struct cmp { bool operator()(ListNode* a, ListNode* b) { return a->val > b->val; } };\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        priority_queue<ListNode*, vector<ListNode*>, cmp> pq;\n        for (auto l : lists) if (l) pq.push(l);\n        ListNode* dummy = new ListNode(0), *tail = dummy;\n        while (!pq.empty()) {\n            ListNode* node = pq.top(); pq.pop();\n            tail->next = node; tail = tail->next;\n            if (node->next) pq.push(node->next);\n        }\n        return dummy->next;\n    }\n};`,
+            c: `void swap(struct ListNode** a, struct ListNode** b) { struct ListNode* t = *a; *a = *b; *b = t; }\n\nvoid heapify(struct ListNode** heap, int size, int i) {\n    int smallest = i, l = 2*i + 1, r = 2*i + 2;\n    if (l < size && heap[l]->val < heap[smallest]->val) smallest = l;\n    if (r < size && heap[r]->val < heap[smallest]->val) smallest = r;\n    if (smallest != i) { swap(&heap[i], &heap[smallest]); heapify(heap, size, smallest); }\n}\n\nstruct ListNode* mergeKLists(struct ListNode** lists, int listsSize) {\n    struct ListNode** heap = malloc(sizeof(struct ListNode*) * (listsSize + 1));\n    int size = 0;\n    for (int i = 0; i < listsSize; i++) if (lists[i]) heap[size++] = lists[i];\n    for (int i = size / 2 - 1; i >= 0; i--) heapify(heap, size, i);\n\n    struct ListNode dummy = {0, NULL}, *tail = &dummy;\n    while (size > 0) {\n        struct ListNode* minNode = heap[0];\n        tail->next = minNode; tail = tail->next;\n        if (minNode->next) heap[0] = minNode->next;\n        else heap[0] = heap[--size];\n        heapify(heap, size, 0);\n    }\n    free(heap); return dummy.next;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>

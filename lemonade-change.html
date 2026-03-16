@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        /* Left Pane: Question & Tests */
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: var(--primary); font-size: 0.8rem; font-weight: 700; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(0, 255, 157, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+        code { font-family: 'Fira Code', monospace; color: var(--primary); }
+
+        /* Right Pane: Code Editor */
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; resize: none; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; transition: 0.3s; }
+        .btn-solution:hover { opacity: 0.8; transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="programming-skills.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Easy</span>
+        </div>
+        <h1>860. Lemonade Change</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            At a lemonade stand, each lemonade costs <code>$5</code>. Customers are standing in a queue to buy from you and order one at a time. Each customer will only buy one lemonade and pay with either a <code>$5</code>, <code>$10</code>, or <code>$20</code> bill. You must provide the correct change to each customer.
+            <br><br>
+            Note that you do not have any change in hand at first. Return <code>true</code> if you can provide every customer with the correct change, or <code>false</code> otherwise.
+        </p>
+
+        <div class="section-header">Greedy Logic</div>
+        <p style="color: var(--text-dim); font-size: 0.9rem; margin-bottom: 20px;">
+            When giving change for a <b>$20</b> bill ($15 change), always prefer giving <b>$10 + $5</b> over <b>$5 + $5 + $5</b>. $5 bills are more versatile because they are required to give change for $10 bills.
+        </p>
+
+        <div class="section-header">Valid Test Cases</div>
+        
+        <div class="example-box">
+            <span class="example-label">Test Case 1: Standard Success</span>
+            Input: <code>[5, 5, 5, 10, 20]</code><br>
+            Output: <code>true</code>
+        </div>
+
+        <div class="example-box">
+            <span class="example-label">Test Case 2: Insufficient Change</span>
+            Input: <code>[5, 5, 10, 10, 20]</code><br>
+            Output: <code>false</code>
+        </div>
+
+        <div class="example-box">
+            <span class="example-label">Test Case 3: Early Large Bill</span>
+            Input: <code>[10, 10]</code><br>
+            Output: <code>false</code>
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'Show Solution' to view the implementation..."></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def lemonadeChange(self, bills: List[int]) -> bool:
+        five = ten = 0
+        for b in bills:
+            if b == 5: 
+                five += 1
+            elif b == 10:
+                if not five: return False
+                five -= 1
+                ten += 1
+            else: # Customer pays $20
+                if ten and five:
+                    ten -= 1
+                    five -= 1
+                elif five >= 3:
+                    five -= 3
+                else:
+                    return False
+        return True`,
+            java: `class Solution {
+    public boolean lemonadeChange(int[] bills) {
+        int five = 0, ten = 0;
+        for (int b : bills) {
+            if (b == 5) {
+                five++;
+            } else if (b == 10) {
+                if (five == 0) return false;
+                five--;
+                ten++;
+            } else { // Customer pays $20
+                if (ten > 0 && five > 0) {
+                    ten--;
+                    five--;
+                } else if (five >= 3) {
+                    five -= 3;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    bool lemonadeChange(vector<int>& bills) {
+        int five = 0, ten = 0;
+        for (int b : bills) {
+            if (b == 5) five++;
+            else if (b == 10) {
+                if (five == 0) return false;
+                five--; ten++;
+            } else {
+                if (ten > 0 && five > 0) {
+                    ten--; five--;
+                } else if (five >= 3) {
+                    five -= 3;
+                } else return false;
+            }
+        }
+        return true;
+    }
+};`,
+            c: `bool lemonadeChange(int* bills, int billsSize) {
+    int five = 0, ten = 0;
+    for (int i = 0; i < billsSize; i++) {
+        if (bills[i] == 5) {
+            five++;
+        } else if (bills[i] == 10) {
+            if (five == 0) return false;
+            five--;
+            ten++;
+        } else {
+            if (ten > 0 && five > 0) {
+                ten--;
+                five--;
+            } else if (five >= 3) {
+                five -= 3;
+            } else {
+                return false;
+            }
+        }
+    }
+    return true;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            // Clear display when language changes
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        // Initialize view
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

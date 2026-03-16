@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505; --panel: #0d0d0d; --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1); --text-main: #ffffff; --text-dim: #999;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg); color: var(--text-main); font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+        
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .pane-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .back-btn { text-decoration: none; color: var(--text-dim); font-size: 0.85rem; border: 1px solid var(--border); padding: 6px 14px; border-radius: 6px; transition: 0.2s; }
+        .back-btn:hover { color: var(--primary); border-color: var(--primary); background: rgba(0, 255, 157, 0.05); }
+        .difficulty { color: #ff4757; font-size: 0.8rem; font-weight: 700; border: 1px solid #ff4757; padding: 4px 12px; border-radius: 50px; display: inline-block; background: rgba(255, 71, 87, 0.05); }
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 15px; font-weight: 700; margin-top: 25px; }
+        .example-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 20px; border-radius: 12px; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        .example-label { color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.75rem; }
+
+        .code-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .code-header { background: #111; padding: 15px 30px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        select { background: #222; color: #fff; border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; outline: none; cursor: pointer; font-family: inherit; }
+        #code-display { flex: 1; padding: 30px; font-family: 'Fira Code', monospace; font-size: 1rem; line-height: 1.6; color: #00ff9d; background: transparent; border: none; outline: none; white-space: pre; overflow: auto; }
+        .terminal-footer { padding: 20px 30px; background: #0a0a0a; display: flex; justify-content: flex-end; border-top: 1px solid var(--border); }
+        .btn-solution { background: var(--primary); color: #000; padding: 12px 30px; border-radius: 8px; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Graphs.html" class="back-btn">← Back to Graph Roadmap</a>
+            <span class="difficulty">Hard</span>
+        </div>
+        <h1>1857. Largest Color Value in a DAG</h1>
+        
+        <div class="section-header">Description</div>
+        <p style="line-height: 1.7; color: #ccc;">
+            There is a directed graph with <code>n</code> nodes and <code>m</code> edges. Each node has a color represented by a lowercase English letter.
+            <br><br>Return the <b>largest color value</b> of any valid path in the graph, or -1 if the graph contains a cycle.
+        </p>
+
+        <div class="section-header">Example</div>
+        <div class="example-box">
+            <span class="example-label">Input</span>
+            colors = "abaca", edges = [[0,1],[0,2],[2,3],[3,4]]<br>
+            <span class="example-label" style="margin-top:10px;">Output</span>
+            3
+        </div>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="updateLang()">
+                <option value="python">Python</option>
+                <option value="java">Java</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">solution.py</span>
+        </div>
+        <textarea id="code-display" readonly spellcheck="false"></textarea>
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            python: `class Solution:
+    def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
+        n = len(colors)
+        adj = collections.defaultdict(list)
+        indegree = [0] * n
+        for u, v in edges:
+            adj[u].append(v)
+            indegree[v] += 1
+            
+        queue = collections.deque([i for i in range(n) if indegree[i] == 0])
+        dp = [[0] * 26 for _ in range(n)]
+        res, count = 0, 0
+        
+        while queue:
+            u = queue.popleft()
+            count += 1
+            color_idx = ord(colors[u]) - ord('a')
+            dp[u][color_idx] += 1
+            res = max(res, dp[u][color_idx])
+            
+            for v in adj[u]:
+                for c in range(26):
+                    dp[v][c] = max(dp[v][c], dp[u][c])
+                indegree[v] -= 1
+                if indegree[v] == 0:
+                    queue.append(v)
+                    
+        return res if count == n else -1`,
+            java: `class Solution {
+    public int largestPathValue(String colors, int[][] edges) {
+        int n = colors.length();
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        int[] indegree = new int[n];
+        for (int[] e : edges) {
+            adj.get(e[0]).add(e[1]);
+            indegree[e[1]]++;
+        }
+        
+        int[][] dp = new int[n][26];
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) if (indegree[i] == 0) q.add(i);
+        
+        int res = 0, count = 0;
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            count++;
+            int color = colors.charAt(u) - 'a';
+            res = Math.max(res, ++dp[u][color]);
+            
+            for (int v : adj.get(u)) {
+                for (int c = 0; c < 26; c++) {
+                    dp[v][c] = Math.max(dp[v][c], dp[u][c]);
+                }
+                if (--indegree[v] == 0) q.add(v);
+            }
+        }
+        return count == n ? res : -1;
+    }
+}`,
+            cpp: `class Solution {
+public:
+    int largestPathValue(string colors, vector<vector<int>>& edges) {
+        int n = colors.size();
+        vector<vector<int>> adj(n);
+        vector<int> indegree(n, 0);
+        for (auto& e : edges) {
+            adj[e[0]].push_back(e[1]);
+            indegree[e[1]]++;
+        }
+        
+        vector<vector<int>> dp(n, vector<int>(26, 0));
+        queue<int> q;
+        for (int i = 0; i < n; i++) if (indegree[i] == 0) q.push(i);
+        
+        int res = 0, count = 0;
+        while (!q.empty()) {
+            int u = q.front(); q.pop();
+            count++;
+            int color = colors[u] - 'a';
+            res = max(res, ++dp[u][color]);
+            
+            for (int v : adj[u]) {
+                for (int c = 0; c < 26; c++) {
+                    dp[v][c] = max(dp[v][c], dp[u][c]);
+                }
+                if (--indegree[v] == 0) q.push(v);
+            }
+        }
+        return count == n ? res : -1;
+    }
+};`,
+           c: `int largestPathValue(char * colors, int** edges, int edgesSize, int* edgesColSize) {
+    int n = strlen(colors);
+    int* indegree = (int*)calloc(n, sizeof(int));
+    int* outDegree = (int*)calloc(n, sizeof(int));
+    
+    // 1. Build Adjacency List (Two-pass for efficiency)
+    for (int i = 0; i < edgesSize; i++) {
+        outDegree[edges[i][0]]++;
+        indegree[edges[i][1]]++;
+    }
+    
+    int** adj = (int**)malloc(n * sizeof(int*));
+    int* adjIdx = (int*)calloc(n, sizeof(int));
+    for (int i = 0; i < n; i++) {
+        adj[i] = (int*)malloc(outDegree[i] * sizeof(int));
+    }
+    
+    for (int i = 0; i < edgesSize; i++) {
+        int u = edges[i][0];
+        int v = edges[i][1];
+        adj[u][adjIdx[u]++] = v;
+    }
+    
+    // 2. DP Table: dp[n][26]
+    int (*dp)[26] = (int (*)[26])calloc(n * 26, sizeof(int));
+    int* queue = (int*)malloc(n * sizeof(int));
+    int head = 0, tail = 0, count = 0, maxVal = 0;
+    
+    for (int i = 0; i < n; i++) {
+        if (indegree[i] == 0) queue[tail++] = i;
+    }
+    
+    // 3. Process BFS
+    while (head < tail) {
+        int u = queue[head++];
+        count++;
+        int color = colors[u] - 'a';
+        dp[u][color]++;
+        if (dp[u][color] > maxVal) maxVal = dp[u][color];
+        
+        for (int i = 0; i < outDegree[u]; i++) {
+            int v = adj[u][i];
+            for (int c = 0; c < 26; c++) {
+                if (dp[u][c] > dp[v][c]) dp[v][c] = dp[u][c];
+            }
+            if (--indegree[v] == 0) queue[tail++] = v;
+        }
+    }
+    
+    // 4. Cleanup
+    for (int i = 0; i < n; i++) free(adj[i]);
+    free(adj); free(adjIdx); free(indegree); free(outDegree);
+    free(dp); free(queue);
+    
+    return (count == n) ? maxVal : -1;
+}`
+        };
+
+        const fileLabels = { python: 'solution.py', java: 'Solution.java', cpp: 'solution.cpp', c: 'solution.c' };
+
+        function updateLang() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('file-label').innerText = fileLabels[lang];
+            document.getElementById('code-display').value = "";
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = updateLang;
+    </script>
+</body>
+</html>

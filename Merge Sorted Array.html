@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sorted Array | Full Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --accent: #00e5ff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: white; font-family: 'Space Grotesk', sans-serif; height: 100vh; display: flex; overflow: hidden; }
+
+        /* HEADER / BACK BUTTON STYLING */
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        /* LEFT PANE: COMPLETE QUESTION DETAILS */
+        .question-pane { width: 45%; padding: 40px; border-right: 1px solid var(--border); overflow-y: auto; background: var(--panel); }
+        .difficulty-badge { color: var(--primary); font-size: 0.8rem; font-weight: 700; border: 1px solid var(--primary); padding: 4px 12px; border-radius: 50px; background: rgba(0, 255, 157, 0.05); }
+        h1 { margin: 15px 0; font-size: 2.2rem; letter-spacing: -1px; }
+        .desc-text { color: #ddd; line-height: 1.7; margin-bottom: 25px; font-size: 1.05rem; }
+        
+        .example-block { margin-bottom: 30px; }
+        .example-header { font-weight: 700; margin-bottom: 10px; color: #fff; }
+        .example-content { background: #161616; padding: 18px; border-radius: 12px; border: 1px solid var(--border); font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.5; }
+        .explanation { margin-top: 10px; color: var(--text-dim); font-style: italic; font-size: 0.9rem; }
+
+        .section-header { color: var(--primary); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; margin: 30px 0 15px 0; font-weight: 700; }
+        .constraint-list { color: #bbb; padding-left: 20px; line-height: 2.2; font-size: 0.95rem; }
+        .follow-up { background: rgba(0, 229, 255, 0.05); border: 1px solid rgba(0, 229, 255, 0.2); padding: 18px; border-radius: 12px; color: #00e5ff; margin-top: 30px; line-height: 1.5; }
+
+        /* RIGHT PANE: FULL CODE TERMINAL */
+        .terminal-pane { width: 55%; display: flex; flex-direction: column; background: #000; }
+        .editor-top { background: #111; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+        
+        select { 
+            background: #222; 
+            color: #fff; 
+            border: 1px solid var(--border); 
+            padding: 8px 18px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-family: inherit;
+            outline: none;
+            font-weight: 500;
+        }
+
+        #code-editor { 
+            flex: 1; 
+            background: #000; 
+            color: #00ff9d; 
+            font-family: 'Fira Code', monospace; 
+            padding: 30px; 
+            border: none; 
+            outline: none; 
+            font-size: 1.05rem; 
+            line-height: 1.6; 
+            resize: none; 
+            text-shadow: 0 0 5px rgba(0, 255, 157, 0.1);
+        }
+
+        .terminal-footer { 
+            padding: 20px 30px; 
+            background: #0a0a0a; 
+            display: flex; 
+            justify-content: flex-end; 
+            border-top: 1px solid var(--border); 
+        }
+
+        .btn-solution { 
+            padding: 12px 35px; 
+            border-radius: 8px; 
+            font-weight: 800; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            border: none; 
+            background: var(--primary); 
+            color: #000; 
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-solution:hover {
+            transform: scale(1.05);
+            background: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-150.html" class="back-btn">← Back to List</a>
+            <span class="difficulty-badge">Easy</span>
+        </div>
+        
+        <h1>88. Merge Sorted Array</h1>
+        
+        <div class="desc-text">
+            You are given two integer arrays <code>nums1</code> and <code>nums2</code>, sorted in <b>non-decreasing order</b>, and two integers <code>m</code> and <code>n</code>, representing the number of elements in <code>nums1</code> and <code>nums2</code> respectively.
+            <br><br>
+            <b>Merge</b> <code>nums1</code> and <code>nums2</code> into a single array sorted in <b>non-decreasing order</b>.
+            <br><br>
+            The final sorted array should not be returned by the function, but instead be <b>stored inside the array <code>nums1</code></b>. To accommodate this, <code>nums1</code> has a length of <code>m + n</code>, where the first <code>m</code> elements denote the elements that should be merged, and the last <code>n</code> elements are set to <code>0</code> and should be ignored. <code>nums2</code> has a length of <code>n</code>.
+        </div>
+
+        <div class="example-block">
+            <div class="example-header">Example 1:</div>
+            <div class="example-content">
+                Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3<br>
+                Output: [1,2,2,3,5,6]
+            </div>
+            <div class="explanation">Explanation: The arrays we are merging are [1,2,3] and [2,5,6]. The result of the merge is [1,2,2,3,5,6].</div>
+        </div>
+
+        <div class="example-block">
+            <div class="example-header">Example 2:</div>
+            <div class="example-content">
+                Input: nums1 = [1], m = 1, nums2 = [], n = 0<br>
+                Output: [1]
+            </div>
+        </div>
+
+        <div class="example-block">
+            <div class="example-header">Example 3:</div>
+            <div class="example-content">
+                Input: nums1 = [0], m = 0, nums2 = [1], n = 1<br>
+                Output: [1]
+            </div>
+        </div>
+
+        <div class="section-header">Constraints:</div>
+        <ul class="constraint-list">
+            <li><code>nums1.length == m + n</code></li>
+            <li><code>nums2.length == n</code></li>
+            <li><code>0 <= m, n <= 200</code></li>
+            <li><code>1 <= m + n <= 200</code></li>
+            <li><code>-10<sup>9</sup> <= nums1[i], nums2[j] <= 10<sup>9</sup></code></li>
+        </ul>
+
+        <div class="follow-up">
+            <strong>Follow up:</strong> Can you come up with an algorithm that runs in O(m + n) time?
+        </div>
+    </div>
+
+    <div class="terminal-pane">
+        <div class="editor-top">
+            <select id="lang-select" onchange="resetEditor()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">Solution.java</span>
+        </div>
+
+        <textarea id="code-editor" spellcheck="false" readonly placeholder="Choose a language and click 'SHOW SOLUTION'"></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullSolution()">Show Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const solutionData = {
+            java: `import java.util.*;\n\nclass Solution {\n    public void merge(int[] nums1, int m, int[] nums2, int n) {\n        int i = m - 1;     // Pointer for nums1\n        int j = n - 1;     // Pointer for nums2\n        int k = m + n - 1; // Pointer for placement\n\n        while (j >= 0) {\n            if (i >= 0 && nums1[i] > nums2[j]) {\n                nums1[k--] = nums1[i--];\n            } else {\n                nums1[k--] = nums2[j--];\n            }\n        }\n    }\n}`,
+            python: `from typing import List\n\nclass Solution:\n    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:\n        """\n        Do not return anything, modify nums1 in-place instead.\n        """\n        i = m - 1\n        j = n - 1\n        k = m + n - 1\n\n        while j >= 0:\n            if i >= 0 and nums1[i] > nums2[j]:\n                nums1[k] = nums1[i]\n                i -= 1\n            else:\n                nums1[k] = nums2[j]\n                j -= 1\n            k -= 1`,
+            cpp: `#include <vector>\nusing namespace std;\n\nclass Solution {\npublic:\n    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {\n        int i = m - 1;\n        int j = n - 1;\n        int k = m + n - 1;\n\n        while (j >= 0) {\n            if (i >= 0 && nums1[i] > nums2[j]) {\n                nums1[k--] = nums1[i--];\n            } else {\n                nums1[k--] = nums2[j--];\n            }\n        }\n    }\n};`,
+            c: `#include <stdio.h>\n\nvoid merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {\n    int i = m - 1;\n    int j = n - 1;\n    int k = m + n - 1;\n\n    while (j >= 0) {\n        if (i >= 0 && nums1[i] > nums2[j]) {\n            nums1[k--] = nums1[i--];\n        } else {\n            nums1[k--] = nums2[j--];\n        }\n    }\n}`
+        };
+
+        function resetEditor() {
+            const lang = document.getElementById('lang-select').value;
+            const editor = document.getElementById('code-editor');
+            const label = document.getElementById('file-label');
+            editor.value = ""; 
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            label.innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullSolution() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-editor').value = solutionData[lang];
+        }
+
+        window.onload = resetEditor;
+    </script>
+</body>
+</html>

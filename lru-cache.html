@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Detail | CodeTerminal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050505;
+            --panel: #0d0d0d;
+            --primary: #00ff9d;
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Space Grotesk', sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .question-pane {
+            width: 45%;
+            padding: 40px;
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            background: var(--panel);
+        }
+
+        .pane-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center; gap: 8px;
+            transition: 0.3s;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+            background: rgba(0, 255, 157, 0.05);
+        }
+
+        .difficulty {
+            color: #ffb800;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 1px solid #ffb800;
+            padding: 4px 12px;
+            border-radius: 50px;
+            display: inline-block;
+            background: rgba(255, 184, 0, 0.05);
+        }
+
+        h1 { font-size: 2.2rem; margin: 20px 0; letter-spacing: -1px; }
+
+        .desc { line-height: 1.7; color: #ddd; margin-bottom: 30px; }
+
+        .section-header {
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .code-pane {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            background: #000;
+        }
+
+        .code-header {
+            background: #111;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        select {
+            background: #222;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        #code-display {
+            flex: 1;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #00ff9d; 
+            background: transparent;
+            border: none;
+            outline: none;
+            resize: none;
+            white-space: pre;
+            overflow: auto;
+        }
+
+        .terminal-footer {
+            padding: 20px 30px;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: flex-end;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-solution {
+            background: var(--primary);
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            border: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="question-pane">
+        <div class="pane-header">
+            <a href="Top-100.html" class="back-btn">← Back to List</a>
+            <span class="difficulty">Medium</span>
+        </div>
+
+        <h1>146. LRU Cache</h1>
+        
+        <div class="desc">
+            Design a Least Recently Used (LRU) cache. Support <code>get</code> and <code>put</code> in <code>O(1)</code> average time.
+        </div>
+
+        <div class="section-header">Logic:</div>
+        <div style="font-family: 'Fira Code'; color: var(--text-dim); margin-bottom: 30px; font-size: 0.85rem; line-height: 1.6;">
+            1. <b>HashMap:</b> Provides $O(1)$ access to nodes.<br>
+            2. <b>Doubly Linked List:</b> Maintains usage order.<br>
+            3. <b>MRU (Head):</b> Most recently used items moved here.<br>
+            4. <b>LRU (Tail):</b> Items here are evicted first.
+        </div>
+
+        <div class="section-header">Complexity:</div>
+        <ul style="color: var(--text-dim); padding-left: 20px; line-height: 2;">
+            <li>Time: O(1) for both operations.</li>
+            <li>Space: O(capacity).</li>
+        </ul>
+    </div>
+
+    <div class="code-pane">
+        <div class="code-header">
+            <select id="lang-select" onchange="resetView()">
+                <option value="java">Java</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="c">C</option>
+            </select>
+            <span id="file-label" style="color: var(--text-dim); font-size: 0.8rem; font-family: 'Fira Code';">LRUCache.java</span>
+        </div>
+
+        <textarea id="code-display" readonly spellcheck="false" placeholder="Click 'SHOW FULL SOLUTION'..."></textarea>
+
+        <div class="terminal-footer">
+            <button class="btn-solution" onclick="showFullCode()">Show Full Solution</button>
+        </div>
+    </div>
+
+    <script>
+        const codeRepo = {
+            java: `class LRUCache {\n    class Node { int key, val; Node prev, next; }\n    private Map<Integer, Node> map = new HashMap<>();\n    private Node head, tail;\n    private int capacity;\n\n    public LRUCache(int capacity) {\n        this.capacity = capacity;\n        head = new Node(); tail = new Node();\n        head.next = tail; tail.prev = head;\n    }\n\n    public int get(int key) {\n        Node node = map.get(key);\n        if (node == null) return -1;\n        moveToHead(node); return node.val;\n    }\n\n    public void put(int key, int value) {\n        Node node = map.get(key);\n        if (node != null) {\n            node.val = value; moveToHead(node);\n        } else {\n            if (map.size() == capacity) {\n                map.remove(tail.prev.key);\n                removeNode(tail.prev);\n            }\n            Node newNode = new Node();\n            newNode.key = key; newNode.val = value;\n            addNode(newNode); map.put(key, newNode);\n        }\n    }\n\n    private void addNode(Node n) {\n        n.next = head.next; n.prev = head;\n        head.next.prev = n; head.next = n;\n    }\n    private void removeNode(Node n) {\n        n.prev.next = n.next; n.next.prev = n.prev;\n    }\n    private void moveToHead(Node n) { removeNode(n); addNode(n); }\n}`,
+            python: `class Node:\n    def __init__(self, key, val):\n        self.key, self.val = key, val\n        self.prev = self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.cap = capacity\n        self.cache = {} # key -> node\n        self.head, self.tail = Node(0, 0), Node(0, 0)\n        self.head.next, self.tail.prev = self.tail, self.head\n\n    def get(self, key: int) -> int:\n        if key in self.cache:\n            self.remove(self.cache[key])\n            self.insert(self.cache[key])\n            return self.cache[key].val\n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache: self.remove(self.cache[key])\n        self.cache[key] = Node(key, value)\n        self.insert(self.cache[key])\n        if len(self.cache) > self.cap:\n            lru = self.head.next\n            self.remove(lru)\n            del self.cache[lru.key]\n\n    def remove(self, node): node.prev.next, node.next.prev = node.next, node.prev\n    def insert(self, node): node.prev, node.next = self.tail.prev, self.tail; self.tail.prev.next = self.tail.prev = node`,
+            cpp: `class LRUCache {\n    struct Node { int key, val; Node *prev, *next; };\n    unordered_map<int, Node*> map;\n    Node *head, *tail; int cap;\npublic:\n    LRUCache(int capacity) : cap(capacity) {\n        head = new Node(); tail = new Node();\n        head->next = tail; tail->prev = head;\n    }\n    int get(int key) {\n        if (!map.count(key)) return -1;\n        moveToHead(map[key]); return map[key]->val;\n    }\n    void put(int key, int value) {\n        if (map.count(key)) { map[key]->val = value; moveToHead(map[key]); }\n        else {\n            if (map.size() == cap) {\n                map.erase(tail->prev->key); remove(tail->prev);\n            }\n            Node* n = new Node{key, value}; map[key] = n; add(n);\n        }\n    }\n    void add(Node* n) { n->next = head->next; n->prev = head; head->next->prev = n; head->next = n; }\n    void remove(Node* n) { n->prev->next = n->next; n->next->prev = n->prev; }\n    void moveToHead(Node* n) { remove(n); add(n); }\n};`,
+            c: `typedef struct Node { int key, val; struct Node *prev, *next; } Node;\ntypedef struct { Node **map; Node *head, *tail; int cap, size; } LRUCache;\n\nLRUCache* lRUCacheCreate(int capacity) {\n    LRUCache* obj = malloc(sizeof(LRUCache));\n    obj->map = calloc(10001, sizeof(Node*));\n    obj->head = malloc(sizeof(Node)); obj->tail = malloc(sizeof(Node));\n    obj->head->next = obj->tail; obj->tail->prev = obj->head;\n    obj->cap = capacity; obj->size = 0; return obj;\n}\n\nvoid lRUCachePut(LRUCache* obj, int key, int value) {\n    Node* n = obj->map[key];\n    if (n) {\n        n->val = value; n->prev->next = n->next; n->next->prev = n->prev;\n    } else {\n        if (obj->size == obj->cap) {\n            Node* lru = obj->tail->prev; obj->map[lru->key] = NULL;\n            lru->prev->next = obj->tail; obj->tail->prev = lru->prev; free(lru);\n        } else obj->size++;\n        n = malloc(sizeof(Node)); n->key = key; n->val = value; obj->map[key] = n;\n    }\n    n->next = obj->head->next; n->prev = obj->head; obj->head->next->prev = n; obj->head->next = n;\n}`
+        };
+
+        function resetView() {
+            const lang = document.getElementById('lang-select').value;
+            const extMap = { java: 'java', python: 'py', cpp: 'cpp', c: 'c' };
+            document.getElementById('code-display').value = "";
+            document.getElementById('file-label').innerText = `Solution.${extMap[lang]}`;
+        }
+
+        function showFullCode() {
+            const lang = document.getElementById('lang-select').value;
+            document.getElementById('code-display').value = codeRepo[lang];
+        }
+
+        window.onload = resetView;
+    </script>
+</body>
+</html>
